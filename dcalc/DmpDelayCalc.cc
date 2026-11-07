@@ -24,6 +24,9 @@
 
 #include "DmpDelayCalc.hh"
 
+#include <algorithm>
+#include <cmath>
+
 #include "DmpCeff.hh"
 #include "GraphDelayCalc.hh"
 #include "Liberty.hh"
@@ -425,32 +428,42 @@ DmpCeffTwoPoleDelayCalc::loadDelay(double vth,
   if (y_tt < vth) {
     // t1 > tt
     // Initial guess.
-    double t1 = log(k1 * (exp(p1 * tt) - 1.0) / ((1.0 - vth) * p1 * p1 * tt))/p1;
-    // Take one newton-raphson step.
-    double exp_p1_t1 = exp(-p1 * t1);
-    double exp_p2_t1 = exp(-p2 * t1);
-    double exp_p1_t1_tt = exp(-p1 * (t1 - tt));
-    double exp_p2_t1_tt = exp(-p2 * (t1 - tt));
-    double y_t1 = (tt - k1_p1_2 * (exp_p1_t1_tt - exp_p1_t1)
-                   - k2_p2_2 * (exp_p2_t1_tt - exp_p2_t1)) / tt;
-    double yp_t1 = (k1 / p1 * (exp_p1_t1_tt - exp_p1_t1)
-                    - k2 / p2 * (exp_p2_t1_tt - exp_p2_t1)) / tt;
-    double delay = t1 - (y_t1 - vth) / yp_t1;
-    return static_cast<float>(delay);
+    double c1 = k1_p1_2 * (-std::expm1(-p1 * tt)) / tt;
+    double c2 = k2_p2_2 * (-std::expm1(-p2 * tt)) / tt;
+    double dt = (c1 > 1.0 - vth) ? log(c1 / (1.0 - vth)) / p1 : 0.0;
+    for (int iter = 0; iter < 10; iter++) {
+      double exp_p1_dt = exp(-p1 * dt);
+      double exp_p2_dt = exp(-p2 * dt);
+      double y_t1 = 1.0 - c1 * exp_p1_dt - c2 * exp_p2_dt;
+      double yp_t1 = c1 * p1 * exp_p1_dt + c2 * p2 * exp_p2_dt;
+      if (yp_t1 <= 0.0)
+        break;
+      double delta = (y_t1 - vth) / yp_t1;
+      dt = std::max(0.0, dt - delta);
+      if (std::abs(delta) <= 1e-7 * (tt + dt))
+        break;
+    }
+    return static_cast<float>(tt + dt);
   }
   else {
     // t1 < tt
     // Initial guess based on y(tt).
     double t1 = vth * tt / y_tt;
-    // Take one newton-raphson step.
-    double exp_p1_t1 = exp(-p1 * t1);
-    double exp_p2_t1 = exp(-p2 * t1);
-    double y_t1 = (t1 - B + k1_p1_2 * exp_p1_t1
-                   + k2_p2_2 * exp_p1_t1) / tt;
-    double yp_t1 = (1 - k1 / p1 * exp_p1_t1
-                    - k2 / p2 * exp_p2_t1) / tt;
-    double delay = t1 - (y_t1 - vth) / yp_t1;
-    return static_cast<float>(delay);
+    for (int iter = 0; iter < 10; iter++) {
+      double exp_p1_t1 = exp(-p1 * t1);
+      double exp_p2_t1 = exp(-p2 * t1);
+      double y_t1 = (t1 - B + k1_p1_2 * exp_p1_t1
+                     + k2_p2_2 * exp_p2_t1) / tt;
+      double yp_t1 = (1 - k1 / p1 * exp_p1_t1
+                      - k2 / p2 * exp_p2_t1) / tt;
+      if (yp_t1 <= 0.0)
+        break;
+      double delta = (y_t1 - vth) / yp_t1;
+      t1 = std::clamp(t1 - delta, 0.0, tt);
+      if (std::abs(delta) <= 1e-7 * tt)
+        break;
+    }
+    return static_cast<float>(t1);
   }
 }
 
