@@ -19,13 +19,13 @@ Path Type: max
    0.00  500.00   clock network delay (propagated)
    0.00  500.00   clock reconvergence pessimism
          500.00 ^ r3/CK (DFF_X1)
-  -0.11  499.89   library setup time
-         499.89   data required time
+  -0.09  499.91   library setup time
+         499.91   data required time
 ---------------------------------------------------------
-         499.89   data required time
+         499.91   data required time
           -2.42   data arrival time
 ---------------------------------------------------------
-         497.47   slack (MET)
+         497.49   slack (MET)
 
 
 --- write_sdf with interconnect ---
@@ -47,7 +47,7 @@ Path Type: max
    0.00    0.00   clock network delay (propagated)
    0.00    0.00 ^ r2/CK (DFF_X1)
    0.99    0.99 ^ r2/Q (DFF_X1)
-   0.69    1.68 ^ u1/Z (BUF_X1)
+   0.69    1.69 ^ u1/Z (BUF_X1)
    0.74    2.42 ^ u2/ZN (AND2_X1)
    0.00    2.42 ^ r3/D (DFF_X1)
            2.42   data arrival time
@@ -56,13 +56,13 @@ Path Type: max
    0.00  500.00   clock network delay (propagated)
    0.00  500.00   clock reconvergence pessimism
          500.00 ^ r3/CK (DFF_X1)
-  -0.11  499.89   library setup time
-         499.89   data required time
+  -0.09  499.91   library setup time
+         499.91   data required time
 ---------------------------------------------------------
-         499.89   data required time
+         499.91   data required time
           -2.42   data arrival time
 ---------------------------------------------------------
-         497.47   slack (MET)
+         497.49   slack (MET)
 
 
 --- annotated delay with interconnect ---
