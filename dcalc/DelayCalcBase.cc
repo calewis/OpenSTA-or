@@ -93,13 +93,19 @@ DelayCalcBase::dspfWireDelaySlew(const Pin *load_pin,
   float vh = 0.8;
   float slew_derate = 1.0;
   if (load_library) {
-    vth = load_library->inputThreshold(rf);
-    vl = load_library->slewLowerThreshold(rf);
-    vh = load_library->slewUpperThreshold(rf);
+    if (rf == RiseFall::fall()) {
+      vth = 1.0F - load_library->inputThreshold(rf);
+      vl = 1.0F - load_library->slewUpperThreshold(rf);
+      vh = 1.0F - load_library->slewLowerThreshold(rf);
+    }
+    else {
+      vth = load_library->inputThreshold(rf);
+      vl = load_library->slewLowerThreshold(rf);
+      vh = load_library->slewUpperThreshold(rf);
+    }
     slew_derate = load_library->slewDerateFromLibrary();
   }
   wire_delay = -elmore * std::log(1.0 - vth);
-  load_slew = drvr_slew + elmore * std::log((1.0 - vl) / (1.0 - vh)) / slew_derate;
   load_slew = drvr_slew + elmore * std::log((1.0 - vl) / (1.0 - vh)) / slew_derate;
 }
 
@@ -118,16 +124,16 @@ DelayCalcBase::thresholdAdjust(const Pin *load_pin,
     float load_vth = load_library->inputThreshold(rf);
     float drvr_slew_delta = drvr_library->slewUpperThreshold(rf)
       - drvr_library->slewLowerThreshold(rf);
-    float wire_delay_delta =
-      delayAsFloat(load_slew) * ((load_vth - drvr_vth) / drvr_slew_delta);
+    float drvr_slew_derate = drvr_library->slewDerateFromLibrary();
+    float load_slew_derate = load_library->slewDerateFromLibrary();
+    float wire_delay_delta = delayAsFloat(load_slew) * drvr_slew_derate
+        * ((load_vth - drvr_vth) / drvr_slew_delta);
     wire_delay += (rf == RiseFall::rise())
       ? wire_delay_delta
       : -wire_delay_delta;
 
-    float load_slew_delta = load_library->slewUpperThreshold(rf)
-      - load_library->slewLowerThreshold(rf);
-    float drvr_slew_derate = drvr_library->slewDerateFromLibrary();
-    float load_slew_derate = load_library->slewDerateFromLibrary();
+    float load_slew_delta =
+        load_library->slewUpperThreshold(rf) - load_library->slewLowerThreshold(rf);
     load_slew = load_slew * ((load_slew_delta / load_slew_derate)
                              / (drvr_slew_delta / drvr_slew_derate));
   }

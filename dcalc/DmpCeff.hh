@@ -122,55 +122,56 @@ protected:
   virtual std::pair<double, double> Vl0(double t) = 0;
   // Upper bound on time that vl crosses vh.
   double vlCrossingUpperBound();
+  double crossingUpperBoundScale() const;
 
   // Inputs to the delay calculator.
-  const LibertyCell *drvr_cell_;
-  const LibertyLibrary *drvr_library_;
-  const Pvt *pvt_;
-  const GateTableModel *gate_model_;
-  double in_slew_;
+  const LibertyCell *drvr_cell_{nullptr};
+  const LibertyLibrary *drvr_library_{nullptr};
+  const Pvt *pvt_{nullptr};
+  const GateTableModel *gate_model_{nullptr};
+  double in_slew_{0.0};
   double c2_{0.0};
   double rpi_{0.0};
   double c1_{0.0};
 
-  double rd_;
+  double rd_{0.0};
   // Logic threshold (percentage of supply voltage).
-  double vth_;
+  double vth_{0.0};
   // Slew lower limit (percentage of supply voltage).
-  double vl_;
+  double vl_{0.0};
   // Slew upper limit (percentage of supply voltage).
-  double vh_;
+  double vh_{0.0};
   // Table slews are scaled by slew_derate to get
   // measured slews from vl to vh.
-  double slew_derate_;
+  double slew_derate_{0.0};
 
   // Driver parameters calculated by this algorithm.
-  double t0_;
-  double dt_;
-  double ceff_;
+  double t0_{0.0};
+  double dt_{0.0};
+  double ceff_{0.0};
 
   // Driver parameter Newton-Raphson state.
-  int nr_order_;
+  int nr_order_{0};
 
   static constexpr int max_nr_order_ = 3;
 
 
 
   // Driver slew used to check load delay.
-  double drvr_slew_;
-  double vo_delay_;
+  double drvr_slew_{0.0};
+  double vo_delay_{0.0};
   // True if the driver parameters are valid for finding the load delays.
-  bool driver_valid_;
+  bool driver_valid_{false};
   // Load rspf elmore delay.
-  double elmore_;
-  double p3_;
+  double elmore_{0.0};
+  double p3_{0.0};
 
   // Tolerance (as a scale of value) for driver parameters (Ceff, delta t, t0).
-  static constexpr double driver_param_tol_ = .01;
+  static constexpr double driver_param_tol_ = 1e-6;
   // Waveform threshold crossing time tolerance (1.0 = 100%).
-  static constexpr double vth_time_tol_ = .01;
+  static constexpr double vth_time_tol_ = 1e-6;
   // Max iterations for findRoot.
-  static constexpr int find_root_max_iter_ = 20;
+  static constexpr int find_root_max_iter_ = 60;
   static inline int newton_raphson_max_iter_ = 100;
   // A small number used by luDecomp.
   static constexpr double tiny_double_ = 1.0e-20;
@@ -311,6 +312,7 @@ class DmpCeffDelayCalc : public LumpedCapDelayCalc
 {
 public:
   DmpCeffDelayCalc(StaState *sta);
+  DmpCeffDelayCalc(const DmpCeffDelayCalc &other);
   bool reduceSupported() const override { return true; }
   ArcDcalcResult gateDelay(const Pin *drvr_pin,
                            const TimingArc *arc,

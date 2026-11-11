@@ -24,6 +24,9 @@
 
 #include "DmpDelayCalc.hh"
 
+#include <algorithm>
+#include <cmath>
+
 #include "DmpCeff.hh"
 #include "GraphDelayCalc.hh"
 #include "Liberty.hh"
@@ -188,16 +191,6 @@ private:
                  double k1,
                  double &wire_delay,
                  double &load_slew);
-  float loadDelay(double vth,
-                  double p1,
-                  double p2,
-                  double k1,
-                  double k2,
-                  double B,
-                  double k1_p1_2,
-                  double k2_p2_2,
-                  double tt,
-                  double y_tt);
 
   bool parasitic_is_pole_residue_{false};
   float vth_{0.0F};
@@ -240,9 +233,6 @@ DmpCeffTwoPoleDelayCalc::findParasitic(const Pin *drvr_pin,
   parasitic = parasitics->findPiPoleResidue(drvr_pin, rf, min_max);
   if (parasitic)
     return parasitic;
-  parasitic = parasitics->findPiElmore(drvr_pin, rf, min_max);
-  if (parasitic)
-    return parasitic;
   Parasitic *parasitic_network =
     parasitics->findParasiticNetwork(drvr_pin);
   if (parasitic_network) {
@@ -251,6 +241,9 @@ DmpCeffTwoPoleDelayCalc::findParasitic(const Pin *drvr_pin,
     if (parasitic)
       return parasitic;
   }
+  parasitic = parasitics->findPiElmore(drvr_pin, rf, min_max);
+  if (parasitic)
+    return parasitic;
   Wireload *wireload = sdc->wireload(min_max);
   if (wireload) {
     float pin_cap, wire_cap, fanout;
@@ -289,10 +282,10 @@ DmpCeffTwoPoleDelayCalc::inputPortDelay(const Pin *,
 {
   const Parasitics *parasitics = scene->parasitics(min_max);
   ArcDcalcResult dcalc_result(load_pin_index_map.size());
-  double wire_delay = 0.0;
-  double load_slew = in_slew;
   LibertyLibrary *drvr_library = network_->defaultLibertyLibrary();
   for (const auto [load_pin, load_idx] : load_pin_index_map) {
+    double wire_delay = 0.0;
+    double load_slew = in_slew;
     if (parasitics->isPiPoleResidue(parasitic)) {
       const Parasitic *pole_residue = parasitics->findPoleResidue(parasitic, load_pin);
       if (pole_residue) {
@@ -330,12 +323,105 @@ DmpCeffTwoPoleDelayCalc::gateDelay(const Pin *drvr_pin,
   parasitics_ = scene->parasitics(min_max);
   const LibertyLibrary *drvr_library = arc->to()->libertyLibrary();
   const RiseFall *rf = arc->toEdge()->asRiseFall();
-  vth_ = drvr_library->outputThreshold(rf);
-  vl_ = drvr_library->slewLowerThreshold(rf);
-  vh_ = drvr_library->slewUpperThreshold(rf);
+  if (rf == RiseFall::fall()) {
+    vth_ = 1.0 - drvr_library->outputThreshold(rf);
+    vl_ = 1.0 - drvr_library->slewUpperThreshold(rf);
+    vh_ = 1.0 - drvr_library->slewLowerThreshold(rf);
+  }
+  else {
+    vth_ = drvr_library->outputThreshold(rf);
+    vl_ = drvr_library->slewLowerThreshold(rf);
+    vh_ = drvr_library->slewUpperThreshold(rf);
+  }
   slew_derate_ = drvr_library->slewDerateFromLibrary();
   return DmpCeffDelayCalc::gateDelay(drvr_pin, arc, in_slew, load_cap, parasitic,
-                                     load_pin_index_map, scene, min_max) ;
+                                     load_pin_index_map, scene, min_max);
+}
+
+static double
+twoPoleLoadCrossing(double vth,
+                    double p1,
+                    double p2,
+                    double k1,
+                    double k2,
+                    double tt,
+                    double y_tt)
+{
+  const double k1_p1_2 = k1 / (p1 * p1);
+  const double k2_p2_2 = (k2 != 0.0) ? k2 / (p2 * p2) : 0.0;
+  const double c1_post = -k1_p1_2 * std::expm1(-p1 * tt);
+  const double c2_post = (k2 != 0.0) ? -k2_p2_2 * std::expm1(-p2 * tt) : 0.0;
+
+  auto eval = [&](double t, double &f, double &df) {
+    if (t <= tt) {
+      double y =
+          (t + k1_p1_2 * std::expm1(-p1 * t) + k2_p2_2 * std::expm1(-p2 * t)) / tt;
+      double yp = (1.0 - (k1 / p1) * std::exp(-p1 * t)
+                   - ((k2 != 0.0) ? (k2 / p2) * std::exp(-p2 * t) : 0.0))
+          / tt;
+      f = y - vth;
+      df = yp;
+    }
+    else {
+      double u = t - tt;
+      double e1 = std::exp(-p1 * u);
+      double e2 = (k2 != 0.0) ? std::exp(-p2 * u) : 0.0;
+      double y = 1.0 - (c1_post * e1 + c2_post * e2) / tt;
+      double yp = (p1 * c1_post * e1 + p2 * c2_post * e2) / tt;
+      f = y - vth;
+      df = yp;
+    }
+  };
+
+  double lo, hi, t;
+  if (y_tt < vth) {
+    lo = tt;
+    double p_min = (k2 != 0.0) ? std::min(p1, p2) : p1;
+    double span = std::max(tt, 1.0 / p_min);
+    hi = tt + span;
+    double f_hi = 0.0;
+    double df_hi = 0.0;
+    for (int i = 0; i < 64; ++i) {
+      eval(hi, f_hi, df_hi);
+      if (f_hi >= 0.0)
+        break;
+      lo = hi;
+      span *= 2.0;
+      hi = tt + span;
+    }
+    double denom = (1.0 - vth) * p1 * p1 * tt;
+    double log_arg =
+        (denom > 0.0 && k1 > 0.0) ? (k1 * (-std::expm1(-p1 * tt))) / denom : 0.0;
+    t = (log_arg > 0.0) ? tt + std::log(log_arg) / p1 : 0.5 * (lo + hi);
+    if (!(t > lo && t < hi))
+      t = 0.5 * (lo + hi);
+  }
+  else {
+    lo = 0.0;
+    hi = tt;
+    t = (y_tt > 0.0) ? vth * tt / y_tt : 0.5 * tt;
+    if (!(t > lo && t < hi))
+      t = 0.5 * (lo + hi);
+  }
+
+  for (int iter = 0; iter < 64; ++iter) {
+    double f = 0.0;
+    double df = 0.0;
+    eval(t, f, df);
+    if (std::abs(f) <= 1e-13 || (hi - lo) <= 1e-13 * std::max(1.0, hi))
+      return t;
+    if (f < 0.0)
+      lo = t;
+    else
+      hi = t;
+    double t_next = (df > 0.0) ? (t - f / df) : 0.5 * (lo + hi);
+    if (!(t_next > lo && t_next < hi))
+      t_next = 0.5 * (lo + hi);
+    if (std::abs(t_next - t) <= 1e-13 * std::max(1.0, t_next))
+      return t_next;
+    t = t_next;
+  }
+  return t;
 }
 
 void
@@ -349,12 +435,24 @@ DmpCeffTwoPoleDelayCalc::loadDelaySlew(const Pin *load_pin,
                                        double &load_slew)
 {
   parasitic_is_pole_residue_ = parasitics_->isPiPoleResidue(parasitic);
-  // Should handle PiElmore parasitic.
   wire_delay = 0.0;
   load_slew = drvr_slew;
-  Parasitic *pole_residue = nullptr;
-  if (parasitic_is_pole_residue_)
-    pole_residue = parasitics_->findPoleResidue(parasitic, load_pin);
+  if (!parasitic_is_pole_residue_) {
+    if (parasitics_->isPiElmore(parasitic)) {
+      float elmore = 0.0F;
+      bool exists = false;
+      parasitics_->findElmore(parasitic, load_pin, elmore, exists);
+      if (exists) {
+        if (auto elmore_delay_slew = loadDelaySlewElmore(load_pin, elmore)) {
+          wire_delay = elmore_delay_slew->first;
+          load_slew = elmore_delay_slew->second;
+        }
+      }
+    }
+    thresholdAdjust(load_pin, drvr_library, rf, wire_delay, load_slew);
+    return;
+  }
+  Parasitic *pole_residue = parasitics_->findPoleResidue(parasitic, load_pin);
   if (pole_residue) {
     size_t pole_count = parasitics_->poleResidueCount(pole_residue);
     if (pole_count >= 1) {
@@ -367,10 +465,21 @@ DmpCeffTwoPoleDelayCalc::loadDelaySlew(const Pin *load_pin,
         float k1 = residue1.real();
         if (pole_count >= 2)
           loadDelay(drvr_slew, pole_residue, p1, k1, wire_delay, load_slew);
-        else {
-          float elmore = 1.0F / p1;
-          wire_delay = elmore;
-          load_slew = drvr_slew;
+        else if (p1 > 0.0F) {
+          if (!delayZero(drvr_slew, this)) {
+            double tt = drvr_slew * slew_derate_ / (vh_ - vl_);
+            double p1_d = p1;
+            double y_tt = (tt + std::expm1(-p1_d * tt) / p1_d) / tt;
+            wire_delay = twoPoleLoadCrossing(vth_, p1_d, 0.0, p1_d, 0.0, tt, y_tt)
+                - tt * vth_;
+            double tl = twoPoleLoadCrossing(vl_, p1_d, 0.0, p1_d, 0.0, tt, y_tt);
+            double th = twoPoleLoadCrossing(vh_, p1_d, 0.0, p1_d, 0.0, tt, y_tt);
+            load_slew = std::max(0.0, (th - tl) / slew_derate_);
+          }
+          else {
+            wire_delay = -std::log(1.0 - vth_) / p1;
+            load_slew = std::log((1.0 - vl_) / (1.0 - vh_)) / (p1 * slew_derate_);
+          }
         }
       }
     }
@@ -396,61 +505,15 @@ DmpCeffTwoPoleDelayCalc::loadDelay(double drvr_slew,
     double k2 = residue2.real();
     double k1_p1_2 = k1 / (p1 * p1);
     double k2_p2_2 = k2 / (p2 * p2);
-    double B = k1_p1_2 + k2_p2_2;
     // Convert tt to 0:1 range.
-    float tt = delayAsFloat(drvr_slew) * slew_derate_ / (vh_ - vl_);
-    double y_tt = (tt - B + k1_p1_2 * exp(-p1 * tt)
-                   + k2_p2_2 * exp(-p2 * tt)) / tt;
-    wire_delay = loadDelay(vth_, p1, p2, k1, k2, B, k1_p1_2, k2_p2_2, tt, y_tt)
-      - tt * vth_;
+    double tt = drvr_slew * slew_derate_ / (vh_ - vl_);
+    double y_tt =
+        (tt + k1_p1_2 * std::expm1(-p1 * tt) + k2_p2_2 * std::expm1(-p2 * tt)) / tt;
+    wire_delay = twoPoleLoadCrossing(vth_, p1, p2, k1, k2, tt, y_tt) - tt * vth_;
 
-    float tl = loadDelay(vl_, p1, p2, k1, k2, B, k1_p1_2, k2_p2_2, tt, y_tt);
-    float th = loadDelay(vh_, p1, p2, k1, k2, B, k1_p1_2, k2_p2_2, tt, y_tt);
-    load_slew = (th - tl) / slew_derate_;
-  }
-}
-
-float
-DmpCeffTwoPoleDelayCalc::loadDelay(double vth,
-                                   double p1,
-                                   double p2,
-                                   double k1,
-                                   double k2,
-                                   double B,
-                                   double k1_p1_2,
-                                   double k2_p2_2,
-                                   double tt,
-                                   double y_tt)
-{
-  if (y_tt < vth) {
-    // t1 > tt
-    // Initial guess.
-    double t1 = log(k1 * (exp(p1 * tt) - 1.0) / ((1.0 - vth) * p1 * p1 * tt))/p1;
-    // Take one newton-raphson step.
-    double exp_p1_t1 = exp(-p1 * t1);
-    double exp_p2_t1 = exp(-p2 * t1);
-    double exp_p1_t1_tt = exp(-p1 * (t1 - tt));
-    double exp_p2_t1_tt = exp(-p2 * (t1 - tt));
-    double y_t1 = (tt - k1_p1_2 * (exp_p1_t1_tt - exp_p1_t1)
-                   - k2_p2_2 * (exp_p2_t1_tt - exp_p2_t1)) / tt;
-    double yp_t1 = (k1 / p1 * (exp_p1_t1_tt - exp_p1_t1)
-                    - k2 / p2 * (exp_p2_t1_tt - exp_p2_t1)) / tt;
-    double delay = t1 - (y_t1 - vth) / yp_t1;
-    return static_cast<float>(delay);
-  }
-  else {
-    // t1 < tt
-    // Initial guess based on y(tt).
-    double t1 = vth * tt / y_tt;
-    // Take one newton-raphson step.
-    double exp_p1_t1 = exp(-p1 * t1);
-    double exp_p2_t1 = exp(-p2 * t1);
-    double y_t1 = (t1 - B + k1_p1_2 * exp_p1_t1
-                   + k2_p2_2 * exp_p1_t1) / tt;
-    double yp_t1 = (1 - k1 / p1 * exp_p1_t1
-                    - k2 / p2 * exp_p2_t1) / tt;
-    double delay = t1 - (y_t1 - vth) / yp_t1;
-    return static_cast<float>(delay);
+    double tl = twoPoleLoadCrossing(vl_, p1, p2, k1, k2, tt, y_tt);
+    double th = twoPoleLoadCrossing(vh_, p1, p2, k1, k2, tt, y_tt);
+    load_slew = std::max(0.0, (th - tl) / slew_derate_);
   }
 }
 

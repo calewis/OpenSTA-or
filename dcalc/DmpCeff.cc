@@ -67,7 +67,52 @@ enum DmpFunc { y20, y50, ipi };
 static const char *dmp_func_index_strings[] = {"y20", "y50", "Ipi"};
 
 static double
-exp2(double x);
+expConv(double p_a,
+        double p_b,
+        double t)
+{
+  double min_p = std::min(p_a, p_b);
+  double max_p = std::max(p_a, p_b);
+  double dp = max_p - min_p;
+  double exp_min = std::exp(-min_p * t);
+  if (dp * t < 1e-12)
+    return exp_min * t * (1.0 - 0.5 * dp * t);
+  return exp_min * (-std::expm1(-dp * t)) / dp;
+}
+
+// t - (1 - exp(-p * t)) / p, evaluated without subtraction cancellation
+// when p * t is small.
+static double
+phi(double p,
+    double t)
+{
+  double x = p * t;
+  if (x <= 1e-2) {
+    return t * x
+        * (0.5
+           - x
+               * (1.0 / 6.0
+                  - x
+                      * (1.0 / 24.0
+                         - x * (1.0 / 120.0 - x * (1.0 / 720.0 - x / 5040.0)))));
+  }
+  return t + std::expm1(-x) / p;
+}
+
+// -t * (1 + exp(-p * t)) + 2 * (1 - exp(-p * t)) / p = t^3 * d/dt(phi(p, t) / t^2),
+// evaluated without subtraction cancellation when p * t is small.
+static double
+psi(double p,
+    double t)
+{
+  double x = p * t;
+  if (x <= 1e-2) {
+    return t * x * x
+        * (-1.0 / 6.0
+           + x * (1.0 / 12.0 - x * (1.0 / 40.0 - x * (1.0 / 180.0 - x / 1008.0))));
+  }
+  return -t * (1.0 + std::exp(-x)) - 2.0 * std::expm1(-x) / p;
+}
 
 static double
 gateModelRd(const LibertyCell *cell,
@@ -128,9 +173,16 @@ DmpAlg::init(const LibertyLibrary *drvr_library,
   rpi_ = rpi;
   c1_ = c1;
   driver_valid_ = false;
-  vth_ = drvr_library->outputThreshold(rf);
-  vl_ = drvr_library->slewLowerThreshold(rf);
-  vh_ = drvr_library->slewUpperThreshold(rf);
+  if (rf == RiseFall::fall()) {
+    vth_ = 1.0 - drvr_library->outputThreshold(rf);
+    vl_ = 1.0 - drvr_library->slewUpperThreshold(rf);
+    vh_ = 1.0 - drvr_library->slewLowerThreshold(rf);
+  }
+  else {
+    vth_ = drvr_library->outputThreshold(rf);
+    vl_ = drvr_library->slewLowerThreshold(rf);
+    vh_ = drvr_library->slewUpperThreshold(rf);
+  }
   slew_derate_ = drvr_library->slewDerateFromLibrary();
 }
 
@@ -142,6 +194,15 @@ DmpAlg::findDriverParams(double ceff)
   if (nr_order_ == 3)
     x[DmpParam::ceff] = ceff;
   auto [t_vth, t_vl, slew] = gateDelays(ceff);
+  if (nr_order_ == 2) {
+    double step_dt =
+        (rd_ > 0.0) ? rd_ * ceff * std::log((1.0 - vl_) / (1.0 - vth_)) : 0.0;
+    if (t_vth - t_vl <= step_dt) {
+      dt_ = std::max(1e-15, 1e-5 * rd_ * ceff);
+      t0_ = t_vth + std::log(1.0 - vth_) * rd_ * ceff;
+      return;
+    }
+  }
   // Scale slew to 0-100%
   double dt = slew / (vh_ - vl_);
   double t0 = t_vth + std::log(1.0 - vth_) * rd_ * ceff - vth_ * dt;
@@ -202,7 +263,7 @@ double
 DmpAlg::y0(double t,
            double cl)
 {
-  return t - rd_ * cl * (1.0 - exp2(-t / (rd_ * cl)));
+  return t - rd_ * cl * (1.0 - std::exp(-t / (rd_ * cl)));
 }
 
 std::tuple<double, double, double>
@@ -225,7 +286,8 @@ DmpAlg::dy(double t,
     return {dydt0, dyddt, dydcl};
   }
   double dydt0 = -(y0dt(t1, cl) - y0dt(t1 - dt, cl)) / dt;
-  double dyddt = -(y0(t1, cl) + y0(t1 - dt, cl)) / (dt * dt) + y0dt(t1 - dt, cl) / dt;
+  double dyddt =
+      -(y0(t1, cl) - y0(t1 - dt, cl)) / (dt * dt) + y0dt(t1 - dt, cl) / dt;
   double dydcl = (y0dcl(t1, cl) - y0dcl(t1 - dt, cl)) / dt;
   return {dydt0, dyddt, dydcl};
 }
@@ -234,14 +296,14 @@ double
 DmpAlg::y0dt(double t,
              double cl)
 {
-  return 1.0 - exp2(-t / (rd_ * cl));
+  return 1.0 - std::exp(-t / (rd_ * cl));
 }
 
 double
 DmpAlg::y0dcl(double t,
               double cl)
 {
-  return rd_ * ((1.0 + t / (rd_ * cl)) * exp2(-t / (rd_ * cl)) - 1);
+  return rd_ * ((1.0 + t / (rd_ * cl)) * std::exp(-t / (rd_ * cl)) - 1);
 }
 
 void
@@ -286,22 +348,45 @@ DmpAlg::findDriverDelaySlew()
   return {delay, slew};
 }
 
+template <typename EvalFn>
+static double
+findWaveformCrossing(EvalFn &&eval_fn,
+                     double vth,
+                     double t_lower,
+                     double t_upper,
+                     double x_tol,
+                     int max_iter,
+                     const char *error_msg)
+{
+  double span = t_upper - t_lower;
+  if (span <= 0.0)
+    span = 1e-12;
+  for (int i = 0; i < 32; ++i) {
+    if (eval_fn(t_upper).first >= vth)
+      break;
+    t_upper = t_lower + span * 2.0;
+    span = t_upper - t_lower;
+  }
+  FindRootFunc func = [&](double t, double &y, double &dy) {
+    auto [val, dval_dt] = eval_fn(t);
+    y = val - vth;
+    dy = dval_dt;
+  };
+  auto [t_vth, failed] = findRoot(func, t_lower, t_upper, x_tol, max_iter);
+  if (failed)
+    throw DmpError(error_msg);
+  return t_vth;
+}
+
 // Find t such that vo(t)=v.
 double
 DmpAlg::findVoCrossing(double vth,
                        double t_lower,
                        double t_upper)
 {
-  FindRootFunc vo_func = [&](double t, double &y, double &dy) {
-    auto [vo, dvo_dt] = Vo(t);
-    y = vo - vth;
-    dy = dvo_dt;
-  };
-  auto [t_vth, failed] = findRoot(vo_func, t_lower, t_upper, vth_time_tol_,
-                                  find_root_max_iter_);
-  if (failed)
-    throw DmpError("find Vo crossing failed");
-  return t_vth;
+  return findWaveformCrossing([this](double t) { return Vo(t); }, vth, t_lower,
+                              t_upper, vth_time_tol_, find_root_max_iter_,
+                              "find Vo crossing failed");
 }
 
 std::pair<double, double>
@@ -399,22 +484,21 @@ DmpAlg::findVlCrossing(double vth,
                        double t_lower,
                        double t_upper)
 {
-  FindRootFunc vl_func = [&](double t, double &y, double &dy) {
-    auto [vl, vl_dt] = Vl(t);
-    y = vl - vth;
-    dy = vl_dt;
-  };
-  auto [t_vth, failed] = findRoot(vl_func, t_lower, t_upper, vth_time_tol_,
-                                  find_root_max_iter_);
-  if (failed)
-    throw DmpError("find Vl crossing failed");
-  return t_vth;
+  return findWaveformCrossing([this](double t) { return Vl(t); }, vth, t_lower,
+                              t_upper, vth_time_tol_, find_root_max_iter_,
+                              "find Vl crossing failed");
 }
 
 double
 DmpAlg::vlCrossingUpperBound()
 {
-  return voCrossingUpperBound() + elmore_ * 2.0;
+  return voCrossingUpperBound() + elmore_ * crossingUpperBoundScale();
+}
+
+double
+DmpAlg::crossingUpperBoundScale() const
+{
+  return std::max(2.0, -std::log(1.0 - vh_) + 1.0);
 }
 
 std::pair<double, double>
@@ -566,20 +650,41 @@ DmpPi::init(const LibertyLibrary *drvr_library,
   k0_ = 1.0 / (rd_ * c2_);
   double a = rpi_ * rd_ * c1_ * c2_;
   double b = rd_ * (c1_ + c2_) + rpi_ * c1_;
-  double sqrt_ = std::sqrt(b * b - 4 * a);
-  p1_ = (b + sqrt_) / (2 * a);
-  p2_ = (b - sqrt_) / (2 * a);
+  double sqrt_ =
+      std::hypot(rd_ * (c1_ - c2_) + rpi_ * c1_, 2.0 * rd_ * std::sqrt(c1_ * c2_));
+  p1_ = (b + sqrt_) / (2.0 * a);
+  p2_ = 2.0 / (b + sqrt_);
 
-  double p1p2 = (p1_ * p2_);
-  k2_ = z1_ / p1p2;
-  k1_ = (1.0 - k2_ * (p1_ + p2_)) / p1p2;
-  k4_ = (k1_ * p1_ + k2_) / (p2_ - p1_);
-  k3_ = -k1_ - k4_;
+  double p1_m_p2 = sqrt_ / a;
+  k2_ = rd_ * c2_;
+  k1_ = -rd_ * rd_ * c2_ * (c1_ + c2_);
+  double dp1_p2_prod = 1.0 / (rpi_ * rpi_ * c1_ * c2_);
+  double dp1, dp2;
+  if (z1_ - p2_ > p1_ - z1_) {
+    dp2 = z1_ - p2_;
+    dp1 = dp1_p2_prod / dp2;
+  }
+  else {
+    dp1 = p1_ - z1_;
+    dp2 = dp1_p2_prod / dp1;
+  }
+  k3_ = dp1 / (p1_ * p1_ * p1_m_p2);
+  k4_ = dp2 / (p2_ * p2_ * p1_m_p2);
 
   double z_ = (c1_ + c2_) / (rpi_ * c1_ * c2_);
-  A_ = z_ / p1p2;
-  B_ = (z_ - p1_) / (p1_ * (p1_ - p2_));
-  D_ = (z_ - p2_) / (p2_ * (p2_ - p1_));
+  A_ = rd_ * (c1_ + c2_);
+  double dz_prod = 1.0 / (rpi_ * rd_ * c2_ * c2_);
+  double dz1, dz2;
+  if (z_ - p2_ > p1_ - z_) {
+    dz2 = z_ - p2_;
+    dz1 = dz_prod / dz2;
+  }
+  else {
+    dz1 = p1_ - z_;
+    dz2 = dz_prod / dz1;
+  }
+  B_ = -dz1 / (p1_ * p1_m_p2);
+  D_ = -dz2 / (p2_ * p1_m_p2);
 }
 
 std::pair<double, double>
@@ -637,8 +742,8 @@ DmpPi::evalDmpEqns(Eigen::Vector3d &x,
   const double ceff = x[DmpParam::ceff];
 
   // Validate bounds to prevent mathematical domain errors.
-  if (ceff < 0.0) {
-    throw DmpError("eqn eval failed: ceff < 0");
+  if (ceff <= 0.0) {
+    throw DmpError("eqn eval failed: ceff <= 0");
   }
   if (ceff > (c1_ + c2_)) {
     throw DmpError("eqn eval failed: ceff > c2 + c1");
@@ -648,18 +753,11 @@ DmpPi::evalDmpEqns(Eigen::Vector3d &x,
   }
 
   auto [t_vth, t_vl, slew] = gateDelays(ceff);
-  if (slew == 0.0) {
-    throw DmpError("eqn eval failed: slew = 0");
+  if (slew <= 0.0) {
+    throw DmpError("eqn eval failed: slew <= 0");
   }
 
-  // ceff_time is bounded by 1.4 * dt.
-  const double ceff_time = std::min(slew / (vh_ - vl_), 1.4 * dt);
-
-  // Pre-calculate exponential terms to avoid redundant calls to
-  // transcendental functions.
-  const double exp_p1_dt = exp2(-p1_ * dt);
-  const double exp_p2_dt = exp2(-p2_ * dt);
-  const double exp_dt_rd_ceff = exp2(-dt / (rd_ * ceff));
+  const double ceff_time = dt;
 
   // Evaluate function values (residuals).
   const double y50 = y(t_vth, t0, dt, ceff).first;
@@ -669,39 +767,37 @@ DmpPi::evalDmpEqns(Eigen::Vector3d &x,
   fvec[DmpFunc::y50] = y50 - vth_;
   fvec[DmpFunc::y20] = y20 - vl_;
 
-  // Pre-calculate common sub-expressions for the Jacobian derivatives.
-  const double b_div_p1 = B_ / p1_;
-  const double d_div_p2 = D_ / p2_;
-  const double rd_ceff = rd_ * ceff;
+  const double p_eff = 1.0 / (rd_ * ceff);
 
   // Row 1 (Ipi derivatives).
   fjac(DmpFunc::ipi, DmpParam::t0) = 0.0;
-
-  // Derivative w.r.t dt (broken down into physical terms).
-  const double term_a = -A_ * dt;
-  const double term_b =
-      B_ * dt * exp_p1_dt - 2.0 * b_div_p1 * (1.0 - exp_p1_dt);
-  const double term_d =
-      D_ * dt * exp_p2_dt - 2.0 * d_div_p2 * (1.0 - exp_p2_dt);
-  const double term_rd = rd_ceff
-      * (dt + dt * exp_dt_rd_ceff - 2.0 * rd_ceff * (1.0 - exp_dt_rd_ceff));
-  
   fjac(DmpFunc::ipi, DmpParam::dt) =
-      (term_a + term_b + term_d + term_rd) / (rd_ * dt * dt * dt);
+      (-B_ * psi(p1_, dt) - D_ * psi(p2_, dt)) / (rd_ * dt * dt * dt)
+      - ceff * psi(p_eff, dt) / (dt * dt * dt);
+  fjac(DmpFunc::ipi, DmpParam::ceff) = psi(p_eff, dt) / (dt * dt);
 
-  // Derivative w.r.t ceff (reusing exp_dt_rd_ceff).
-  const double two_rd_ceff = 2.0 * rd_ceff;
-  fjac(DmpFunc::ipi, DmpParam::ceff) =
-      (two_rd_ceff - dt - (two_rd_ceff + dt) * exp_dt_rd_ceff) / (dt * dt);
+  // Rows 2 & 3 (y20 and y50 derivatives), including chain-rule contributions
+  // through t_vl(ceff) and t_vth(ceff) where dy/dt = -dy/dt0.
+  const double dceff = std::max(1e-18, 1e-3 * ceff);
+  const double c_lo = std::max(0.5 * ceff, ceff - dceff);
+  const double c_hi = ceff + dceff;
+  const double denom_c = c_hi - c_lo;
+  auto [t_vth_lo, t_vl_lo, ignore_lo] = gateDelays(c_lo);
+  auto [t_vth_hi, t_vl_hi, ignore_hi] = gateDelays(c_hi);
+  const double dt_vth_dceff = (t_vth_hi - t_vth_lo) / denom_c;
+  const double dt_vl_dceff = (t_vl_hi - t_vl_lo) / denom_c;
 
-  // Rows 2 & 3 (y20 and y50 derivatives).
   std::tie(fjac(DmpFunc::y20, DmpParam::t0),
            fjac(DmpFunc::y20, DmpParam::dt),
            fjac(DmpFunc::y20, DmpParam::ceff)) = dy(t_vl, t0, dt, ceff);
+  fjac(DmpFunc::y20, DmpParam::ceff) -=
+      fjac(DmpFunc::y20, DmpParam::t0) * dt_vl_dceff;
 
   std::tie(fjac(DmpFunc::y50, DmpParam::t0),
            fjac(DmpFunc::y50, DmpParam::dt),
            fjac(DmpFunc::y50, DmpParam::ceff)) = dy(t_vth, t0, dt, ceff);
+  fjac(DmpFunc::y50, DmpParam::ceff) -=
+      fjac(DmpFunc::y50, DmpParam::t0) * dt_vth_dceff;
 
   if (debug_->check("dmp_ceff", 4)) {
     showX(x);
@@ -718,23 +814,17 @@ DmpPi::ipiIceff(double,
                 double ceff_time,
                 double ceff)
 {
-  double exp_p1_dt = exp2(-p1_ * ceff_time);
-  double exp_p2_dt = exp2(-p2_ * ceff_time);
-  double exp_dt_rd_ceff = exp2(-ceff_time / (rd_ * ceff));
-  double ipi = (A_ * ceff_time + (B_ / p1_) * (1.0 - exp_p1_dt)
-                + (D_ / p2_) * (1.0 - exp_p2_dt))
+  double ipi = (-B_ * phi(p1_, ceff_time) - D_ * phi(p2_, ceff_time))
       / (rd_ * ceff_time * dt);
-  double iceff =
-      (rd_ * ceff * ceff_time - (rd_ * ceff) * (rd_ * ceff) * (1.0 - exp_dt_rd_ceff))
-      / (rd_ * ceff_time * dt);
+  double iceff = ceff * phi(1.0 / (rd_ * ceff), ceff_time) / (ceff_time * dt);
   return ipi - iceff;
 }
 
 std::pair<double, double>
 DmpPi::V0(double t)
 {
-  double exp_p1 = exp2(-p1_ * t);
-  double exp_p2 = exp2(-p2_ * t);
+  double exp_p1 = std::exp(-p1_ * t);
+  double exp_p2 = std::exp(-p2_ * t);
   double vo = k0_ * (k1_ + k2_ * t + k3_ * exp_p1 + k4_ * exp_p2);
   double dvo_dt = k0_ * (k2_ - k3_ * p1_ * exp_p1 - k4_ * p2_ * exp_p2);
   return {vo, dvo_dt};
@@ -744,22 +834,19 @@ std::pair<double, double>
 DmpPi::Vl0(double t)
 {
   double D1 = k0_ * (k1_ - k2_ / p3_);
-  double D3 = -p3_ * k0_ * k3_ / (p1_ - p3_);
-  double D4 = -p3_ * k0_ * k4_ / (p2_ - p3_);
-  double D5 =
-      k0_ * (k2_ / p3_ - k1_ + p3_ * k3_ / (p1_ - p3_) + p3_ * k4_ / (p2_ - p3_));
-  double exp_p1 = exp2(-p1_ * t);
-  double exp_p2 = exp2(-p2_ * t);
-  double exp_p3 = exp2(-p3_ * t);
-  double vl = D1 + t + D3 * exp_p1 + D4 * exp_p2 + D5 * exp_p3;
-  double dvl_dt = 1.0 - D3 * p1_ * exp_p1 - D4 * p2_ * exp_p2 - D5 * p3_ * exp_p3;
+  double exp_p3 = std::exp(-p3_ * t);
+  double c13 = expConv(p1_, p3_, t);
+  double c23 = expConv(p2_, p3_, t);
+  double vl = t - D1 * std::expm1(-p3_ * t) + p3_ * k0_ * (k3_ * c13 + k4_ * c23);
+  double dvl_dt =
+      1.0 - k0_ * k2_ * exp_p3 - p3_ * k0_ * (k3_ * p1_ * c13 + k4_ * p2_ * c23);
   return {vl, dvl_dt};
 }
 
 double
 DmpPi::voCrossingUpperBound()
 {
-  return t0_ + dt_ + (c1_ + c2_) * (rd_ + rpi_) * 2.0;
+  return t0_ + dt_ + (c1_ + c2_) * (rd_ + rpi_) * crossingUpperBoundScale();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -782,7 +869,9 @@ DmpOnePole::evalDmpEqns(Eigen::Vector3d &x,
   double ignore2;
 
   if (dt <= 0.0)
-    dt = x[DmpParam::dt] = (t_vl - t_vth) / 100;
+    dt = x[DmpParam::dt] = (t_vth > t_vl) ? (t_vth - t_vl) / 100.0 : 1e-15;
+  if (t0 >= t_vl)
+    t0 = x[DmpParam::t0] = t_vl - 0.1 * dt;
 
   fvec[DmpFunc::y50] = y(t_vth, t0, dt, ceff_).first - vth_;
   fvec[DmpFunc::y20] = y(t_vl, t0, dt, ceff_).first - vl_;
@@ -809,7 +898,7 @@ DmpOnePole::evalDmpEqns(Eigen::Vector3d &x,
 double
 DmpOnePole::voCrossingUpperBound()
 {
-  return t0_ + dt_ + ceff_ * rd_ * 2.0;
+  return t0_ + dt_ + ceff_ * rd_ * crossingUpperBoundScale();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -871,7 +960,7 @@ DmpZeroC2::gateDelaySlew()
 std::pair<double, double>
 DmpZeroC2::V0(double t)
 {
-  double exp_p1 = exp2(-p1_ * t);
+  double exp_p1 = std::exp(-p1_ * t);
   double vo = k0_ * (k1_ + k2_ * t + k3_ * exp_p1);
   double dvo_dt = k0_ * (k2_ - k3_ * p1_ * exp_p1);
   return {vo, dvo_dt};
@@ -881,19 +970,17 @@ std::pair<double, double>
 DmpZeroC2::Vl0(double t)
 {
   double D1 = k0_ * (k1_ - k2_ / p3_);
-  double D3 = -p3_ * k0_ * k3_ / (p1_ - p3_);
-  double D5 = k0_ * (k2_ / p3_ - k1_ + p3_ * k3_ / (p1_ - p3_));
-  double exp_p1 = exp2(-p1_ * t);
-  double exp_p3 = exp2(-p3_ * t);
-  double vl = D1 + t + D3 * exp_p1 + D5 * exp_p3;
-  double dvl_dt = 1.0 - D3 * p1_ * exp_p1 - D5 * p3_ * exp_p3;
+  double exp_p3 = std::exp(-p3_ * t);
+  double c13 = expConv(p1_, p3_, t);
+  double vl = t - D1 * std::expm1(-p3_ * t) + p3_ * k0_ * k3_ * c13;
+  double dvl_dt = 1.0 - k0_ * k2_ * exp_p3 - p3_ * k0_ * k3_ * p1_ * c13;
   return {vl, dvl_dt};
 }
 
 double
 DmpZeroC2::voCrossingUpperBound()
 {
-  return t0_ + dt_ + c1_ * (rd_ + rpi_) * 2.0;
+  return t0_ + dt_ + c1_ * (rd_ + rpi_) * crossingUpperBoundScale();
 }
 
 ////////////////////////////////////////////////////////////////
@@ -916,12 +1003,31 @@ DmpAlg::newtonRaphson(Eigen::Vector3d &x)
     // Note: 'auto' on Eigen expressions captures the expression template
     // and doesn't form a temporary vector/matrix, avoiding extra
     // allocations.
+    Eigen::Vector3d x_scale = x.cwiseAbs();
+    double ceff_cur = (nr_order_ == 3) ? x[DmpParam::ceff] : ceff_;
+    x_scale[DmpParam::t0] = std::max(
+        {1e-10 * x_scale[DmpParam::t0], std::abs(x[DmpParam::dt]), rd_ * ceff_cur});
     auto p_abs = p.head(nr_order_).array().abs();
-    auto x_tol = x.head(nr_order_).array().abs() * driver_param_tol_;
+    auto x_tol = x_scale.head(nr_order_).array() * driver_param_tol_;
     bool all_under_x_tol = (p_abs <= x_tol).all();
-    x.head(nr_order_) += p.head(nr_order_);
+    // Keep iterates inside the feasible domain (dt > 0, 0 < ceff <= c1 + c2).
+    double alpha = 1.0;
+    if (p[DmpParam::dt] < 0.0 && x[DmpParam::dt] + p[DmpParam::dt] <= 0.0)
+      alpha = std::min(alpha, 0.5 * x[DmpParam::dt] / (-p[DmpParam::dt]));
+    if (nr_order_ == 3) {
+      if (p[DmpParam::ceff] < 0.0 && x[DmpParam::ceff] + p[DmpParam::ceff] <= 0.0)
+        alpha = std::min(alpha, 0.5 * x[DmpParam::ceff] / (-p[DmpParam::ceff]));
+      double cmax = c1_ + c2_;
+      if (p[DmpParam::ceff] > 0.0 && x[DmpParam::ceff] + p[DmpParam::ceff] > cmax) {
+        if (x[DmpParam::ceff] < cmax)
+          alpha = std::min(alpha, (cmax - x[DmpParam::ceff]) / p[DmpParam::ceff]);
+        else
+          throw DmpError("eqn eval failed: ceff > c2 + c1");
+      }
+    }
+    x.head(nr_order_) += alpha * p.head(nr_order_);
 
-    if (all_under_x_tol) {
+    if (all_under_x_tol && alpha == 1.0) {
       return;
     }
   }
@@ -968,19 +1074,29 @@ DmpAlg::solveNewtonStep(const Eigen::Matrix3d &fjac,
 {
   Eigen::Vector3d p = Eigen::Vector3d::Zero();
   if (nr_order_ == 2) {
-    double det = fjac.topLeftCorner<2, 2>().determinant();
-    if (std::abs(det) < 1e-12) {
+    auto jac2 = fjac.topLeftCorner<2, 2>();
+    double scale = jac2.col(0).lpNorm<1>() * jac2.col(1).lpNorm<1>();
+    double det = jac2.determinant();
+    if (!(scale > 0.0) || std::abs(det) <= 1e-14 * scale) {
       throw DmpError("Jacobian is singular (order 2)");
     }
-    p.head<2>() = fjac.topLeftCorner<2, 2>().inverse() * -fvec.head<2>();
+    p.head<2>() = jac2.inverse() * -fvec.head<2>();
+    if (!p.head<2>().allFinite()) {
+      throw DmpError("Jacobian step non-finite (order 2)");
+    }
     return p;
   }
 
+  double scale =
+      fjac.col(0).lpNorm<1>() * fjac.col(1).lpNorm<1>() * fjac.col(2).lpNorm<1>();
   double det = fjac.determinant();
-  if (std::abs(det) < 1e-12) {
+  if (!(scale > 0.0) || std::abs(det) <= 1e-14 * scale) {
     throw DmpError("Jacobian is singular (order 3)");
   }
   p = fjac.inverse() * -fvec;
+  if (!p.allFinite()) {
+    throw DmpError("Jacobian step non-finite (order 3)");
+  }
   return p;
 }
 
@@ -996,6 +1112,21 @@ DmpCeffDelayCalc::DmpCeffDelayCalc(StaState *sta) :
 {
 }
 
+DmpCeffDelayCalc::DmpCeffDelayCalc(const DmpCeffDelayCalc &other) :
+  LumpedCapDelayCalc(other),
+  parasitics_(other.parasitics_),
+  dmp_cap_(other.dmp_cap_),
+  dmp_pi_(other.dmp_pi_),
+  dmp_zero_c2_(other.dmp_zero_c2_)
+{
+  if (other.dmp_alg_ == &other.dmp_cap_)
+    dmp_alg_ = &dmp_cap_;
+  else if (other.dmp_alg_ == &other.dmp_pi_)
+    dmp_alg_ = &dmp_pi_;
+  else if (other.dmp_alg_ == &other.dmp_zero_c2_)
+    dmp_alg_ = &dmp_zero_c2_;
+}
+
 ArcDcalcResult
 DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
                             const TimingArc *arc,
@@ -1008,7 +1139,7 @@ DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
 {
   parasitics_ = scene->parasitics(min_max);
   const RiseFall *rf = arc->toEdge()->asRiseFall();
-  const LibertyCell *drvr_cell = arc->from()->libertyCell();
+  const LibertyCell *drvr_cell = arc->to()->libertyCell();
   const LibertyLibrary *drvr_library = drvr_cell->libertyLibrary();
 
   GateTableModel *table_model = arc->gateTableModel(scene, min_max);
@@ -1040,10 +1171,9 @@ DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
       double load_slew;
       loadDelaySlew(load_pin, drvr_slew, rf, drvr_library, parasitic,
                     wire_delay, load_slew);
-      // Copy pocv params from driver.
-      ArcDelay wire_delay2(gate_delay2);
+      // Copy pocv params from driver for load slew; wire delay has no gate sigma.
+      ArcDelay wire_delay2(wire_delay);
       Slew load_slew2(drvr_slew2);
-      delaySetMean(wire_delay2, wire_delay);
       delaySetMean(load_slew2, load_slew);
       dcalc_result.setWireDelay(load_idx, wire_delay2);
       dcalc_result.setLoadSlew(load_idx, load_slew2);
@@ -1051,6 +1181,7 @@ DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
     return dcalc_result;
   }
   else {
+    dmp_alg_ = nullptr;
     ArcDcalcResult dcalc_result =
         LumpedCapDelayCalc::gateDelay(drvr_pin, arc, in_slew, load_cap, parasitic,
                                       load_pin_index_map, scene, min_max);
@@ -1086,7 +1217,7 @@ DmpCeffDelayCalc::setCeffAlgorithm(const LibertyLibrary *drvr_library,
         // c1/Rpi can be ignored.
         || (c1 == 0.0 || c1 < c2 * 1e-3 || rpi == 0.0))
       dmp_alg_ = &dmp_cap_;
-    else if (c2 < c1 * 1e-3)
+    else if (c2 <= 0.0)
       dmp_alg_ = &dmp_zero_c2_;
     else
       // The full monty.
@@ -1127,7 +1258,7 @@ DmpCeffDelayCalc::reportGateDelay(const Pin *drvr_pin,
   const Units *units = drvr_library->units();
   const Unit *cap_unit = units->capacitanceUnit();
   const Unit *res_unit = units->resistanceUnit();
-  if (parasitic && dmp_alg_) {
+  if (model && parasitic && dmp_alg_) {
     Parasitics *parasitics = scene->parasitics(min_max);
 
     c_eff = dmp_alg_->ceff();
@@ -1166,13 +1297,26 @@ gateModelRd(const LibertyCell *cell,
             double c1,
             const Pvt *pvt)
 {
-  float cap1 = c1 + c2;
-  float cap2 = cap1 + 1e-15;
-  float d1, d2, s1, s2;
+  double cap_tot = c1 + c2;
+  float cap1 = static_cast<float>(cap_tot);
+  double dcap = std::max(1e-15, 1e-3 * cap_tot);
+  float d1, s1;
   gate_model->gateDelay(pvt, in_slew, cap1, d1, s1);
-  gate_model->gateDelay(pvt, in_slew, cap2, d2, s2);
-  double vth = cell->libertyLibrary()->outputThreshold(rf);
-  float rd = -std::log(vth) * std::abs(d1 - d2) / (cap2 - cap1);
+  float cap2 = cap1;
+  float d2 = d1;
+  float s2 = s1;
+  for (int i = 0; i < 24; ++i) {
+    cap2 = static_cast<float>(cap_tot + dcap);
+    gate_model->gateDelay(pvt, in_slew, cap2, d2, s2);
+    float scale = std::max(std::abs(d1), std::abs(d2));
+    if (cap2 > cap1 && std::abs(d2 - d1) >= 1e-3F * scale)
+      break;
+    dcap *= 2.0;
+  }
+  double raw_vth = cell->libertyLibrary()->outputThreshold(rf);
+  double vth = (rf == RiseFall::fall()) ? (1.0 - raw_vth) : raw_vth;
+  double rd = std::abs(static_cast<double>(d1) - d2)
+      / (-std::log(1.0 - vth) * (static_cast<double>(cap2) - cap1));
   return rd;
 }
 
@@ -1199,32 +1343,6 @@ DmpCeffDelayCalc::copyState(const StaState *sta)
   dmp_cap_.copyState(sta);
   dmp_pi_.copyState(sta);
   dmp_zero_c2_.copyState(sta);
-}
-
-// This saves about 2.5% in overall run time on designs with SPEF.
-// https://codingforspeed.com/using-faster-exponential-approximation
-static double
-exp2(double x)
-{
-  if (x < -12.0)
-    // exp(-12) = 6.1e-6
-    return 0.0;
-  else {
-    double y = 1.0 + x / 4096.0;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    return y;
-  }
 }
 
 }  // namespace sta

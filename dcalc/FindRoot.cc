@@ -84,7 +84,7 @@ findRoot(const FindRootFunc &func,
       dx = y / dy;
       root -= dx;
     }
-    if (std::abs(dx) <= x_tol * std::abs(root)) {
+    if (std::abs(dx) <= x_tol * std::abs(x2 - x1)) {
       // Converged.
       return {root, false};
     }

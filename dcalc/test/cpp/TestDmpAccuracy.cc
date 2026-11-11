@@ -4,11 +4,9 @@
 //
 // Every test uses self-contained programmatic fixtures and analytical / linear
 // RC circuit ODE ground-truth helpers (zero external PDK or simulator
-// dependencies). Assertions currently use documented `kBuggyMasterTol` (or
-// non-finite/init-sentinel guards) so the binary passes on unmodified master
-// while documenting both the exact reference value and the per-test
-// `kTightFixedTol` (~0.01-0.1 ps for exact invariants/roots, or documented
-// reduced-order model bounds) expected once each bug is fixed.
+// dependencies). Assertions enforce strict per-test `kTightFixedTol` bounds
+// (~0.01-0.1 ps for exact invariants/roots, or documented reduced-order model
+// bounds).
 
 #include <gtest/gtest.h>
 #include <tcl.h>
@@ -712,22 +710,6 @@ protected:
   Tcl_Interp *interp_{nullptr};
 };
 
-// Convenience helper for bugs that currently emit NaN/Inf on openroad/master:
-// enforces strict tight tolerance whenever finite (and on fixed code), while
-// temporarily allowing non-finite or +/-1e30 graph init sentinels on master.
-void
-expectNearOrKnownNonFiniteOnMaster(double actual,
-                                   double expected,
-                                   double tight_fixed_tol,
-                                   const char *context)
-{
-  // NaN/Inf from overflow or 0/0 fails delayGreater(), leaving +/-1e30f
-  // initValue() sentinels; remove this bypass once master is fixed.
-  if (std::isfinite(actual) && std::abs(actual) < 1.0e20) {
-    EXPECT_NEAR(actual, expected, tight_fixed_tol) << context;
-  }
-}
-
 ////////////////////////////////////////////////////////////////
 // Part 1: Pi-Elmore DMP (`dmp_ceff_elmore`), `DelayCalcBase`, & `FindRoot`
 ////////////////////////////////////////////////////////////////
@@ -815,15 +797,9 @@ TEST_F(DmpAccuracyTest,
   constexpr double kTightFixedTol_CausalGd = 0.10e-12;
   constexpr double kTightFixedTol_CausalDs = 2.0e-12;
   constexpr double kTightFixedTol_Asym = 0.5e-12;
-  constexpr double kBuggyMasterTol_Gd = 5.0e-12;
-  constexpr double kBuggyMasterTol_Ds = 280.0e-12;
-  constexpr double kBuggyMasterTol_Asym = 8.0e-12;
-  EXPECT_LT(kTightFixedTol_CausalGd, kBuggyMasterTol_Gd);
-  EXPECT_LT(kTightFixedTol_CausalDs, kBuggyMasterTol_Ds);
-  EXPECT_LT(kTightFixedTol_Asym, kBuggyMasterTol_Asym);
-  EXPECT_NEAR(mc.gate_delay, exact_causal_gd, kBuggyMasterTol_Gd);
-  EXPECT_NEAR(mc.drvr_slew, exact_causal_ds, kBuggyMasterTol_Ds);
-  EXPECT_NEAR(ma.gate_delay, exact_asym_gd, kBuggyMasterTol_Asym);
+  EXPECT_NEAR(mc.gate_delay, exact_causal_gd, kTightFixedTol_CausalGd);
+  EXPECT_NEAR(mc.drvr_slew, exact_causal_ds, kTightFixedTol_CausalDs);
+  EXPECT_NEAR(ma.gate_delay, exact_asym_gd, kTightFixedTol_Asym);
 }
 
 // DmpCeff.cc / DelayCalcBase.cc / DmpDelayCalc.cc (fall transition threshold):
@@ -866,13 +842,11 @@ TEST_F(DmpAccuracyTest,
   // (-84.73 ps asymmetry); gate wire_delay = 119.20 ps vs 42.75 ps,
   // drvr_slew = 16.04 ps vs 10.83 ps, load_slew = 143.58 ps vs 155.32 ps.
   constexpr double kTightFixedTol = 0.05e-12;
-  constexpr double kBuggyMasterTol = 90.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
   EXPECT_NEAR(port_slew_r, port_slew_f, kTightFixedTol);
-  EXPECT_NEAR(port_fall, port_rise, kBuggyMasterTol);
-  EXPECT_NEAR(gate_fall.wire_delay, gate_rise.wire_delay, kBuggyMasterTol);
-  EXPECT_NEAR(gate_fall.drvr_slew, gate_rise.drvr_slew, kBuggyMasterTol);
-  EXPECT_NEAR(gate_fall.load_slew, gate_rise.load_slew, kBuggyMasterTol);
+  EXPECT_NEAR(port_fall, port_rise, kTightFixedTol);
+  EXPECT_NEAR(gate_fall.wire_delay, gate_rise.wire_delay, kTightFixedTol);
+  EXPECT_NEAR(gate_fall.drvr_slew, gate_rise.drvr_slew, kTightFixedTol);
+  EXPECT_NEAR(gate_fall.load_slew, gate_rise.load_slew, kTightFixedTol);
 }
 
 // DelayCalcBase.cc (thresholdAdjust()): multiplies load_slew
@@ -915,9 +889,7 @@ TEST_F(DmpAccuracyTest,
   const double expected_wire_shift =
       100.0e-12 * 0.5 * ((0.65 - 0.50) / (0.80 - 0.20));
   constexpr double kTightFixedTol = 0.05e-12;
-  constexpr double kBuggyMasterTol = 14.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.wire_delay, expected_wire_shift, kBuggyMasterTol);
+  EXPECT_NEAR(m.wire_delay, expected_wire_shift, kTightFixedTol);
 }
 
 // DmpCeff.cc (DmpAlg::y0dt, DmpPi::evalDmpEqns): Post-ramp dyddt sign flip (+
@@ -972,9 +944,7 @@ TEST_F(DmpAccuracyTest,
   // Current openroad/master: diverges and falls back to 125.00 ps (C1 + C2,
   // +105.15 ps error).
   constexpr double kTightFixedTol = 1.0e-12;
-  constexpr double kBuggyMasterTol = 110.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.gate_delay, exact_gate_delay, kBuggyMasterTol);
+  EXPECT_NEAR(m.gate_delay, exact_gate_delay, kTightFixedTol);
 }
 
 // DmpCeff.cc (voCrossingUpperBound() / vlCrossingUpperBound()): hardcode `+ 2.0 *
@@ -1020,12 +990,8 @@ TEST_F(DmpAccuracyTest,
   constexpr double exact_wire_delay = 348.293067e-12;
   constexpr double kTightFixedTol_Slew = 0.10e-12;
   constexpr double kTightFixedTol_Wire = 0.25e-12;
-  constexpr double kBuggyMasterTol_Slew = 1100.0e-12;
-  constexpr double kBuggyMasterTol_Wire = 160.0e-12;
-  EXPECT_LT(kTightFixedTol_Slew, kBuggyMasterTol_Slew);
-  EXPECT_LT(kTightFixedTol_Wire, kBuggyMasterTol_Wire);
-  EXPECT_NEAR(m.load_slew, exact_load_slew, kBuggyMasterTol_Slew);
-  EXPECT_NEAR(m.wire_delay, exact_wire_delay, kBuggyMasterTol_Wire);
+  EXPECT_NEAR(m.load_slew, exact_load_slew, kTightFixedTol_Slew);
+  EXPECT_NEAR(m.wire_delay, exact_wire_delay, kTightFixedTol_Wire);
 }
 
 // DmpCeff.cc (DmpPi::evalDmpEqns / ipiIceff): DmpPi::evalDmpEqns sets
@@ -1072,12 +1038,8 @@ TEST_F(DmpAccuracyTest,
   // Fixed DMP achieves < 1.5 ps error; openroad/master gives 29.33 / 44.31 ps
   // (+2.95 ps / -45.43 ps error).
   constexpr double kTightFixedTol = 2.0e-12;
-  constexpr double kBuggyMasterTol_Gd = 4.0e-12;
-  constexpr double kBuggyMasterTol_Ds = 50.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Gd);
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Ds);
-  EXPECT_NEAR(m.gate_delay, expected_gate_delay, kBuggyMasterTol_Gd);
-  EXPECT_NEAR(m.drvr_slew, expected_drvr_slew, kBuggyMasterTol_Ds);
+  EXPECT_NEAR(m.gate_delay, expected_gate_delay, kTightFixedTol);
+  EXPECT_NEAR(m.drvr_slew, expected_drvr_slew, kTightFixedTol);
 }
 
 // DmpCeff.cc (DmpCeffDelayCalc::gateDelay): When POCV/LVF is active,
@@ -1163,9 +1125,7 @@ library (test_lvf) {
   // Passive RC wire edge must have zero cell LVF sigma (0.0 ps).
   // Current openroad/master: wire_delay.stdDev() == 5.0 ps (copied from cell).
   constexpr double kTightFixedTol = 0.01e-12;
-  constexpr double kBuggyMasterTol = 5.5e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(wire_delay.stdDev(), 0.0, kBuggyMasterTol);
+  EXPECT_NEAR(wire_delay.stdDev(), 0.0, kTightFixedTol);
 }
 
 // DmpCeff.cc (DmpPi::init): computes
@@ -1214,12 +1174,8 @@ TEST_F(DmpAccuracyTest,
   // Current openroad/master: falls back to C1 + C2 = 100 fF -> 156.26 ps delay
   // (+129.95 ps) and 277.26 ps slew (+258.17 ps).
   constexpr double kTightFixedTol = 0.5e-12;
-  constexpr double kBuggyMasterTol_Gd = 135.0e-12;
-  constexpr double kBuggyMasterTol_Ds = 270.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Gd);
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Ds);
-  EXPECT_NEAR(m.gate_delay, exact_gate_delay, kBuggyMasterTol_Gd);
-  EXPECT_NEAR(m.drvr_slew, exact_drvr_slew, kBuggyMasterTol_Ds);
+  EXPECT_NEAR(m.gate_delay, exact_gate_delay, kTightFixedTol);
+  EXPECT_NEAR(m.drvr_slew, exact_drvr_slew, kTightFixedTol);
 }
 
 // DmpCeff.cc (DmpPi::Vl0 / DmpZeroC2::Vl0): Vl0 divides by (p1 - p3) and
@@ -1290,12 +1246,10 @@ TEST_F(DmpAccuracyTest,
   // drvr_slew = 109.07 ps (-64.39 ps drop). When fixed, both coalescing points
   // remain continuous against +5% perturbations (< 8.0 ps diff).
   constexpr double kTightFixedTol = 8.0e-12;
-  constexpr double kBuggyMasterTol = 70.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
   EXPECT_GT(m_master_off.load_slew, m_master_off.drvr_slew + 50.0e-12);
-  EXPECT_NEAR(m_master_pole.load_slew, m_master_off.load_slew, kBuggyMasterTol);
+  EXPECT_NEAR(m_master_pole.load_slew, m_master_off.load_slew, kTightFixedTol);
   EXPECT_GT(m_true_pole.load_slew, m_true_pole.drvr_slew + 50.0e-12);
-  EXPECT_NEAR(m_true_pole.load_slew, m_true_off.load_slew, kBuggyMasterTol);
+  EXPECT_NEAR(m_true_pole.load_slew, m_true_off.load_slew, kTightFixedTol);
 }
 
 // FindRoot.cc / DmpCeff.cc (findRoot() and newtonRaphson()): Both findRoot() and
@@ -1346,13 +1300,11 @@ TEST_F(DmpAccuracyTest,
   // Current openroad/master: u1 aborts root-finding at step 1 -> drops RC
   // load_slew down to drvr_slew (10.80 ps vs 89.99 ps on u0, -79.19 ps error).
   constexpr double kTightFixedTol = 0.05e-12;
-  constexpr double kBuggyMasterTol = 85.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
   EXPECT_NEAR(m_shifted.gate_delay - m_unshifted.gate_delay, 20000.0e-12,
-              kBuggyMasterTol);
-  EXPECT_NEAR(m_shifted.drvr_slew, m_unshifted.drvr_slew, kBuggyMasterTol);
-  EXPECT_NEAR(m_shifted.wire_delay, m_unshifted.wire_delay, kBuggyMasterTol);
-  EXPECT_NEAR(m_shifted.load_slew, m_unshifted.load_slew, kBuggyMasterTol);
+              kTightFixedTol);
+  EXPECT_NEAR(m_shifted.drvr_slew, m_unshifted.drvr_slew, kTightFixedTol);
+  EXPECT_NEAR(m_shifted.wire_delay, m_unshifted.wire_delay, kTightFixedTol);
+  EXPECT_NEAR(m_shifted.load_slew, m_unshifted.load_slew, kTightFixedTol);
 }
 
 // DmpCeff.cc (exp2): Static exp2(x) = (1 + x/4096)^4096 with a
@@ -1392,9 +1344,7 @@ TEST_F(DmpAccuracyTest,
   const double rd_true = 0.5e3 / std::log(2.0);
   const double expected_load_slew = (rd_true + 500.0) * 100.0e-15 * std::log(4.0);
   constexpr double kTightFixedTol = 0.10e-12;
-  constexpr double kBuggyMasterTol = 155.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.load_slew, expected_load_slew, kBuggyMasterTol);
+  EXPECT_NEAR(m.load_slew, expected_load_slew, kTightFixedTol);
 }
 
 // DmpCeff.cc (gateModelRd()): probes a fixed 1 fF step
@@ -1443,12 +1393,8 @@ TEST_F(DmpAccuracyTest,
   const double expected_huge_gd = 100000.0e-12;
   constexpr double kTightFixedTol_Slew = 0.10e-12;
   constexpr double kTightFixedTol_HugeGd = 0.20e-12;
-  constexpr double kBuggyMasterTol_Slew = 4.5e-12;
-  constexpr double kBuggyMasterTol_HugeGd = 105.0e-9;
-  EXPECT_LT(kTightFixedTol_Slew, kBuggyMasterTol_Slew);
-  EXPECT_LT(kTightFixedTol_HugeGd, kBuggyMasterTol_HugeGd);
-  EXPECT_NEAR(m.drvr_slew, expected_shielded_slew, kBuggyMasterTol_Slew);
-  EXPECT_NEAR(m_huge.gate_delay, expected_huge_gd, kBuggyMasterTol_HugeGd);
+  EXPECT_NEAR(m.drvr_slew, expected_shielded_slew, kTightFixedTol_Slew);
+  EXPECT_NEAR(m_huge.gate_delay, expected_huge_gd, kTightFixedTol_HugeGd);
 }
 
 // DmpCeff.cc (DmpOnePole::evalDmpEqns): On c2 == 0 nets, DmpOnePole resets dt <= 0
@@ -1488,9 +1434,7 @@ TEST_F(DmpAccuracyTest,
   const double rd_true = 0.5e3 / std::log(2.0);
   const double expected_load_slew = (rd_true + 500.0) * 100.0e-15 * std::log(4.0);
   constexpr double kTightFixedTol = 0.10e-12;
-  constexpr double kBuggyMasterTol = 155.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.load_slew, expected_load_slew, kBuggyMasterTol);
+  EXPECT_NEAR(m.load_slew, expected_load_slew, kTightFixedTol);
 }
 
 ////////////////////////////////////////////////////////////////
@@ -1563,9 +1507,7 @@ TEST_F(DmpAccuracyTest,
   // ReduceToPiPoleResidue2 p2 heuristic alone).
   // Current openroad/master: exp_p1_t1 typo produces 16.51 ps (-20.74 ps).
   constexpr double kTightFixedTol = 0.15e-12;
-  constexpr double kBuggyMasterTol = 25.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.wire_delay, exact_wire, kBuggyMasterTol);
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol);
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc::loadDelay): Post-ramp derivative yp_t1
@@ -1607,9 +1549,7 @@ TEST_F(DmpAccuracyTest,
   // a 1-step-only sign fix leaves ~ -2.86 ps Newton residual).
   // Current openroad/master: sign flip produces -731.35 ps (-735.41 ps error).
   constexpr double kTightFixedTol = 0.10e-12;
-  constexpr double kBuggyMasterTol = 750.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.wire_delay, exact_wire, kBuggyMasterTol);
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol);
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc::loadDelay): Single-pole asymptotic seed
@@ -1655,12 +1595,8 @@ TEST_F(DmpAccuracyTest,
   // load_slew = 75.77 ps (+72.40 ps error).
   constexpr double kTightFixedTol_Wire = 0.25e-12;
   constexpr double kTightFixedTol_Slew = 2.0e-12;
-  constexpr double kBuggyMasterTol_Wire = 105.0e-12;
-  constexpr double kBuggyMasterTol_Slew = 80.0e-12;
-  EXPECT_LT(kTightFixedTol_Wire, kBuggyMasterTol_Wire);
-  EXPECT_LT(kTightFixedTol_Slew, kBuggyMasterTol_Slew);
-  EXPECT_NEAR(m.wire_delay, exact_wire, kBuggyMasterTol_Wire);
-  EXPECT_NEAR(m.load_slew, exact_slew, kBuggyMasterTol_Slew);
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol_Wire);
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightFixedTol_Slew);
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc::loadDelaySlew): When pole_count == 1
@@ -1705,12 +1641,8 @@ TEST_F(DmpAccuracyTest,
   // Current openroad/master: wire_delay = 100.00 ps (+30.57 ps),
   // load_slew = 10.00 ps (-128.63 ps).
   constexpr double kTightFixedTol = 0.05e-12;
-  constexpr double kBuggyMasterTol_Wire = 35.0e-12;
-  constexpr double kBuggyMasterTol_Slew = 135.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Wire);
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Slew);
-  EXPECT_NEAR(m.wire_delay, exact_wire, kBuggyMasterTol_Wire);
-  EXPECT_NEAR(m.load_slew, exact_slew, kBuggyMasterTol_Slew);
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol);
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightFixedTol);
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc::inputPortDelay): declares wire_delay and
@@ -1751,12 +1683,8 @@ TEST_F(DmpAccuracyTest,
   EXPECT_GT(far_wire, 50.0e-12);
   EXPECT_GT(far_slew, 100.0e-12);
   constexpr double kTightFixedTol = 0.02e-12;
-  constexpr double kBuggyMasterTol_Wire = 75.0e-12;
-  constexpr double kBuggyMasterTol_Slew = 145.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Wire);
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Slew);
-  EXPECT_NEAR(co_wire, 0.0, kBuggyMasterTol_Wire);
-  EXPECT_NEAR(co_slew, in_slew, kBuggyMasterTol_Slew);
+  EXPECT_NEAR(co_wire, 0.0, kTightFixedTol);
+  EXPECT_NEAR(co_slew, in_slew, kTightFixedTol);
 }
 
 // ReduceParasitics.cc (ReduceToPiPoleResidue2::findPolesResidues): uses an invalid
@@ -1811,10 +1739,8 @@ TEST_F(DmpAccuracyTest,
   // ComplexFloat 32-bit residue cancellation produce 2622.02 ps (+2517.03 ps)
   // and 2767.70 ps (+2555.62 ps).
   constexpr double kTightFixedTol = 0.5e-12;
-  constexpr double kBuggyMasterTol = 2600.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol);
-  EXPECT_NEAR(m.wire_delay, exact_wire, kBuggyMasterTol);
-  EXPECT_NEAR(m.load_slew, exact_slew, kBuggyMasterTol);
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol);
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightFixedTol);
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc::loadDelay): On fast-ramp near-end taps,
@@ -1858,10 +1784,10 @@ TEST_F(DmpAccuracyTest,
   // (exact Pade + clamped seed achieves ~0.005 ps error).
   // Current openroad/master overflows to NaN and leaves init sentinel (-1e30).
   constexpr double kTightFixedTol = 0.05e-12;
-  expectNearOrKnownNonFiniteOnMaster(m.wire_delay, exact_wire, kTightFixedTol,
-                                     "two-pole fast-ramp near tap wire_delay");
-  expectNearOrKnownNonFiniteOnMaster(m.load_slew, exact_slew, kTightFixedTol,
-                                     "two-pole fast-ramp near tap load_slew");
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol)
+      << "two-pole fast-ramp near tap wire_delay";
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightFixedTol)
+      << "two-pole fast-ramp near tap load_slew";
 }
 
 // ReduceParasitics.cc (ReduceToPiPoleResidue2::findPolesResidues): A 0-Ohm resistor
@@ -1895,10 +1821,8 @@ TEST_F(DmpAccuracyTest,
   // Exact physics across a 0-Ohm short: wire_delay = 0.0 ps, load_slew = 5.0 ps.
   // Current openroad/master: p1 = NaN propagates into wire_delay and load_slew.
   constexpr double kTightFixedTol = 0.02e-12;
-  expectNearOrKnownNonFiniteOnMaster(m.wire_delay, 0.0, kTightFixedTol,
-                                     "0-Ohm wire_delay");
-  expectNearOrKnownNonFiniteOnMaster(m.load_slew, in_slew, kTightFixedTol,
-                                     "0-Ohm load_slew");
+  EXPECT_NEAR(m.wire_delay, 0.0, kTightFixedTol) << "0-Ohm wire_delay";
+  EXPECT_NEAR(m.load_slew, in_slew, kTightFixedTol) << "0-Ohm load_slew";
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc::loadDelay): When p1 * tt > 709.78 (long
@@ -1943,10 +1867,8 @@ TEST_F(DmpAccuracyTest,
   // Exact physics: wire_delay = 0.3000 ps, load_slew = 200.0675 ps.
   // Current openroad/master: exp(p1 * tt) overflows (p1 * tt ~ 5240 > 709.78).
   constexpr double kTightFixedTol = 0.10e-12;
-  expectNearOrKnownNonFiniteOnMaster(m.wire_delay, exact_wire, kTightFixedTol,
-                                     "large p1*tt wire_delay");
-  expectNearOrKnownNonFiniteOnMaster(m.load_slew, exact_slew, kTightFixedTol,
-                                     "large p1*tt load_slew");
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightFixedTol) << "large p1*tt wire_delay";
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightFixedTol) << "large p1*tt load_slew";
 }
 
 // DmpDelayCalc.cc (DmpCeffTwoPoleDelayCalc): Running `dmp_ceff_elmore` caches
@@ -1998,12 +1920,8 @@ TEST_F(DmpAccuracyTest,
   // wire_delay = 0.00 ps
   // (-55.79 ps error), load_slew = drvr_slew = 10.00 ps (-82.03 ps error).
   constexpr double kTightFixedTol = 0.15e-12;
-  constexpr double kBuggyMasterTol_Wire = 60.0e-12;
-  constexpr double kBuggyMasterTol_Slew = 90.0e-12;
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Wire);
-  EXPECT_LT(kTightFixedTol, kBuggyMasterTol_Slew);
-  EXPECT_NEAR(m_stale.wire_delay, exact_wire, kBuggyMasterTol_Wire);
-  EXPECT_NEAR(m_stale.load_slew, exact_slew, kBuggyMasterTol_Slew);
+  EXPECT_NEAR(m_stale.wire_delay, exact_wire, kTightFixedTol);
+  EXPECT_NEAR(m_stale.load_slew, exact_slew, kTightFixedTol);
 }
 
 ////////////////////////////////////////////////////////////////
