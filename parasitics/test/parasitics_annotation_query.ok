@@ -465,10 +465,10 @@ Driver waveform slew = 47.362926
 .............................................
 
 A v -> Y v
-Pi model C2=6.700000 Rpi=2.420000 C1=7.265708, Ceff=10.090993
+Pi model C2=6.700000 Rpi=2.420000 C1=7.265708, Ceff=10.090991
 P = 1.000000 V = 0.770000 T = 0.000000
-------- input_net_transition = 48.754658
-|       total_output_net_capacitance = 10.090993
+------- input_net_transition = 48.754662
+|       total_output_net_capacitance = 10.090991
 |        5.760000     11.520000
 v      --------------------
 40.000000 | 29.181400     36.169701
@@ -477,16 +477,16 @@ Table value = 35.980717
 PVT scale factor = 1.000000
 Delay = 35.980717
 
-------- input_net_transition = 48.754658
-|       total_output_net_capacitance = 10.090993
+------- input_net_transition = 48.754662
+|       total_output_net_capacitance = 10.090991
 |        5.760000     11.520000
 v      --------------------
 40.000000 | 18.150600     31.724199
 80.000000 | 19.359200     32.627899
-Table value = 28.571051
+Table value = 28.571047
 PVT scale factor = 1.000000
-Slew = 28.571051
-Driver waveform slew = 40.656837
+Slew = 28.571047
+Driver waveform slew = 40.656914
 
 .............................................
 
@@ -543,7 +543,7 @@ v      --------------------
 Table value = 32.2585
 PVT scale factor = 1.0000
 Slew = 32.2585
-Driver waveform slew = 45.5727
+Driver waveform slew = 45.5726
 
 .............................................
 

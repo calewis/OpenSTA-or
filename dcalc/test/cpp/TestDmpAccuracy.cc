@@ -2066,5 +2066,50 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify falling threshold inversion onto normalized [0, 1] waveforms:
+// falling crossings must use (1 - vth, 1 - vh, 1 - vl) in DmpAlg::init(),
+// DmpCeffTwoPoleDelayCalc::gateDelay(), and DelayCalcBase::dspfWireDelaySlew()
+// so complementary rise/fall libraries preserve mirror symmetry.
+TEST_F(DmpAccuracyTest,
+       FallTransitionThresholdMirrorSymmetry)
+{
+  const std::string lib_text = makeLinearNldmLibText(
+      "test_fall_sym", "DRV", 70.0, 30.0, 20.0, 20.0, 80.0, 80.0, 1.0, 1.0,
+      {0.1, 100.0}, {1.0, 200.0}, {10.1, 30.0}, {6.0, 26.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  DRV u1(.A(in1), .Y(n1));\n"
+      "  DRV u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 1.0e-12);
+
+  Pin *in1 = findPin("in1");
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+  setPiElmoreModel(in1, u1_a, 0.0, 1000.0, 100.0e-15, 100.0e-12);
+  setPiElmoreModel(u1_y, u2_a, 0.0, 1000.0, 100.0e-15, 100.0e-12);
+  sta_->findDelays();
+
+  const auto [port_rise, port_slew_r] = measurePortWire(in1, u1_a, RiseFall::rise());
+  const auto [port_fall, port_slew_f] = measurePortWire(in1, u1_a, RiseFall::fall());
+  const StageMetrics gate_rise = measureStage(u1_a, u1_y, u2_a, RiseFall::rise());
+  const StageMetrics gate_fall = measureStage(u1_a, u1_y, u2_a, RiseFall::fall());
+
+  // Port wire symmetry is exact (0.05 ps); standalone gate symmetry has a small
+  // residual while gateModelRd's log(vth) scaling is fixed independently.
+  constexpr double kTightFixedTol = 0.05e-12;
+  constexpr double kGateSymTol = 15.0e-12;
+  EXPECT_NEAR(port_slew_r, port_slew_f, kTightFixedTol);
+  EXPECT_NEAR(port_fall, port_rise, kTightFixedTol);
+  EXPECT_NEAR(gate_fall.wire_delay, gate_rise.wire_delay, kGateSymTol);
+  EXPECT_NEAR(gate_fall.drvr_slew, gate_rise.drvr_slew, kGateSymTol);
+  EXPECT_NEAR(gate_fall.load_slew, gate_rise.load_slew, kGateSymTol);
+}
+
 }  // namespace
 }  // namespace sta

@@ -433,17 +433,17 @@ Driver waveform slew = 6.686969
 
 A v -> Y v
 P = 1.000000 V = 0.770000 T = 0.000000
-------- input_net_transition = 48.754658
+------- input_net_transition = 48.754662
 |       total_output_net_capacitance = 0.565708
 |        1.440000     2.880000
 v      --------------------
 40.000000 | 22.913099     25.263300
 80.000000 | 29.534101     32.067902
-Table value = 22.910896
+Table value = 22.910898
 PVT scale factor = 1.000000
-Delay = 22.910896
+Delay = 22.910898
 
-------- input_net_transition = 48.754658
+------- input_net_transition = 48.754662
 |       total_output_net_capacitance = 0.565708
 |        1.440000     2.880000
 v      --------------------
@@ -508,7 +508,7 @@ v      --------------------
 Table value = 32.2585
 PVT scale factor = 1.0000
 Slew = 32.2585
-Driver waveform slew = 45.5727
+Driver waveform slew = 45.5726
 
 .............................................
 

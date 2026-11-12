@@ -128,9 +128,18 @@ DmpAlg::init(const LibertyLibrary *drvr_library,
   rpi_ = rpi;
   c1_ = c1;
   driver_valid_ = false;
-  vth_ = drvr_library->outputThreshold(rf);
-  vl_ = drvr_library->slewLowerThreshold(rf);
-  vh_ = drvr_library->slewUpperThreshold(rf);
+  // ---- OpenROAD fork: invert falling Liberty thresholds (begin) ----
+  if (rf == RiseFall::fall()) {
+    vth_ = 1.0 - drvr_library->outputThreshold(rf);
+    vl_ = 1.0 - drvr_library->slewUpperThreshold(rf);
+    vh_ = 1.0 - drvr_library->slewLowerThreshold(rf);
+  }
+  else {
+    vth_ = drvr_library->outputThreshold(rf);
+    vl_ = drvr_library->slewLowerThreshold(rf);
+    vh_ = drvr_library->slewUpperThreshold(rf);
+  }
+  // ---- OpenROAD fork: invert falling Liberty thresholds (end) ----
   slew_derate_ = drvr_library->slewDerateFromLibrary();
 }
 

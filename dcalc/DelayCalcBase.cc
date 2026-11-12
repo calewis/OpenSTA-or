@@ -93,14 +93,25 @@ DelayCalcBase::dspfWireDelaySlew(const Pin *load_pin,
   float vh = 0.8;
   float slew_derate = 1.0;
   if (load_library) {
-    vth = load_library->inputThreshold(rf);
-    vl = load_library->slewLowerThreshold(rf);
-    vh = load_library->slewUpperThreshold(rf);
+    // ---- OpenROAD fork: invert falling Liberty thresholds (begin) ----
+    if (rf == RiseFall::fall()) {
+      vth = 1.0F - load_library->inputThreshold(rf);
+      vl = 1.0F - load_library->slewUpperThreshold(rf);
+      vh = 1.0F - load_library->slewLowerThreshold(rf);
+    }
+    else {
+      vth = load_library->inputThreshold(rf);
+      vl = load_library->slewLowerThreshold(rf);
+      vh = load_library->slewUpperThreshold(rf);
+    }
+    // ---- OpenROAD fork: invert falling Liberty thresholds (end) ----
     slew_derate = load_library->slewDerateFromLibrary();
   }
   wire_delay = -elmore * std::log(1.0 - vth);
   load_slew = drvr_slew + elmore * std::log((1.0 - vl) / (1.0 - vh)) / slew_derate;
-  load_slew = drvr_slew + elmore * std::log((1.0 - vl) / (1.0 - vh)) / slew_derate;
+  // ---- OpenROAD fork: drop duplicate load_slew assignment (begin) ----
+  // Duplicate load_slew assignment removed.
+  // ---- OpenROAD fork: drop duplicate load_slew assignment (end) ----
 }
 
 void

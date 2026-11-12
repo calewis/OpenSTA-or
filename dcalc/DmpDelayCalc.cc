@@ -330,9 +330,18 @@ DmpCeffTwoPoleDelayCalc::gateDelay(const Pin *drvr_pin,
   parasitics_ = scene->parasitics(min_max);
   const LibertyLibrary *drvr_library = arc->to()->libertyLibrary();
   const RiseFall *rf = arc->toEdge()->asRiseFall();
-  vth_ = drvr_library->outputThreshold(rf);
-  vl_ = drvr_library->slewLowerThreshold(rf);
-  vh_ = drvr_library->slewUpperThreshold(rf);
+  // ---- OpenROAD fork: invert falling Liberty thresholds (begin) ----
+  if (rf == RiseFall::fall()) {
+    vth_ = 1.0 - drvr_library->outputThreshold(rf);
+    vl_ = 1.0 - drvr_library->slewUpperThreshold(rf);
+    vh_ = 1.0 - drvr_library->slewLowerThreshold(rf);
+  }
+  else {
+    vth_ = drvr_library->outputThreshold(rf);
+    vl_ = drvr_library->slewLowerThreshold(rf);
+    vh_ = drvr_library->slewUpperThreshold(rf);
+  }
+  // ---- OpenROAD fork: invert falling Liberty thresholds (end) ----
   slew_derate_ = drvr_library->slewDerateFromLibrary();
   return DmpCeffDelayCalc::gateDelay(drvr_pin, arc, in_slew, load_cap, parasitic,
                                      load_pin_index_map, scene, min_max) ;
