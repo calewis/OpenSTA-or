@@ -142,6 +142,17 @@ DmpAlg::findDriverParams(double ceff)
   if (nr_order_ == 3)
     x[DmpParam::ceff] = ceff;
   auto [t_vth, t_vl, slew] = gateDelays(ceff);
+  // ---- OpenROAD fork: clamp step-dominated order-2 drivers (begin) ----
+  if (nr_order_ == 2) {
+    double step_dt =
+        (rd_ > 0.0) ? rd_ * ceff * std::log((1.0 - vl_) / (1.0 - vth_)) : 0.0;
+    if (t_vth - t_vl <= step_dt) {
+      dt_ = std::max(1e-15, 1e-5 * rd_ * ceff);
+      t0_ = t_vth + std::log(1.0 - vth_) * rd_ * ceff;
+      return;
+    }
+  }
+  // ---- OpenROAD fork: clamp step-dominated order-2 drivers (end) ----
   // Scale slew to 0-100%
   double dt = slew / (vh_ - vl_);
   double t0 = t_vth + std::log(1.0 - vth_) * rd_ * ceff - vth_ * dt;
@@ -781,8 +792,12 @@ DmpOnePole::evalDmpEqns(Eigen::Vector3d &x,
   auto [t_vth, t_vl, ignore1] = gateDelays(ceff_);
   double ignore2;
 
+  // ---- OpenROAD fork: positive dt and t0 < t_vl recovery reset (begin) ----
   if (dt <= 0.0)
-    dt = x[DmpParam::dt] = (t_vl - t_vth) / 100;
+    dt = x[DmpParam::dt] = (t_vth > t_vl) ? (t_vth - t_vl) / 100.0 : 1e-15;
+  if (t0 >= t_vl)
+    t0 = x[DmpParam::t0] = t_vl - 0.1 * dt;
+  // ---- OpenROAD fork: positive dt and t0 < t_vl recovery reset (end) ----
 
   fvec[DmpFunc::y50] = y(t_vth, t0, dt, ceff_).first - vth_;
   fvec[DmpFunc::y20] = y(t_vl, t0, dt, ceff_).first - vl_;
