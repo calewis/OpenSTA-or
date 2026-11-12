@@ -2066,5 +2066,46 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify DmpCeffTwoPoleDelayCalc::inputPortDelay() resets wire_delay and
+// load_slew per fanout sink so a delayed branch does not leak into a
+// subsequent co-located or unannotated sink.
+TEST_F(DmpAccuracyTest,
+       TwoPoleInputPortLoopLeaksWireDelayBetweenFanouts)
+{
+  const double in_slew = 10.0e-12;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_portleak", 20.0, 80.0, {1.0, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2;\n"
+      "  IDEAL_DRV u_far(.A(in1), .Y(out1));\n"
+      "  IDEAL_DRV u_co(.A(in1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+
+  Pin *in1 = findPin("in1");
+  Net *in1_net = sta_->network()->findNet("in1");
+  ASSERT_NE(in1_net, nullptr);
+  Pin *far_a = findPin("u_far/A");
+  Pin *co_a = findPin("u_co/A");
+  // u_far has 1 kOhm, 99 fF RC wire; u_co is co-located at the port (no pole).
+  buildRcLadderParasitic(in1_net, {in1, far_a}, {1000.0}, {1.0e-15, 99.0e-15});
+
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+  sta_->findDelays();
+
+  const auto [co_wire, co_slew] = measurePortWire(in1, co_a);
+  const auto [far_wire, far_slew] = measurePortWire(in1, far_a);
+
+  // Physical truth for co-located sink u_co/A: wire_delay = 0.00 ps,
+  // load_slew = 10.00 ps (float32 precision limit ~0.02 ps).
+  EXPECT_GT(far_wire, 50.0e-12);
+  EXPECT_GT(far_slew, 100.0e-12);
+  constexpr double kTightTol = 0.02e-12;
+  EXPECT_NEAR(co_wire, 0.0, kTightTol);
+  EXPECT_NEAR(co_slew, in_slew, kTightTol);
+}
+
 }  // namespace
 }  // namespace sta

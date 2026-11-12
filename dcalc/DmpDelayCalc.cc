@@ -289,10 +289,12 @@ DmpCeffTwoPoleDelayCalc::inputPortDelay(const Pin *,
 {
   const Parasitics *parasitics = scene->parasitics(min_max);
   ArcDcalcResult dcalc_result(load_pin_index_map.size());
-  double wire_delay = 0.0;
-  double load_slew = in_slew;
   LibertyLibrary *drvr_library = network_->defaultLibertyLibrary();
   for (const auto [load_pin, load_idx] : load_pin_index_map) {
+    // ---- OpenROAD fork: per-sink port wire delay state (begin) ----
+    double wire_delay = 0.0;
+    double load_slew = in_slew;
+    // ---- OpenROAD fork: per-sink port wire delay state (end) ----
     if (parasitics->isPiPoleResidue(parasitic)) {
       const Parasitic *pole_residue = parasitics->findPoleResidue(parasitic, load_pin);
       if (pole_residue) {
