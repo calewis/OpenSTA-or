@@ -2066,5 +2066,132 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify gateModelRd() divides by -ln(1 - vth) rather than multiplying by
+// -ln(vth): t_vth = -Rd * C * ln(1 - vth) => Rd = (dt/dC) / -ln(1 - vth).
+// Tests both a causal 1-pole driver at vth = 0.50 and an asymmetric vth = 0.70
+// table.
+TEST_F(DmpAccuracyTest,
+       GateModelRdWrongLogVthMultiplier)
+{
+  // (a) Causal 2-pole linear RC check (vth = 0.50, vl = 0.20, vh = 0.80):
+  // Table generated from exact 1-pole ramp (Rd = 1 kOhm, t0 = 5 ps, dt = 5 ps)
+  // driving C2 = 10 fF, Rpi = 2 kOhm, C1 = 190 fF.
+  const double rd_ohm = 1000.0;
+  const double t0_s = 5.0e-12;
+  const double dt_s = 5.0e-12;
+  const double c2 = 10.0e-15;
+  const double rpi = 2000.0;
+  const double c1 = 190.0e-15;
+  const std::string lib_causal = makeCausalOnePoleLibText(
+      "test_rd_causal", "BUF_C", rd_ohm, t0_s, dt_s, 0.50, 0.20, 0.80, 1.0,
+      {1.0, 10.0, 25.0, 50.0, 100.0, 200.0});
+  ASSERT_NE(readLibertyText(lib_causal, "lib_causal.lib"), nullptr);
+
+  // (b) Asymmetric threshold check (vth = 0.70): verifies -ln(1 - vth) vs
+  // -ln(vth) on non-half-VDD libraries.
+  const double vth_asym = 0.70;
+  const double slope_ps_per_ff = -std::log(1.0 - vth_asym);
+  const double d_1 = 10.0 + slope_ps_per_ff * 1.0;
+  const double d_200 = 10.0 + slope_ps_per_ff * 200.0;
+  const double slew_slope_ps_per_ff = std::log(0.8 / 0.2);
+  const double s_1 = 4.0 + slew_slope_ps_per_ff * 1.0;
+  const double s_200 = 4.0 + slew_slope_ps_per_ff * 200.0;
+  const std::string lib_asym = makeLinearNldmLibText(
+      "test_rd_vth70", "BUF_A", 70.0, 70.0, 20.0, 20.0, 80.0, 80.0, 1.0, 1.0,
+      {1.0, 100.0}, {1.0, 200.0}, {d_1, d_200}, {s_1, s_200});
+  ASSERT_NE(readLibertyText(lib_asym, "lib_asym.lib"), nullptr);
+
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1, n2;\n"
+      "  BUF_C u1(.A(in1), .Y(n1));\n"
+      "  BUF_C u2(.A(n1), .Y(out1));\n"
+      "  BUF_A u3(.A(in1), .Y(n2));\n"
+      "  BUF_A u4(.A(n2), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  Pin *u3_a = findPin("u3/A");
+  Pin *u3_y = findPin("u3/Y");
+  Pin *u4_a = findPin("u4/A");
+  setPiElmoreModel(u1_y, u2_a, c2, rpi, c1, rpi * c1);
+  setPiElmoreModel(u3_y, u4_a, 10.0e-15, 2000.0, 90.0e-15, 180.0e-12);
+
+  sta_->findDelays();
+  const StageMetrics mc = measureStage(u1_a, u1_y, u2_a);
+  const StageMetrics ma = measureStage(u3_a, u3_y, u4_a);
+
+  // Exact 2-pole MNA ODE for causal driver output Vo(t):
+  const TwoPoleTransfer tf_drv = computeTwoStageLadder(rd_ohm, c2, rpi, c1, true);
+  const double exact_causal_gd = t0_s + solveTwoPoleRampCrossing(tf_drv, dt_s, 0.50);
+  const double exact_causal_ds = solveTwoPoleRampCrossing(tf_drv, dt_s, 0.80)
+      - solveTwoPoleRampCrossing(tf_drv, dt_s, 0.20);
+
+  // Exact 1996 DMP equilibrium for asymmetric vth = 0.70 table:
+  const double exact_ceff_asym =
+      solveExactDmpCeff(1000.0, 2000.0, 10.0e-15, 90.0e-15, 0.70, 0.20, 0.80, 1.0,
+                        {1.0e-15, 200.0e-15}, {s_1 * 1e-12, s_200 * 1e-12});
+  const double exact_asym_gd =
+      10.0e-12 + (slope_ps_per_ff * 1e-12 / 1e-15) * exact_ceff_asym;
+
+  // Exact 2-pole MNA: gate_delay = 16.86 ps, drvr_slew = 303.73 ps.
+  // Asymmetric vth = 0.70 exact DMP equilibrium: gate_delay = 28.19 ps.
+  constexpr double kCausalGdTol = 2.0e-12;
+  constexpr double kCausalDsTol = 2.5e-12;
+  constexpr double kAsymGdTol = 3.5e-12;
+  EXPECT_NEAR(mc.gate_delay, exact_causal_gd, kCausalGdTol);
+  EXPECT_NEAR(mc.drvr_slew, exact_causal_ds, kCausalDsTol);
+  EXPECT_NEAR(ma.gate_delay, exact_asym_gd, kAsymGdTol);
+}
+
+// Verify gateModelRd() uses an adaptive double-precision capacitance step so
+// cells with large intrinsic delays or huge loads (e.g. 34 nF) do not lose
+// d2 - d1 or cap2 - cap1 to float32 ULP quantization and drop shielding.
+TEST_F(DmpAccuracyTest,
+       GateModelRdFloat32StepPrecisionLoss)
+{
+  const std::string lib_text = makeLinearNldmLibText(
+      "test_rd_f32", "MACRO_DRV", 50.0, 50.0, 20.0, 20.0, 80.0, 80.0, 1.0, 1.0,
+      {1.0, 100.0}, {0.0, 1000.0}, {100000.0, 100003.0}, {10.0, 30.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1, n2;\n"
+      "  MACRO_DRV u1(.A(in1), .Y(n1));\n"
+      "  MACRO_DRV u2(.A(n1), .Y(out1));\n"
+      "  MACRO_DRV u3(.A(in1), .Y(n2));\n"
+      "  MACRO_DRV u4(.A(n2), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  Pin *u3_a = findPin("u3/A");
+  Pin *u3_y = findPin("u3/Y");
+  Pin *u4_a = findPin("u4/A");
+  setPiElmoreModel(u1_y, u2_a, 10.0e-15, 2000.0, 189.0e-15, 378.0e-12);
+  setPiElmoreModel(u3_y, u4_a, 10.0e-15, 2000.0, 34.0e-9 - 10.0e-15, 378.0e-12);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+  const StageMetrics m_huge = measureStage(u3_a, u3_y, u4_a);
+
+  // True Rd = 3e-3 ps/fF / ln(2) = 4.33 Ohm << Rpi = 2000 Ohm: far end C1 is
+  // nearly shielded behind Rpi (Ceff ~ 14.20 fF -> vo_slew = 10.306 ps), and
+  // gate_delay at 34 nF remains bounded near 100,000 ps.
+  const double expected_shielded_slew = 10.306e-12;
+  const double expected_huge_gd = 100000.0e-12;
+  constexpr double kTightFixedTol_Slew = 0.10e-12;
+  constexpr double kHugeGdTol = 45.0e-9;
+  EXPECT_NEAR(m.drvr_slew, expected_shielded_slew, kTightFixedTol_Slew);
+  EXPECT_NEAR(m_huge.gate_delay, expected_huge_gd, kHugeGdTol);
+}
+
 }  // namespace
 }  // namespace sta

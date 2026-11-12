@@ -1166,13 +1166,30 @@ gateModelRd(const LibertyCell *cell,
             double c1,
             const Pvt *pvt)
 {
-  float cap1 = c1 + c2;
-  float cap2 = cap1 + 1e-15;
-  float d1, d2, s1, s2;
+  // ---- OpenROAD fork: adaptive cap step in gateModelRd (begin) ----
+  double cap_tot = c1 + c2;
+  float cap1 = static_cast<float>(cap_tot);
+  double dcap = std::max(1e-15, 1e-3 * cap_tot);
+  float d1, s1;
+  // ---- OpenROAD fork: adaptive cap step in gateModelRd (end) ----
   gate_model->gateDelay(pvt, in_slew, cap1, d1, s1);
-  gate_model->gateDelay(pvt, in_slew, cap2, d2, s2);
-  double vth = cell->libertyLibrary()->outputThreshold(rf);
-  float rd = -std::log(vth) * std::abs(d1 - d2) / (cap2 - cap1);
+  // ---- OpenROAD fork: adaptive cap step and -ln(1-vth) divisor (begin) ----
+  float cap2 = cap1;
+  float d2 = d1;
+  float s2 = s1;
+  for (int i = 0; i < 24; ++i) {
+    cap2 = static_cast<float>(cap_tot + dcap);
+    gate_model->gateDelay(pvt, in_slew, cap2, d2, s2);
+    float scale = std::max(std::abs(d1), std::abs(d2));
+    if (cap2 > cap1 && std::abs(d2 - d1) >= 1e-3F * scale)
+      break;
+    dcap *= 2.0;
+  }
+  double raw_vth = cell->libertyLibrary()->outputThreshold(rf);
+  double vth = (rf == RiseFall::fall()) ? (1.0 - raw_vth) : raw_vth;
+  double rd = std::abs(static_cast<double>(d1) - d2)
+      / (-std::log(1.0 - vth) * (static_cast<double>(cap2) - cap1));
+  // ---- OpenROAD fork: adaptive cap step and -ln(1-vth) divisor (end) ----
   return rd;
 }
 

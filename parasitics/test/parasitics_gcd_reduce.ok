@@ -1,6 +1,47 @@
 Warning 198: ../../examples/gcd_sky130hd.v.gz line 527, module sky130_fd_sc_hd__tapvpwrvgnd_1 not found. Creating black box for TAP_11.
 --- Test 1: read GCD SPEF ---
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.27 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.54 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.70 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.22 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.91   data arrival time
+---------------------------------------------------------
+          -0.08   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -12,34 +53,34 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.78   data arrival time
+           4.83   data required time
+          -4.91   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -54,74 +95,33 @@ Path Type: max
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
    0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
+   0.33    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.85 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.25 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.52 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.68 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.03 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.20 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.65 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.38 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.77 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.90 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.90 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.90   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
+           4.83   data required time
+          -4.90   data arrival time
 ---------------------------------------------------------
-           0.08   slack (MET)
-
-
-Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
-   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
-   0.08    0.44 v _213_/Y (sky130_fd_sc_hd__inv_1)
-   0.32    0.75 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
----------------------------------------------------------
-           0.08   slack (MET)
+          -0.07   slack (VIOLATED)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
@@ -150,7 +150,7 @@ Path Type: min
           -0.04   data required time
           -0.42   data arrival time
 ---------------------------------------------------------
-           0.45   slack (MET)
+           0.46   slack (MET)
 
 
 Startpoint: _426_ (rising edge-triggered flip-flop clocked by clk)
@@ -164,10 +164,10 @@ Path Type: min
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _426_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.35    0.35 v _426_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.08    0.42 ^ _337_/Y (sky130_fd_sc_hd__nand2_1)
-   0.04    0.47 v _339_/Y (sky130_fd_sc_hd__nand2_1)
-   0.00    0.47 v _426_/D (sky130_fd_sc_hd__dfxtp_2)
-           0.47   data arrival time
+   0.09    0.44 ^ _337_/Y (sky130_fd_sc_hd__nand2_1)
+   0.05    0.48 v _339_/Y (sky130_fd_sc_hd__nand2_1)
+   0.00    0.48 v _426_/D (sky130_fd_sc_hd__dfxtp_2)
+           0.48   data arrival time
 
    0.00    0.00   clock clk (rise edge)
    0.00    0.00   clock network delay (ideal)
@@ -177,9 +177,9 @@ Path Type: min
           -0.05   data required time
 ---------------------------------------------------------
           -0.05   data required time
-          -0.47   data arrival time
+          -0.48   data arrival time
 ---------------------------------------------------------
-           0.51   slack (MET)
+           0.54   slack (MET)
 
 
 Startpoint: _445_ (rising edge-triggered flip-flop clocked by clk)
@@ -193,10 +193,10 @@ Path Type: min
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _445_/CLK (sky130_fd_sc_hd__dfxtp_1)
    0.32    0.32 v _445_/Q (sky130_fd_sc_hd__dfxtp_1)
-   0.08    0.40 ^ _408_/Y (sky130_fd_sc_hd__inv_1)
-   0.05    0.46 v _410_/Y (sky130_fd_sc_hd__a32oi_1)
-   0.00    0.46 v _445_/D (sky130_fd_sc_hd__dfxtp_1)
-           0.46   data arrival time
+   0.09    0.42 ^ _408_/Y (sky130_fd_sc_hd__inv_1)
+   0.06    0.48 v _410_/Y (sky130_fd_sc_hd__a32oi_1)
+   0.00    0.48 v _445_/D (sky130_fd_sc_hd__dfxtp_1)
+           0.48   data arrival time
 
    0.00    0.00   clock clk (rise edge)
    0.00    0.00   clock network delay (ideal)
@@ -206,9 +206,9 @@ Path Type: min
           -0.06   data required time
 ---------------------------------------------------------
           -0.06   data required time
-          -0.46   data arrival time
+          -0.48   data arrival time
 ---------------------------------------------------------
-           0.52   slack (MET)
+           0.54   slack (MET)
 
 
 --- Test 2: parasitic annotation ---
@@ -224,6 +224,47 @@ Found 3 partially unannotated drivers.
   _218_/A
 --- Test 3: delay calculators ---
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.38    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.03 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.65 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.38 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.77 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.90 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.90 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.90   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.90   data arrival time
+---------------------------------------------------------
+          -0.07   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -235,75 +276,34 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.09 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.45 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.57 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.38    1.85 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.03 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.65 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.38 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.76 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.89 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.89 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.89   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
+           4.83   data required time
+          -4.89   data arrival time
 ---------------------------------------------------------
-           0.08   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.95 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.12 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.55 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.75 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.75 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.75   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.75   data arrival time
----------------------------------------------------------
-           0.09   slack (MET)
+          -0.06   slack (VIOLATED)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
@@ -473,6 +473,47 @@ Path Type: max
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.27 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.54 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.70 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.22 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.91   data arrival time
+---------------------------------------------------------
+          -0.08   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -484,78 +525,78 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.78   data arrival time
+           4.83   data required time
+          -4.91   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
----------------------------------------------------------
-           0.08   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.27 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.54 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.70 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.22 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.91   data arrival time
+---------------------------------------------------------
+          -0.08   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -567,75 +608,34 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.78   data arrival time
+           4.83   data required time
+          -4.91   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
----------------------------------------------------------
-           0.08   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
 --- Test 4: report_dcalc on large nets ---
@@ -646,17 +646,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.15     0.21
 0.28 | 0.18     0.24
-Table value = 0.20
+Table value = 0.21
 PVT scale factor = 1.00
-Delay = 0.20
+Delay = 0.21
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -665,24 +665,24 @@ v      --------------------
 Table value = 0.14
 PVT scale factor = 1.00
 Slew = 0.14
-Driver waveform slew = 0.14
+Driver waveform slew = 0.19
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.14     0.18
 0.12 | 0.17     0.21
-Table value = 0.18
+Table value = 0.20
 PVT scale factor = 1.00
-Delay = 0.18
+Delay = 0.20
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -691,7 +691,7 @@ v      --------------------
 Table value = 0.09
 PVT scale factor = 1.00
 Slew = 0.09
-Driver waveform slew = 0.09
+Driver waveform slew = 0.12
 
 .............................................
 
@@ -702,17 +702,17 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.10     0.15
 0.28 | 0.14     0.19
-Table value = 0.14
+Table value = 0.16
 PVT scale factor = 1.00
-Delay = 0.14
+Delay = 0.16
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -721,24 +721,24 @@ v      --------------------
 Table value = 0.11
 PVT scale factor = 1.00
 Slew = 0.11
-Driver waveform slew = 0.11
+Driver waveform slew = 0.15
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.19     0.31
 0.12 | 0.22     0.34
-Table value = 0.29
+Table value = 0.30
 PVT scale factor = 1.00
-Delay = 0.29
+Delay = 0.30
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -747,7 +747,7 @@ v      --------------------
 Table value = 0.29
 PVT scale factor = 1.00
 Slew = 0.29
-Driver waveform slew = 0.28
+Driver waveform slew = 0.37
 
 .............................................
 
@@ -758,17 +758,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.15     0.21
 0.28 | 0.18     0.24
-Table value = 0.20
+Table value = 0.21
 PVT scale factor = 1.00
-Delay = 0.20
+Delay = 0.21
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -777,24 +777,24 @@ v      --------------------
 Table value = 0.14
 PVT scale factor = 1.00
 Slew = 0.14
-Driver waveform slew = 0.14
+Driver waveform slew = 0.19
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.14     0.18
 0.12 | 0.17     0.21
-Table value = 0.18
+Table value = 0.20
 PVT scale factor = 1.00
-Delay = 0.18
+Delay = 0.20
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -803,7 +803,7 @@ v      --------------------
 Table value = 0.09
 PVT scale factor = 1.00
 Slew = 0.09
-Driver waveform slew = 0.09
+Driver waveform slew = 0.12
 
 .............................................
 
@@ -814,17 +814,17 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.10     0.15
 0.28 | 0.14     0.19
-Table value = 0.14
+Table value = 0.16
 PVT scale factor = 1.00
-Delay = 0.14
+Delay = 0.16
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -833,24 +833,24 @@ v      --------------------
 Table value = 0.11
 PVT scale factor = 1.00
 Slew = 0.11
-Driver waveform slew = 0.11
+Driver waveform slew = 0.15
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.19     0.31
 0.12 | 0.22     0.34
-Table value = 0.29
+Table value = 0.30
 PVT scale factor = 1.00
-Delay = 0.29
+Delay = 0.30
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -859,7 +859,7 @@ v      --------------------
 Table value = 0.29
 PVT scale factor = 1.00
 Slew = 0.29
-Driver waveform slew = 0.28
+Driver waveform slew = 0.37
 
 .............................................
 
@@ -870,52 +870,52 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.07 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.02
 |        0.01     0.02
 v      --------------------
 0.12 | 0.07     0.09
 0.28 | 0.09     0.14
-Table value = 0.11
+Table value = 0.13
 PVT scale factor = 1.00
-Delay = 0.11
+Delay = 0.13
 
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.02
 |        0.01     0.02
 v      --------------------
 0.12 | 0.05     0.07
 0.28 | 0.07     0.10
-Table value = 0.08
+Table value = 0.09
 PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
+Slew = 0.09
+Driver waveform slew = 0.11
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.07 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.02
 |        0.02     0.06
 v      --------------------
-0.05 | 0.24     0.50
 0.12 | 0.27     0.52
-Table value = 0.26
+0.28 | 0.32     0.57
+Table value = 0.27
 PVT scale factor = 1.00
-Delay = 0.26
+Delay = 0.27
 
-------- input_net_transition = 0.09
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.02
 |        0.02     0.06
 v      --------------------
-0.05 | 0.25     0.60
 0.12 | 0.25     0.60
+0.28 | 0.26     0.60
 Table value = 0.27
 PVT scale factor = 1.00
 Slew = 0.27
-Driver waveform slew = 0.26
+Driver waveform slew = 0.36
 
 .............................................
 
@@ -926,52 +926,52 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.07 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.02
 |        0.01     0.02
 v      --------------------
 0.12 | 0.07     0.09
 0.28 | 0.09     0.14
-Table value = 0.11
+Table value = 0.13
 PVT scale factor = 1.00
-Delay = 0.11
+Delay = 0.13
 
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.02
 |        0.01     0.02
 v      --------------------
 0.12 | 0.05     0.07
 0.28 | 0.07     0.10
-Table value = 0.08
+Table value = 0.09
 PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
+Slew = 0.09
+Driver waveform slew = 0.11
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.07 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.02
 |        0.02     0.06
 v      --------------------
-0.05 | 0.24     0.50
 0.12 | 0.27     0.52
-Table value = 0.26
+0.28 | 0.32     0.57
+Table value = 0.27
 PVT scale factor = 1.00
-Delay = 0.26
+Delay = 0.27
 
-------- input_net_transition = 0.09
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.02
 |        0.02     0.06
 v      --------------------
-0.05 | 0.25     0.60
 0.12 | 0.25     0.60
+0.28 | 0.26     0.60
 Table value = 0.27
 PVT scale factor = 1.00
 Slew = 0.27
-Driver waveform slew = 0.26
+Driver waveform slew = 0.36
 
 .............................................
 
@@ -982,17 +982,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.12 | 0.17     0.27
 0.28 | 0.20     0.30
-Table value = 0.19
+Table value = 0.21
 PVT scale factor = 1.00
-Delay = 0.19
+Delay = 0.21
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1001,24 +1001,24 @@ v      --------------------
 Table value = 0.12
 PVT scale factor = 1.00
 Slew = 0.12
-Driver waveform slew = 0.11
+Driver waveform slew = 0.15
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.05 | 0.18     0.26
 0.12 | 0.21     0.29
-Table value = 0.20
+Table value = 0.22
 PVT scale factor = 1.00
-Delay = 0.20
+Delay = 0.22
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1027,7 +1027,7 @@ v      --------------------
 Table value = 0.10
 PVT scale factor = 1.00
 Slew = 0.10
-Driver waveform slew = 0.09
+Driver waveform slew = 0.12
 
 .............................................
 
@@ -1038,17 +1038,17 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.12 | 0.13     0.22
 0.28 | 0.16     0.26
-Table value = 0.15
+Table value = 0.16
 PVT scale factor = 1.00
-Delay = 0.15
+Delay = 0.16
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1057,24 +1057,24 @@ v      --------------------
 Table value = 0.12
 PVT scale factor = 1.00
 Slew = 0.12
-Driver waveform slew = 0.11
+Driver waveform slew = 0.14
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.05 | 0.26     0.50
 0.12 | 0.29     0.52
-Table value = 0.30
+Table value = 0.32
 PVT scale factor = 1.00
-Delay = 0.30
+Delay = 0.32
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1083,7 +1083,7 @@ v      --------------------
 Table value = 0.30
 PVT scale factor = 1.00
 Slew = 0.30
-Driver waveform slew = 0.29
+Driver waveform slew = 0.37
 
 .............................................
 
@@ -1094,17 +1094,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.12 | 0.17     0.27
 0.28 | 0.20     0.30
-Table value = 0.19
+Table value = 0.21
 PVT scale factor = 1.00
-Delay = 0.19
+Delay = 0.21
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1113,24 +1113,24 @@ v      --------------------
 Table value = 0.12
 PVT scale factor = 1.00
 Slew = 0.12
-Driver waveform slew = 0.11
+Driver waveform slew = 0.15
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.05 | 0.18     0.26
 0.12 | 0.21     0.29
-Table value = 0.20
+Table value = 0.22
 PVT scale factor = 1.00
-Delay = 0.20
+Delay = 0.22
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1139,7 +1139,7 @@ v      --------------------
 Table value = 0.10
 PVT scale factor = 1.00
 Slew = 0.10
-Driver waveform slew = 0.09
+Driver waveform slew = 0.12
 
 .............................................
 
@@ -1150,17 +1150,17 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.12 | 0.13     0.22
 0.28 | 0.16     0.26
-Table value = 0.15
+Table value = 0.16
 PVT scale factor = 1.00
-Delay = 0.15
+Delay = 0.16
 
-------- input_net_transition = 0.17
+------- input_net_transition = 0.24
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1169,24 +1169,24 @@ v      --------------------
 Table value = 0.12
 PVT scale factor = 1.00
 Slew = 0.12
-Driver waveform slew = 0.11
+Driver waveform slew = 0.14
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.02 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
 0.05 | 0.26     0.50
 0.12 | 0.29     0.52
-Table value = 0.30
+Table value = 0.32
 PVT scale factor = 1.00
-Delay = 0.30
+Delay = 0.32
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.12
 |       total_output_net_capacitance = 0.03
 |        0.03     0.08
 v      --------------------
@@ -1195,7 +1195,7 @@ v      --------------------
 Table value = 0.30
 PVT scale factor = 1.00
 Slew = 0.30
-Driver waveform slew = 0.29
+Driver waveform slew = 0.37
 
 .............................................
 
@@ -1206,17 +1206,17 @@ Arc type: combinational
 A_N ^ -> Y ^
 Pi model C2=0.00 Rpi=0.03 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.13
+------- input_net_transition = 0.18
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
 0.12 | 0.16     0.25
 0.28 | 0.21     0.29
-Table value = 0.21
+Table value = 0.22
 PVT scale factor = 1.00
-Delay = 0.21
+Delay = 0.22
 
-------- input_net_transition = 0.13
+------- input_net_transition = 0.18
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
@@ -1225,24 +1225,24 @@ v      --------------------
 Table value = 0.14
 PVT scale factor = 1.00
 Slew = 0.14
-Driver waveform slew = 0.14
+Driver waveform slew = 0.18
 
 .............................................
 
 A_N v -> Y v
 Pi model C2=0.00 Rpi=0.03 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
+------- input_net_transition = 0.09
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
 0.05 | 0.20     0.27
 0.12 | 0.24     0.30
-Table value = 0.24
+Table value = 0.25
 PVT scale factor = 1.00
-Delay = 0.24
+Delay = 0.25
 
-------- input_net_transition = 0.07
+------- input_net_transition = 0.09
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
@@ -1251,7 +1251,7 @@ v      --------------------
 Table value = 0.11
 PVT scale factor = 1.00
 Slew = 0.11
-Driver waveform slew = 0.11
+Driver waveform slew = 0.14
 
 .............................................
 
@@ -1262,17 +1262,17 @@ Arc type: combinational
 A_N ^ -> Y ^
 Pi model C2=0.00 Rpi=0.03 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.13
+------- input_net_transition = 0.18
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
 0.12 | 0.16     0.25
 0.28 | 0.21     0.29
-Table value = 0.21
+Table value = 0.22
 PVT scale factor = 1.00
-Delay = 0.21
+Delay = 0.22
 
-------- input_net_transition = 0.13
+------- input_net_transition = 0.18
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
@@ -1281,24 +1281,24 @@ v      --------------------
 Table value = 0.14
 PVT scale factor = 1.00
 Slew = 0.14
-Driver waveform slew = 0.14
+Driver waveform slew = 0.18
 
 .............................................
 
 A_N v -> Y v
 Pi model C2=0.00 Rpi=0.03 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
+------- input_net_transition = 0.09
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
 0.05 | 0.20     0.27
 0.12 | 0.24     0.30
-Table value = 0.24
+Table value = 0.25
 PVT scale factor = 1.00
-Delay = 0.24
+Delay = 0.25
 
-------- input_net_transition = 0.07
+------- input_net_transition = 0.09
 |       total_output_net_capacitance = 0.02
 |        0.01     0.03
 v      --------------------
@@ -1307,7 +1307,7 @@ v      --------------------
 Table value = 0.11
 PVT scale factor = 1.00
 Slew = 0.11
-Driver waveform slew = 0.11
+Driver waveform slew = 0.14
 
 .............................................
 
@@ -1318,17 +1318,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.15     0.21
 0.28 | 0.18     0.24
-Table value = 0.19
+Table value = 0.20
 PVT scale factor = 1.00
-Delay = 0.19
+Delay = 0.20
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -1337,24 +1337,24 @@ v      --------------------
 Table value = 0.13
 PVT scale factor = 1.00
 Slew = 0.13
-Driver waveform slew = 0.13
+Driver waveform slew = 0.17
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.14     0.18
 0.12 | 0.17     0.21
-Table value = 0.17
+Table value = 0.18
 PVT scale factor = 1.00
-Delay = 0.17
+Delay = 0.18
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -1363,7 +1363,7 @@ v      --------------------
 Table value = 0.08
 PVT scale factor = 1.00
 Slew = 0.08
-Driver waveform slew = 0.08
+Driver waveform slew = 0.10
 
 .............................................
 
@@ -1374,43 +1374,43 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.10     0.15
 0.28 | 0.14     0.19
-Table value = 0.13
+Table value = 0.14
 PVT scale factor = 1.00
-Delay = 0.13
+Delay = 0.14
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.07     0.12
 0.28 | 0.09     0.14
-Table value = 0.09
+Table value = 0.10
 PVT scale factor = 1.00
-Slew = 0.09
-Driver waveform slew = 0.09
+Slew = 0.10
+Driver waveform slew = 0.12
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.19     0.31
 0.12 | 0.22     0.34
-Table value = 0.27
+Table value = 0.28
 PVT scale factor = 1.00
-Delay = 0.27
+Delay = 0.28
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -1419,7 +1419,7 @@ v      --------------------
 Table value = 0.27
 PVT scale factor = 1.00
 Slew = 0.27
-Driver waveform slew = 0.26
+Driver waveform slew = 0.34
 
 .............................................
 
@@ -1430,17 +1430,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.15     0.21
 0.28 | 0.18     0.24
-Table value = 0.19
+Table value = 0.20
 PVT scale factor = 1.00
-Delay = 0.19
+Delay = 0.20
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -1449,24 +1449,24 @@ v      --------------------
 Table value = 0.13
 PVT scale factor = 1.00
 Slew = 0.13
-Driver waveform slew = 0.13
+Driver waveform slew = 0.17
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.14     0.18
 0.12 | 0.17     0.21
-Table value = 0.17
+Table value = 0.18
 PVT scale factor = 1.00
-Delay = 0.17
+Delay = 0.18
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -1475,7 +1475,7 @@ v      --------------------
 Table value = 0.08
 PVT scale factor = 1.00
 Slew = 0.08
-Driver waveform slew = 0.08
+Driver waveform slew = 0.10
 
 .............................................
 
@@ -1486,43 +1486,43 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.10     0.15
 0.28 | 0.14     0.19
-Table value = 0.13
+Table value = 0.14
 PVT scale factor = 1.00
-Delay = 0.13
+Delay = 0.14
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.07     0.12
 0.28 | 0.09     0.14
-Table value = 0.09
+Table value = 0.10
 PVT scale factor = 1.00
-Slew = 0.09
-Driver waveform slew = 0.09
+Slew = 0.10
+Driver waveform slew = 0.12
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.05 | 0.19     0.31
 0.12 | 0.22     0.34
-Table value = 0.27
+Table value = 0.28
 PVT scale factor = 1.00
-Delay = 0.27
+Delay = 0.28
 
-------- input_net_transition = 0.08
+------- input_net_transition = 0.11
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -1531,7 +1531,7 @@ v      --------------------
 Table value = 0.27
 PVT scale factor = 1.00
 Slew = 0.27
-Driver waveform slew = 0.26
+Driver waveform slew = 0.34
 
 .............................................
 
@@ -1542,668 +1542,780 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.26
+------- input_net_transition = 0.34
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.28 | 0.18     0.28
+0.65 | 0.27     0.42
+Table value = 0.25
+PVT scale factor = 1.00
+Delay = 0.25
+
+------- input_net_transition = 0.34
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.28 | 0.10     0.19
+0.65 | 0.17     0.26
+Table value = 0.16
+PVT scale factor = 1.00
+Slew = 0.16
+Driver waveform slew = 0.22
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.12     0.19
+0.28 | 0.20     0.27
+Table value = 0.17
+PVT scale factor = 1.00
+Delay = 0.17
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.06     0.16
+0.28 | 0.09     0.16
+Table value = 0.12
+PVT scale factor = 1.00
+Slew = 0.12
+Driver waveform slew = 0.17
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__clkinvlp_4
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
 |       total_output_net_capacitance = 0.03
 |        0.01     0.04
 v      --------------------
 0.12 | 0.12     0.21
 0.28 | 0.18     0.28
+Table value = 0.19
+PVT scale factor = 1.00
+Delay = 0.19
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.07     0.18
+0.28 | 0.10     0.19
+Table value = 0.14
+PVT scale factor = 1.00
+Slew = 0.14
+Driver waveform slew = 0.19
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.05 | 0.09     0.16
+0.12 | 0.12     0.19
+Table value = 0.15
+PVT scale factor = 1.00
+Delay = 0.15
+
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.05 | 0.06     0.16
+0.12 | 0.06     0.16
+Table value = 0.12
+PVT scale factor = 1.00
+Slew = 0.12
+Driver waveform slew = 0.17
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__nor2b_4
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.35
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.28 | 0.08     0.12
+0.65 | 0.10     0.16
+Table value = 0.12
+PVT scale factor = 1.00
+Delay = 0.12
+
+------- input_net_transition = 0.35
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.28 | 0.07     0.09
+0.65 | 0.11     0.15
+Table value = 0.10
+PVT scale factor = 1.00
+Slew = 0.10
+Driver waveform slew = 0.13
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.12 | 0.16     0.24
+0.28 | 0.21     0.30
+Table value = 0.25
+PVT scale factor = 1.00
+Delay = 0.25
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.12 | 0.10     0.22
+0.28 | 0.12     0.22
+Table value = 0.21
+PVT scale factor = 1.00
+Slew = 0.21
+Driver waveform slew = 0.28
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__nor2b_4
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.35
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.28 | 0.08     0.12
+0.65 | 0.10     0.16
+Table value = 0.12
+PVT scale factor = 1.00
+Delay = 0.12
+
+------- input_net_transition = 0.35
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.28 | 0.07     0.09
+0.65 | 0.11     0.15
+Table value = 0.10
+PVT scale factor = 1.00
+Slew = 0.10
+Driver waveform slew = 0.13
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.12 | 0.16     0.24
+0.28 | 0.21     0.30
+Table value = 0.25
+PVT scale factor = 1.00
+Delay = 0.25
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.03
+|        0.01     0.03
+v      --------------------
+0.12 | 0.10     0.22
+0.28 | 0.12     0.22
+Table value = 0.21
+PVT scale factor = 1.00
+Slew = 0.21
+Driver waveform slew = 0.28
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__xnor2_4
+Arc sense: positive_unate
+Arc type: combinational
+A ^ -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.17     0.27
+0.28 | 0.20     0.30
+Table value = 0.21
+PVT scale factor = 1.00
+Delay = 0.21
+
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.10     0.23
+0.28 | 0.10     0.23
+Table value = 0.11
+PVT scale factor = 1.00
+Slew = 0.11
+Driver waveform slew = 0.14
+
+.............................................
+
+A v -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.21     0.29
+0.28 | 0.28     0.36
+Table value = 0.22
+PVT scale factor = 1.00
+Delay = 0.22
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.09     0.20
+0.28 | 0.09     0.20
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.12
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__xnor2_4
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.13     0.22
+0.28 | 0.16     0.26
+Table value = 0.16
+PVT scale factor = 1.00
+Delay = 0.16
+
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.10     0.22
+0.28 | 0.12     0.23
+Table value = 0.12
+PVT scale factor = 1.00
+Slew = 0.12
+Driver waveform slew = 0.14
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.29     0.52
+0.28 | 0.35     0.58
+Table value = 0.32
+PVT scale factor = 1.00
+Delay = 0.32
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.26     0.59
+0.28 | 0.27     0.59
+Table value = 0.29
+PVT scale factor = 1.00
+Slew = 0.29
+Driver waveform slew = 0.36
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__xnor2_4
+Arc sense: positive_unate
+Arc type: combinational
+A ^ -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.17     0.27
+0.28 | 0.20     0.30
+Table value = 0.21
+PVT scale factor = 1.00
+Delay = 0.21
+
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.10     0.23
+0.28 | 0.10     0.23
+Table value = 0.11
+PVT scale factor = 1.00
+Slew = 0.11
+Driver waveform slew = 0.14
+
+.............................................
+
+A v -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.21     0.29
+0.28 | 0.28     0.36
+Table value = 0.22
+PVT scale factor = 1.00
+Delay = 0.22
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.09     0.20
+0.28 | 0.09     0.20
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.12
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__xnor2_4
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.13     0.22
+0.28 | 0.16     0.26
+Table value = 0.16
+PVT scale factor = 1.00
+Delay = 0.16
+
+------- input_net_transition = 0.26
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.10     0.22
+0.28 | 0.12     0.23
+Table value = 0.12
+PVT scale factor = 1.00
+Slew = 0.12
+Driver waveform slew = 0.14
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.29     0.52
+0.28 | 0.35     0.58
+Table value = 0.32
+PVT scale factor = 1.00
+Delay = 0.32
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.03
+|        0.03     0.08
+v      --------------------
+0.12 | 0.26     0.59
+0.28 | 0.27     0.59
+Table value = 0.29
+PVT scale factor = 1.00
+Slew = 0.29
+Driver waveform slew = 0.36
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.11
+PVT scale factor = 1.00
+Delay = 0.11
+
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.12
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.11
+PVT scale factor = 1.00
+Delay = 0.11
+
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.12
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__nand2_2
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.02
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.30
+|       total_output_net_capacitance = 0.02
+|        0.01     0.04
+v      --------------------
+0.28 | 0.12     0.21
+0.65 | 0.16     0.29
+Table value = 0.17
+PVT scale factor = 1.00
+Delay = 0.17
+
+------- input_net_transition = 0.30
+|       total_output_net_capacitance = 0.02
+|        0.01     0.04
+v      --------------------
+0.28 | 0.10     0.17
+0.65 | 0.16     0.25
+Table value = 0.14
+PVT scale factor = 1.00
+Slew = 0.14
+Driver waveform slew = 0.20
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.15
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.12     0.20
+0.28 | 0.18     0.27
+Table value = 0.17
+PVT scale factor = 1.00
+Delay = 0.17
+
+------- input_net_transition = 0.15
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.08     0.19
+0.28 | 0.11     0.20
+Table value = 0.15
+PVT scale factor = 1.00
+Slew = 0.15
+Driver waveform slew = 0.20
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__nand2_2
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.02
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.30
+|       total_output_net_capacitance = 0.02
+|        0.01     0.04
+v      --------------------
+0.28 | 0.12     0.21
+0.65 | 0.16     0.29
+Table value = 0.17
+PVT scale factor = 1.00
+Delay = 0.17
+
+------- input_net_transition = 0.30
+|       total_output_net_capacitance = 0.02
+|        0.01     0.04
+v      --------------------
+0.28 | 0.10     0.17
+0.65 | 0.16     0.25
+Table value = 0.14
+PVT scale factor = 1.00
+Slew = 0.14
+Driver waveform slew = 0.20
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.03
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.15
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.12     0.20
+0.28 | 0.18     0.27
+Table value = 0.17
+PVT scale factor = 1.00
+Delay = 0.17
+
+------- input_net_transition = 0.15
+|       total_output_net_capacitance = 0.03
+|        0.01     0.04
+v      --------------------
+0.12 | 0.08     0.19
+0.28 | 0.11     0.20
+Table value = 0.15
+PVT scale factor = 1.00
+Slew = 0.15
+Driver waveform slew = 0.20
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__xnor2_1
+Arc sense: positive_unate
+Arc type: combinational
+A ^ -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.25
+|       total_output_net_capacitance = 0.01
+|        0.01     0.01
+v      --------------------
+0.12 | 0.15     0.21
+0.28 | 0.18     0.24
 Table value = 0.23
 PVT scale factor = 1.00
 Delay = 0.23
 
-------- input_net_transition = 0.26
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
+------- input_net_transition = 0.25
+|       total_output_net_capacitance = 0.01
+|        0.01     0.01
 v      --------------------
-0.12 | 0.07     0.18
-0.28 | 0.10     0.19
+0.12 | 0.08     0.16
+0.28 | 0.08     0.16
 Table value = 0.15
 PVT scale factor = 1.00
 Slew = 0.15
-Driver waveform slew = 0.15
+Driver waveform slew = 0.21
 
 .............................................
 
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+A v -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.01
 v      --------------------
-0.05 | 0.09     0.16
-0.12 | 0.12     0.19
-Table value = 0.15
+0.12 | 0.17     0.21
+0.28 | 0.24     0.28
+Table value = 0.21
 PVT scale factor = 1.00
-Delay = 0.15
+Delay = 0.21
 
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.01
 v      --------------------
-0.05 | 0.06     0.16
-0.12 | 0.06     0.16
-Table value = 0.12
+0.12 | 0.06     0.11
+0.28 | 0.06     0.11
+Table value = 0.10
 PVT scale factor = 1.00
-Slew = 0.12
-Driver waveform slew = 0.12
+Slew = 0.10
+Driver waveform slew = 0.13
 
 .............................................
 
 Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__clkinvlp_4
+Cell: sky130_fd_sc_hd__xnor2_1
 Arc sense: negative_unate
 Arc type: combinational
 A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.13
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
+------- input_net_transition = 0.25
+|       total_output_net_capacitance = 0.01
+|        0.01     0.01
 v      --------------------
-0.12 | 0.12     0.21
-0.28 | 0.18     0.28
+0.12 | 0.10     0.15
+0.28 | 0.14     0.19
 Table value = 0.17
 PVT scale factor = 1.00
 Delay = 0.17
 
-------- input_net_transition = 0.13
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
+------- input_net_transition = 0.25
+|       total_output_net_capacitance = 0.01
+|        0.01     0.01
 v      --------------------
-0.12 | 0.07     0.18
-0.28 | 0.10     0.19
-Table value = 0.13
-PVT scale factor = 1.00
-Slew = 0.13
-Driver waveform slew = 0.13
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.08
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
-v      --------------------
-0.05 | 0.09     0.16
-0.12 | 0.12     0.19
-Table value = 0.14
-PVT scale factor = 1.00
-Delay = 0.14
-
-------- input_net_transition = 0.08
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
-v      --------------------
-0.05 | 0.06     0.16
-0.12 | 0.06     0.16
+0.12 | 0.07     0.12
+0.28 | 0.09     0.14
 Table value = 0.12
 PVT scale factor = 1.00
 Slew = 0.12
-Driver waveform slew = 0.12
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__nor2b_4
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.25
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.12
-Table value = 0.10
-PVT scale factor = 1.00
-Delay = 0.10
-
-------- input_net_transition = 0.25
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.05 | 0.13     0.22
-0.12 | 0.16     0.24
-Table value = 0.24
-PVT scale factor = 1.00
-Delay = 0.24
-
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.05 | 0.10     0.22
-0.12 | 0.10     0.22
-Table value = 0.21
-PVT scale factor = 1.00
-Slew = 0.21
-Driver waveform slew = 0.21
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__nor2b_4
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.25
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.12
-Table value = 0.10
-PVT scale factor = 1.00
-Delay = 0.10
-
-------- input_net_transition = 0.25
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.04 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.05 | 0.13     0.22
-0.12 | 0.16     0.24
-Table value = 0.24
-PVT scale factor = 1.00
-Delay = 0.24
-
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.03
-|        0.01     0.03
-v      --------------------
-0.05 | 0.10     0.22
-0.12 | 0.10     0.22
-Table value = 0.21
-PVT scale factor = 1.00
-Slew = 0.21
-Driver waveform slew = 0.21
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__xnor2_4
-Arc sense: positive_unate
-Arc type: combinational
-A ^ -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.17     0.27
-0.28 | 0.20     0.30
-Table value = 0.19
-PVT scale factor = 1.00
-Delay = 0.19
-
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.10     0.23
-0.28 | 0.10     0.23
-Table value = 0.11
-PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
-
-.............................................
-
-A v -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.18     0.26
-0.12 | 0.21     0.29
-Table value = 0.20
-PVT scale factor = 1.00
-Delay = 0.20
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.09     0.20
-0.12 | 0.09     0.20
-Table value = 0.09
-PVT scale factor = 1.00
-Slew = 0.09
-Driver waveform slew = 0.09
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__xnor2_4
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.13     0.22
-0.28 | 0.16     0.26
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.10     0.22
-0.28 | 0.12     0.23
-Table value = 0.11
-PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.26     0.50
-0.12 | 0.29     0.52
-Table value = 0.30
-PVT scale factor = 1.00
-Delay = 0.30
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.26     0.59
-0.12 | 0.26     0.59
-Table value = 0.29
-PVT scale factor = 1.00
-Slew = 0.29
-Driver waveform slew = 0.29
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__xnor2_4
-Arc sense: positive_unate
-Arc type: combinational
-A ^ -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.17     0.27
-0.28 | 0.20     0.30
-Table value = 0.19
-PVT scale factor = 1.00
-Delay = 0.19
-
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.10     0.23
-0.28 | 0.10     0.23
-Table value = 0.11
-PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
-
-.............................................
-
-A v -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.18     0.26
-0.12 | 0.21     0.29
-Table value = 0.20
-PVT scale factor = 1.00
-Delay = 0.20
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.09     0.20
-0.12 | 0.09     0.20
-Table value = 0.09
-PVT scale factor = 1.00
-Slew = 0.09
-Driver waveform slew = 0.09
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__xnor2_4
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.13     0.22
-0.28 | 0.16     0.26
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.19
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.12 | 0.10     0.22
-0.28 | 0.12     0.23
-Table value = 0.11
-PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.03, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.26     0.50
-0.12 | 0.29     0.52
-Table value = 0.30
-PVT scale factor = 1.00
-Delay = 0.30
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.03
-|        0.03     0.08
-v      --------------------
-0.05 | 0.26     0.59
-0.12 | 0.26     0.59
-Table value = 0.29
-PVT scale factor = 1.00
-Slew = 0.29
-Driver waveform slew = 0.29
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
+Driver waveform slew = 0.16
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
+------- input_net_transition = 0.13
 |       total_output_net_capacitance = 0.01
-|        0.00     0.01
+|        0.01     0.01
 v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.10
+0.12 | 0.22     0.34
+0.28 | 0.29     0.40
+Table value = 0.33
 PVT scale factor = 1.00
-Delay = 0.10
+Delay = 0.33
 
-------- input_net_transition = 0.07
+------- input_net_transition = 0.13
 |       total_output_net_capacitance = 0.01
-|        0.00     0.01
+|        0.01     0.01
 v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.09
+0.12 | 0.18     0.33
+0.28 | 0.19     0.33
+Table value = 0.32
 PVT scale factor = 1.00
-Slew = 0.09
-Driver waveform slew = 0.09
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.10
-PVT scale factor = 1.00
-Delay = 0.10
-
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.09
-PVT scale factor = 1.00
-Slew = 0.09
-Driver waveform slew = 0.09
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__nand2_2
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.02
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.22
-|       total_output_net_capacitance = 0.02
-|        0.01     0.04
-v      --------------------
-0.12 | 0.09     0.15
-0.28 | 0.12     0.21
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.22
-|       total_output_net_capacitance = 0.02
-|        0.01     0.04
-v      --------------------
-0.12 | 0.07     0.14
-0.28 | 0.10     0.17
-Table value = 0.13
-PVT scale factor = 1.00
-Slew = 0.13
-Driver waveform slew = 0.13
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
-v      --------------------
-0.05 | 0.08     0.16
-0.12 | 0.12     0.20
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
-v      --------------------
-0.05 | 0.07     0.19
-0.12 | 0.08     0.19
-Table value = 0.14
-PVT scale factor = 1.00
-Slew = 0.14
-Driver waveform slew = 0.14
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__nand2_2
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.02
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.22
-|       total_output_net_capacitance = 0.02
-|        0.01     0.04
-v      --------------------
-0.12 | 0.09     0.15
-0.28 | 0.12     0.21
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.22
-|       total_output_net_capacitance = 0.02
-|        0.01     0.04
-v      --------------------
-0.12 | 0.07     0.14
-0.28 | 0.10     0.17
-Table value = 0.13
-PVT scale factor = 1.00
-Slew = 0.13
-Driver waveform slew = 0.13
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.03
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
-v      --------------------
-0.05 | 0.08     0.16
-0.12 | 0.12     0.20
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.03
-|        0.01     0.04
-v      --------------------
-0.05 | 0.07     0.19
-0.12 | 0.08     0.19
-Table value = 0.14
-PVT scale factor = 1.00
-Slew = 0.14
-Driver waveform slew = 0.14
+Slew = 0.32
+Driver waveform slew = 0.41
 
 .............................................
 
@@ -2214,17 +2326,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.15     0.21
 0.28 | 0.18     0.24
-Table value = 0.21
+Table value = 0.23
 PVT scale factor = 1.00
-Delay = 0.21
+Delay = 0.23
 
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
@@ -2233,145 +2345,33 @@ v      --------------------
 Table value = 0.15
 PVT scale factor = 1.00
 Slew = 0.15
-Driver waveform slew = 0.15
+Driver waveform slew = 0.21
 
 .............................................
 
 A v -> Y v
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
+------- input_net_transition = 0.13
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
-0.05 | 0.14     0.18
 0.12 | 0.17     0.21
-Table value = 0.19
-PVT scale factor = 1.00
-Delay = 0.19
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.05 | 0.06     0.11
-0.12 | 0.06     0.11
-Table value = 0.10
-PVT scale factor = 1.00
-Slew = 0.10
-Driver waveform slew = 0.10
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__xnor2_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.18
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.12 | 0.10     0.15
-0.28 | 0.14     0.19
-Table value = 0.15
-PVT scale factor = 1.00
-Delay = 0.15
-
-------- input_net_transition = 0.18
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.12 | 0.07     0.12
-0.28 | 0.09     0.14
-Table value = 0.11
-PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.05 | 0.19     0.31
-0.12 | 0.22     0.34
-Table value = 0.31
-PVT scale factor = 1.00
-Delay = 0.31
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.05 | 0.18     0.33
-0.12 | 0.18     0.33
-Table value = 0.32
-PVT scale factor = 1.00
-Slew = 0.32
-Driver waveform slew = 0.31
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__xnor2_1
-Arc sense: positive_unate
-Arc type: combinational
-A ^ -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.18
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.12 | 0.15     0.21
-0.28 | 0.18     0.24
+0.28 | 0.24     0.28
 Table value = 0.21
 PVT scale factor = 1.00
 Delay = 0.21
 
-------- input_net_transition = 0.18
+------- input_net_transition = 0.13
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
-0.12 | 0.08     0.16
-0.28 | 0.08     0.16
-Table value = 0.15
-PVT scale factor = 1.00
-Slew = 0.15
-Driver waveform slew = 0.15
-
-.............................................
-
-A v -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.05 | 0.14     0.18
-0.12 | 0.17     0.21
-Table value = 0.19
-PVT scale factor = 1.00
-Delay = 0.19
-
-------- input_net_transition = 0.09
-|       total_output_net_capacitance = 0.01
-|        0.01     0.01
-v      --------------------
-0.05 | 0.06     0.11
 0.12 | 0.06     0.11
+0.28 | 0.06     0.11
 Table value = 0.10
 PVT scale factor = 1.00
 Slew = 0.10
-Driver waveform slew = 0.10
+Driver waveform slew = 0.13
 
 .............................................
 
@@ -2382,52 +2382,52 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.10     0.15
 0.28 | 0.14     0.19
-Table value = 0.15
+Table value = 0.17
 PVT scale factor = 1.00
-Delay = 0.15
+Delay = 0.17
 
-------- input_net_transition = 0.18
+------- input_net_transition = 0.25
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
 0.12 | 0.07     0.12
 0.28 | 0.09     0.14
-Table value = 0.11
+Table value = 0.12
 PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
+Slew = 0.12
+Driver waveform slew = 0.16
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.09
+------- input_net_transition = 0.13
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
-0.05 | 0.19     0.31
 0.12 | 0.22     0.34
-Table value = 0.31
+0.28 | 0.29     0.40
+Table value = 0.33
 PVT scale factor = 1.00
-Delay = 0.31
+Delay = 0.33
 
-------- input_net_transition = 0.09
+------- input_net_transition = 0.13
 |       total_output_net_capacitance = 0.01
 |        0.01     0.01
 v      --------------------
-0.05 | 0.18     0.33
 0.12 | 0.18     0.33
+0.28 | 0.19     0.33
 Table value = 0.32
 PVT scale factor = 1.00
 Slew = 0.32
-Driver waveform slew = 0.31
+Driver waveform slew = 0.41
 
 .............................................
 
@@ -2438,52 +2438,52 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.31
+------- input_net_transition = 0.41
 |       total_output_net_capacitance = 0.01
 |        0.01     0.03
 v      --------------------
 0.28 | 0.13     0.20
 0.65 | 0.17     0.29
-Table value = 0.14
+Table value = 0.16
 PVT scale factor = 1.00
-Delay = 0.14
+Delay = 0.16
 
-------- input_net_transition = 0.31
+------- input_net_transition = 0.41
 |       total_output_net_capacitance = 0.01
 |        0.01     0.03
 v      --------------------
 0.28 | 0.10     0.15
 0.65 | 0.16     0.23
-Table value = 0.11
+Table value = 0.13
 PVT scale factor = 1.00
-Slew = 0.11
-Driver waveform slew = 0.11
+Slew = 0.13
+Driver waveform slew = 0.16
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.11
+------- input_net_transition = 0.16
 |       total_output_net_capacitance = 0.01
 |        0.01     0.03
 v      --------------------
-0.05 | 0.09     0.18
 0.12 | 0.12     0.21
-Table value = 0.14
+0.28 | 0.19     0.28
+Table value = 0.16
 PVT scale factor = 1.00
-Delay = 0.14
+Delay = 0.16
 
-------- input_net_transition = 0.11
+------- input_net_transition = 0.16
 |       total_output_net_capacitance = 0.01
 |        0.01     0.03
 v      --------------------
-0.05 | 0.09     0.22
 0.12 | 0.09     0.22
+0.28 | 0.13     0.23
 Table value = 0.13
 PVT scale factor = 1.00
 Slew = 0.13
-Driver waveform slew = 0.12
+Driver waveform slew = 0.17
 
 .............................................
 
@@ -2494,26 +2494,418 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.20
 |       total_output_net_capacitance = 0.01
 |        0.01     0.03
 v      --------------------
 0.12 | 0.09     0.14
 0.28 | 0.13     0.20
-Table value = 0.11
+Table value = 0.12
 PVT scale factor = 1.00
-Delay = 0.11
+Delay = 0.12
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.20
 |       total_output_net_capacitance = 0.01
 |        0.01     0.03
 v      --------------------
 0.12 | 0.06     0.12
 0.28 | 0.10     0.15
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.12
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.12 | 0.12     0.21
+0.28 | 0.19     0.28
+Table value = 0.15
+PVT scale factor = 1.00
+Delay = 0.15
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.12 | 0.09     0.22
+0.28 | 0.13     0.23
+Table value = 0.13
+PVT scale factor = 1.00
+Slew = 0.13
+Driver waveform slew = 0.17
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.11
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.09
+PVT scale factor = 1.00
+Slew = 0.09
+Driver waveform slew = 0.11
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.12 | 0.09     0.14
+0.28 | 0.13     0.20
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.12 | 0.06     0.12
+0.28 | 0.10     0.15
+Table value = 0.06
+PVT scale factor = 1.00
+Slew = 0.06
+Driver waveform slew = 0.08
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.07
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.05 | 0.09     0.18
+0.12 | 0.12     0.21
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.07
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.05 | 0.09     0.22
+0.12 | 0.09     0.22
+Table value = 0.10
+PVT scale factor = 1.00
+Slew = 0.10
+Driver waveform slew = 0.13
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.12 | 0.09     0.14
+0.28 | 0.13     0.20
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.13
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.12 | 0.06     0.12
+0.28 | 0.10     0.15
+Table value = 0.06
+PVT scale factor = 1.00
+Slew = 0.06
+Driver waveform slew = 0.08
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.07
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.05 | 0.09     0.18
+0.12 | 0.12     0.21
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.07
+|       total_output_net_capacitance = 0.01
+|        0.01     0.03
+v      --------------------
+0.05 | 0.09     0.22
+0.12 | 0.09     0.22
+Table value = 0.10
+PVT scale factor = 1.00
+Slew = 0.10
+Driver waveform slew = 0.13
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.06
+PVT scale factor = 1.00
+Slew = 0.06
+Driver waveform slew = 0.09
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
 Table value = 0.08
 PVT scale factor = 1.00
 Slew = 0.08
-Driver waveform slew = 0.08
+Driver waveform slew = 0.10
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.17
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.06
+PVT scale factor = 1.00
+Slew = 0.06
+Driver waveform slew = 0.09
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.08
+PVT scale factor = 1.00
+Slew = 0.08
+Driver waveform slew = 0.10
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.20
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.20
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
 
 .............................................
 
@@ -2522,584 +2914,248 @@ Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
 ------- input_net_transition = 0.10
 |       total_output_net_capacitance = 0.01
-|        0.01     0.03
+|        0.00     0.01
 v      --------------------
-0.05 | 0.09     0.18
-0.12 | 0.12     0.21
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.11
+PVT scale factor = 1.00
+Delay = 0.11
+
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.08
+PVT scale factor = 1.00
+Slew = 0.08
+Driver waveform slew = 0.11
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.20
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.20
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.11
+PVT scale factor = 1.00
+Delay = 0.11
+
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.08
+PVT scale factor = 1.00
+Slew = 0.08
+Driver waveform slew = 0.11
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.08
+PVT scale factor = 1.00
+Slew = 0.08
+Driver waveform slew = 0.11
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__inv_1
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.06     0.09
+0.28 | 0.08     0.13
+Table value = 0.09
+PVT scale factor = 1.00
+Delay = 0.09
+
+------- input_net_transition = 0.19
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.04     0.06
+0.28 | 0.07     0.10
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.10
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.06     0.09
+0.12 | 0.08     0.12
+Table value = 0.10
+PVT scale factor = 1.00
+Delay = 0.10
+
+------- input_net_transition = 0.09
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.04     0.09
+0.12 | 0.05     0.09
+Table value = 0.08
+PVT scale factor = 1.00
+Slew = 0.08
+Driver waveform slew = 0.11
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__nor2b_4
+Arc sense: negative_unate
+Arc type: combinational
+A ^ -> Y v
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.20
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.05     0.06
+0.28 | 0.06     0.08
+Table value = 0.06
+PVT scale factor = 1.00
+Delay = 0.06
+
+------- input_net_transition = 0.20
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.03     0.04
+0.28 | 0.06     0.07
+Table value = 0.05
+PVT scale factor = 1.00
+Slew = 0.05
+Driver waveform slew = 0.05
+
+.............................................
+
+A v -> Y ^
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.10
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.05 | 0.10     0.13
+0.12 | 0.13     0.16
 Table value = 0.13
 PVT scale factor = 1.00
 Delay = 0.13
 
 ------- input_net_transition = 0.10
 |       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.05 | 0.09     0.22
-0.12 | 0.09     0.22
-Table value = 0.12
-PVT scale factor = 1.00
-Slew = 0.12
-Driver waveform slew = 0.12
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
+0.05 | 0.06     0.10
+0.12 | 0.06     0.10
 Table value = 0.08
 PVT scale factor = 1.00
 Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.12
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.05 | 0.06     0.11
-0.12 | 0.09     0.14
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.05 | 0.05     0.12
-0.12 | 0.06     0.12
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.05
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.02 | 0.08     0.17
-0.05 | 0.09     0.18
-Table value = 0.10
-PVT scale factor = 1.00
-Delay = 0.10
-
-------- input_net_transition = 0.05
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.02 | 0.09     0.22
-0.05 | 0.09     0.22
-Table value = 0.10
-PVT scale factor = 1.00
-Slew = 0.10
-Driver waveform slew = 0.10
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.05 | 0.06     0.11
-0.12 | 0.09     0.14
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.05 | 0.05     0.12
-0.12 | 0.06     0.12
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.05 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.05
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.02 | 0.08     0.17
-0.05 | 0.09     0.18
-Table value = 0.10
-PVT scale factor = 1.00
-Delay = 0.10
-
-------- input_net_transition = 0.05
-|       total_output_net_capacitance = 0.01
-|        0.01     0.03
-v      --------------------
-0.02 | 0.09     0.22
-0.05 | 0.09     0.22
-Table value = 0.10
-PVT scale factor = 1.00
-Slew = 0.10
-Driver waveform slew = 0.10
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.13
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.13
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.05
-PVT scale factor = 1.00
-Slew = 0.05
-Driver waveform slew = 0.05
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.13
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.13
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.05
-PVT scale factor = 1.00
-Slew = 0.05
-Driver waveform slew = 0.05
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.06
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__inv_1
-Arc sense: negative_unate
-Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.06     0.09
-0.28 | 0.08     0.13
-Table value = 0.08
-PVT scale factor = 1.00
-Delay = 0.08
-
-------- input_net_transition = 0.14
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.04     0.06
-0.28 | 0.07     0.10
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.02 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.06     0.09
-0.12 | 0.08     0.12
-Table value = 0.09
-PVT scale factor = 1.00
-Delay = 0.09
-
-------- input_net_transition = 0.07
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.04     0.09
-0.12 | 0.05     0.09
-Table value = 0.08
-PVT scale factor = 1.00
-Slew = 0.08
-Driver waveform slew = 0.08
+Driver waveform slew = 0.09
 
 .............................................
 
@@ -3110,7 +3166,7 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.20
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
@@ -3120,33 +3176,33 @@ Table value = 0.06
 PVT scale factor = 1.00
 Delay = 0.06
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.20
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
 0.12 | 0.03     0.04
 0.28 | 0.06     0.07
-Table value = 0.04
+Table value = 0.05
 PVT scale factor = 1.00
-Slew = 0.04
-Driver waveform slew = 0.04
+Slew = 0.05
+Driver waveform slew = 0.05
 
 .............................................
 
 A v -> Y ^
 Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
+------- input_net_transition = 0.10
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
 0.05 | 0.10     0.13
 0.12 | 0.13     0.16
-Table value = 0.12
+Table value = 0.13
 PVT scale factor = 1.00
-Delay = 0.12
+Delay = 0.13
 
-------- input_net_transition = 0.07
+------- input_net_transition = 0.10
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
@@ -3155,62 +3211,118 @@ v      --------------------
 Table value = 0.08
 PVT scale factor = 1.00
 Slew = 0.08
+Driver waveform slew = 0.09
+
+.............................................
+
+Library: sky130_fd_sc_hd__tt_025C_1v80
+Cell: sky130_fd_sc_hd__maj3_2
+Arc sense: positive_unate
+Arc type: combinational
+A ^ -> X ^
+Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.32
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.28 | 0.24     0.28
+0.65 | 0.32     0.36
+Table value = 0.27
+PVT scale factor = 1.00
+Delay = 0.27
+
+------- input_net_transition = 0.32
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.28 | 0.05     0.08
+0.65 | 0.05     0.09
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
+Driver waveform slew = 0.09
+
+.............................................
+
+A v -> X v
+Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
+P = 1.00 V = 1.80 T = 25.00
+------- input_net_transition = 0.16
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.33     0.37
+0.28 | 0.40     0.43
+Table value = 0.37
+PVT scale factor = 1.00
+Delay = 0.37
+
+------- input_net_transition = 0.16
+|       total_output_net_capacitance = 0.01
+|        0.00     0.01
+v      --------------------
+0.12 | 0.05     0.08
+0.28 | 0.05     0.08
+Table value = 0.07
+PVT scale factor = 1.00
+Slew = 0.07
 Driver waveform slew = 0.08
 
 .............................................
 
 Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__nor2b_4
-Arc sense: negative_unate
+Cell: sky130_fd_sc_hd__maj3_2
+Arc sense: positive_unate
 Arc type: combinational
-A ^ -> Y v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+A ^ -> X ^
+Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.15
+------- input_net_transition = 0.32
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.12 | 0.05     0.06
-0.28 | 0.06     0.08
-Table value = 0.06
+0.28 | 0.24     0.28
+0.65 | 0.32     0.36
+Table value = 0.27
 PVT scale factor = 1.00
-Delay = 0.06
+Delay = 0.27
 
-------- input_net_transition = 0.15
+------- input_net_transition = 0.32
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.12 | 0.03     0.04
-0.28 | 0.06     0.07
-Table value = 0.04
+0.28 | 0.05     0.08
+0.65 | 0.05     0.09
+Table value = 0.07
 PVT scale factor = 1.00
-Slew = 0.04
-Driver waveform slew = 0.04
+Slew = 0.07
+Driver waveform slew = 0.09
 
 .............................................
 
-A v -> Y ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
+A v -> X v
+Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.07
+------- input_net_transition = 0.16
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.05 | 0.10     0.13
-0.12 | 0.13     0.16
-Table value = 0.12
+0.12 | 0.33     0.37
+0.28 | 0.40     0.43
+Table value = 0.37
 PVT scale factor = 1.00
-Delay = 0.12
+Delay = 0.37
 
-------- input_net_transition = 0.07
+------- input_net_transition = 0.16
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.05 | 0.06     0.10
-0.12 | 0.06     0.10
-Table value = 0.08
+0.12 | 0.05     0.08
+0.28 | 0.05     0.08
+Table value = 0.07
 PVT scale factor = 1.00
-Slew = 0.08
+Slew = 0.07
 Driver waveform slew = 0.08
 
 .............................................
@@ -3220,54 +3332,54 @@ Cell: sky130_fd_sc_hd__maj3_2
 Arc sense: positive_unate
 Arc type: combinational
 A ^ -> X ^
-Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.23
+------- input_net_transition = 0.27
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
 0.12 | 0.20     0.23
 0.28 | 0.24     0.28
-Table value = 0.25
+Table value = 0.26
 PVT scale factor = 1.00
-Delay = 0.25
+Delay = 0.26
 
-------- input_net_transition = 0.23
+------- input_net_transition = 0.27
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
 0.12 | 0.05     0.08
 0.28 | 0.05     0.08
-Table value = 0.07
+Table value = 0.06
 PVT scale factor = 1.00
-Slew = 0.07
+Slew = 0.06
 Driver waveform slew = 0.07
 
 .............................................
 
 A v -> X v
-Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.11
+------- input_net_transition = 0.14
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.05 | 0.31     0.34
 0.12 | 0.33     0.37
+0.28 | 0.40     0.43
 Table value = 0.35
 PVT scale factor = 1.00
 Delay = 0.35
 
-------- input_net_transition = 0.11
+------- input_net_transition = 0.14
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.05 | 0.05     0.08
 0.12 | 0.05     0.08
-Table value = 0.07
+0.28 | 0.05     0.08
+Table value = 0.06
 PVT scale factor = 1.00
-Slew = 0.07
-Driver waveform slew = 0.06
+Slew = 0.06
+Driver waveform slew = 0.07
 
 .............................................
 
@@ -3276,75 +3388,45 @@ Cell: sky130_fd_sc_hd__maj3_2
 Arc sense: positive_unate
 Arc type: combinational
 A ^ -> X ^
-Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.23
+------- input_net_transition = 0.27
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
 0.12 | 0.20     0.23
 0.28 | 0.24     0.28
-Table value = 0.25
+Table value = 0.26
 PVT scale factor = 1.00
-Delay = 0.25
+Delay = 0.26
 
-------- input_net_transition = 0.23
+------- input_net_transition = 0.27
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
 0.12 | 0.05     0.08
 0.28 | 0.05     0.08
-Table value = 0.07
+Table value = 0.06
 PVT scale factor = 1.00
-Slew = 0.07
+Slew = 0.06
 Driver waveform slew = 0.07
 
 .............................................
 
 A v -> X v
-Pi model C2=0.00 Rpi=0.04 C1=0.01, Ceff=0.01
+Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.11
+------- input_net_transition = 0.14
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
-0.05 | 0.31     0.34
 0.12 | 0.33     0.37
+0.28 | 0.40     0.43
 Table value = 0.35
 PVT scale factor = 1.00
 Delay = 0.35
 
-------- input_net_transition = 0.11
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.05     0.08
-0.12 | 0.05     0.08
-Table value = 0.07
-PVT scale factor = 1.00
-Slew = 0.07
-Driver waveform slew = 0.06
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__maj3_2
-Arc sense: positive_unate
-Arc type: combinational
-A ^ -> X ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.20
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.20     0.23
-0.28 | 0.24     0.28
-Table value = 0.23
-PVT scale factor = 1.00
-Delay = 0.23
-
-------- input_net_transition = 0.20
+------- input_net_transition = 0.14
 |       total_output_net_capacitance = 0.01
 |        0.00     0.01
 v      --------------------
@@ -3353,89 +3435,7 @@ v      --------------------
 Table value = 0.06
 PVT scale factor = 1.00
 Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> X v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.31     0.34
-0.12 | 0.33     0.37
-Table value = 0.34
-PVT scale factor = 1.00
-Delay = 0.34
-
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.05     0.08
-0.12 | 0.05     0.08
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-Library: sky130_fd_sc_hd__tt_025C_1v80
-Cell: sky130_fd_sc_hd__maj3_2
-Arc sense: positive_unate
-Arc type: combinational
-A ^ -> X ^
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.20
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.20     0.23
-0.28 | 0.24     0.28
-Table value = 0.23
-PVT scale factor = 1.00
-Delay = 0.23
-
-------- input_net_transition = 0.20
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.12 | 0.05     0.08
-0.28 | 0.05     0.08
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
-
-.............................................
-
-A v -> X v
-Pi model C2=0.00 Rpi=0.03 C1=0.01, Ceff=0.01
-P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.31     0.34
-0.12 | 0.33     0.37
-Table value = 0.34
-PVT scale factor = 1.00
-Delay = 0.34
-
-------- input_net_transition = 0.10
-|       total_output_net_capacitance = 0.01
-|        0.00     0.01
-v      --------------------
-0.05 | 0.05     0.08
-0.12 | 0.05     0.08
-Table value = 0.06
-PVT scale factor = 1.00
-Slew = 0.06
-Driver waveform slew = 0.06
+Driver waveform slew = 0.07
 
 .............................................
 
@@ -3722,6 +3722,47 @@ Load pins
 
 --- Test 6: SPEF with -reduce ---
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.27 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.54 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.70 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.22 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.91   data arrival time
+---------------------------------------------------------
+          -0.08   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -3733,78 +3774,78 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.78   data arrival time
+           4.83   data required time
+          -4.91   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
----------------------------------------------------------
-           0.08   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.38    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.03 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.65 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.38 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.77 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.90 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.90 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.90   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.90   data arrival time
+---------------------------------------------------------
+          -0.07   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -3816,78 +3857,78 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.09 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.45 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.57 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.38    1.85 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.03 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.65 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.38 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.76 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.89 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.89 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.89   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
+           4.83   data required time
+          -4.89   data arrival time
 ---------------------------------------------------------
-           0.08   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.95 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.12 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.55 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.75 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.75 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.75   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.75   data arrival time
----------------------------------------------------------
-           0.09   slack (MET)
+          -0.06   slack (VIOLATED)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.27 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.54 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.70 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.22 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.91   data arrival time
+---------------------------------------------------------
+          -0.08   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -3899,75 +3940,34 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.78   data arrival time
+           4.83   data required time
+          -4.91   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
----------------------------------------------------------
-           0.08   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
 --- Test 7: load changes ---
@@ -3982,11 +3982,11 @@ Path Type: max
    0.00    0.00   clock clk (rise edge)
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _411_/CLK (sky130_fd_sc_hd__dfxtp_4)
-   0.74    0.74 ^ _411_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.15    0.89 v _284_/Y (sky130_fd_sc_hd__nor2_8)
-   0.24    1.12 v _285_/X (sky130_fd_sc_hd__and2_1)
-   0.00    1.12 v resp_val (out)
-           1.12   data arrival time
+   0.73    0.73 ^ _411_/Q (sky130_fd_sc_hd__dfxtp_4)
+   0.15    0.88 v _284_/Y (sky130_fd_sc_hd__nor2_8)
+   0.27    1.15 v _285_/X (sky130_fd_sc_hd__and2_1)
+   0.00    1.15 v resp_val (out)
+           1.15   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -3995,9 +3995,9 @@ Path Type: max
            4.00   data required time
 ---------------------------------------------------------
            4.00   data required time
-          -1.12   data arrival time
+          -1.15   data arrival time
 ---------------------------------------------------------
-           2.88   slack (MET)
+           2.85   slack (MET)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
@@ -4013,11 +4013,11 @@ Path Type: max
    0.00    0.00   clock clk (rise edge)
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _411_/CLK (sky130_fd_sc_hd__dfxtp_4)
-   0.52    0.52 v _411_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.32    0.84 ^ _284_/Y (sky130_fd_sc_hd__nor2_8)
-   0.50    1.34 ^ _285_/X (sky130_fd_sc_hd__and2_1)
-   0.00    1.34 ^ resp_val (out)
-           1.34   data arrival time
+   0.51    0.51 v _411_/Q (sky130_fd_sc_hd__dfxtp_4)
+   0.37    0.88 ^ _284_/Y (sky130_fd_sc_hd__nor2_8)
+   0.51    1.39 ^ _285_/X (sky130_fd_sc_hd__and2_1)
+   0.00    1.39 ^ resp_val (out)
+           1.39   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -4026,15 +4026,56 @@ Path Type: max
            4.00   data required time
 ---------------------------------------------------------
            4.00   data required time
-          -1.34   data arrival time
+          -1.39   data arrival time
 ---------------------------------------------------------
-           2.66   slack (MET)
+           2.61   slack (MET)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
 No paths found.
 --- Test 8: SPEF re-read ---
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
+Startpoint: _431_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _431_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   0.35    0.35 ^ _431_/Q (sky130_fd_sc_hd__dfxtp_1)
+   0.09    0.45 v _213_/Y (sky130_fd_sc_hd__inv_1)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.27 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.54 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.70 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.22 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.17    4.83   library setup time
+           4.83   data required time
+---------------------------------------------------------
+           4.83   data required time
+          -4.91   data arrival time
+---------------------------------------------------------
+          -0.08   slack (VIOLATED)
+
+
 Startpoint: _414_ (rising edge-triggered flip-flop clocked by clk)
 Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
 Path Group: clk
@@ -4046,75 +4087,34 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _414_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.13    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.33    0.78 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.33    1.11 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.47 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.39    1.86 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.41    2.26 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.27    2.53 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.69 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.35    3.04 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.21 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.44    3.66 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.73    4.39 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.39    4.78 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.13    4.91 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.91 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.91   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
+  -0.17    4.83   library setup time
+           4.83   data required time
 ---------------------------------------------------------
-           4.84   data required time
-          -4.78   data arrival time
+           4.83   data required time
+          -4.91   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.76   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.76   data arrival time
----------------------------------------------------------
-           0.08   slack (MET)
+          -0.08   slack (VIOLATED)
 
 
 --- Test 9: annotated delays ---
