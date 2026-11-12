@@ -237,17 +237,58 @@ Path Type: max
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
    0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.09 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.45 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.57 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.78   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.16    4.84   library setup time
+           4.84   data required time
+---------------------------------------------------------
+           4.84   data required time
+          -4.78   data arrival time
+---------------------------------------------------------
+           0.06   slack (MET)
+
+
+Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
+   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
+   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -263,47 +304,6 @@ Path Type: max
           -4.76   data arrival time
 ---------------------------------------------------------
            0.08   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.95 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.12 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.55 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.75 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.75 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.75   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.75   data arrival time
----------------------------------------------------------
-           0.09   slack (MET)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
@@ -3818,17 +3818,58 @@ Path Type: max
    0.32    0.32 v _414_/Q (sky130_fd_sc_hd__dfxtp_4)
    0.12    0.45 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.77 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.09 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.45 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.32    1.10 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.46 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.83 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.40    2.23 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.25    2.48 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.63 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.34    2.97 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.57 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
+   0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.78   data arrival time
+
+   5.00    5.00   clock clk (rise edge)
+   0.00    5.00   clock network delay (ideal)
+   0.00    5.00   clock reconvergence pessimism
+           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
+  -0.16    4.84   library setup time
+           4.84   data required time
+---------------------------------------------------------
+           4.84   data required time
+          -4.78   data arrival time
+---------------------------------------------------------
+           0.06   slack (MET)
+
+
+Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+  Delay    Time   Description
+---------------------------------------------------------
+   0.00    0.00   clock clk (rise edge)
+   0.00    0.00   clock network delay (ideal)
+   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
+   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
+   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
+   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
+   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
+   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
+   0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
+   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+   0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -3844,47 +3885,6 @@ Path Type: max
           -4.76   data arrival time
 ---------------------------------------------------------
            0.08   slack (MET)
-
-
-Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
-Endpoint: _418_ (rising edge-triggered flip-flop clocked by clk)
-Path Group: clk
-Path Type: max
-
-  Delay    Time   Description
----------------------------------------------------------
-   0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (ideal)
-   0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
-   0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
-   0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
-   0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
-   0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
-   0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
-   0.39    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.34    2.95 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
-   0.17    3.12 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
-   0.43    3.55 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.75 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.75 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.75   data arrival time
-
-   5.00    5.00   clock clk (rise edge)
-   0.00    5.00   clock network delay (ideal)
-   0.00    5.00   clock reconvergence pessimism
-           5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
-  -0.16    4.84   library setup time
-           4.84   data required time
----------------------------------------------------------
-           4.84   data required time
-          -4.75   data arrival time
----------------------------------------------------------
-           0.09   slack (MET)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.

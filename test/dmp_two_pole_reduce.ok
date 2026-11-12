@@ -9,23 +9,23 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   76.55   76.55 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  17.51   94.05 ^ u1/A (BUFx2_ASAP7_75t_R)
-  47.34  141.39 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  17.49  158.88 ^ u2/B (AND2x2_ASAP7_75t_R)
-  55.96  214.84 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  17.57  232.41 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         232.41   data arrival time
+  15.56   92.10 ^ u1/A (BUFx2_ASAP7_75t_R)
+  50.85  142.95 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  16.95  159.90 ^ u2/B (AND2x2_ASAP7_75t_R)
+  57.49  217.39 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  17.06  234.45 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         234.45   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock network delay (ideal)
    0.00  500.00   clock reconvergence pessimism
          500.00 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
- -22.94  477.06   library setup time
-         477.06   data required time
+ -23.29  476.71   library setup time
+         476.71   data required time
 ---------------------------------------------------------
-         477.06   data required time
-        -232.41   data arrival time
+         476.71   data required time
+        -234.45   data arrival time
 ---------------------------------------------------------
-         244.65   slack (MET)
+         242.27   slack (MET)
 
 

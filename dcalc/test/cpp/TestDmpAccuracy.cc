@@ -2066,5 +2066,256 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify twoPoleLoadCrossing() evaluates the second pole term with
+// exp(-p2 * t) on the in-ramp branch (t <= tt).
+TEST_F(DmpAccuracyTest,
+       TwoPoleInRampWrongExponentOnSecondResidue)
+{
+  const double in_slew = 180.0e-12;
+  const double tt = in_slew / 0.6;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_inramp", 20.0, 80.0, {1.0, 400.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_near(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_far(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *near_a = findPin("u_near/A");
+  Pin *far_a = findPin("u_far/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, near_a, far_a},
+                         {500.0, 5000.0}, {0.0, 50.0e-15, 400.0e-15});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, near_a);
+
+  const TwoPoleTransfer tf =
+      computeTwoStageLadder(500.0, 50.0e-15, 5000.0, 400.0e-15, true);
+  const double exact_wire = solveTwoPoleRampCrossing(tf, tt, 0.50) - 0.5 * tt;
+
+  // Exact 2-pole linear RC delay at u_near: 37.25 ps (within 2.5 ps using the
+  // existing ReduceToPiPoleResidue2 p2 moment approximation).
+  constexpr double kInRampWireTol = 2.5e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kInRampWireTol);
+}
+
+// Verify twoPoleLoadCrossing() uses +k2/p2 in the post-ramp derivative so
+// fast-pole post-ramp crossings converge to the exact 2-pole root.
+TEST_F(DmpAccuracyTest,
+       TwoPolePostRampDerivativeSignFlip)
+{
+  const double in_slew = 0.12e-12;
+  const double tt = in_slew / 0.6;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_sign", 20.0, 80.0, {0.05, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_near(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_far(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *near_a = findPin("u_near/A");
+  Pin *far_a = findPin("u_far/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, near_a, far_a},
+                         {217.5, 200.0}, {0.0, 10.0e-15, 80.0e-15});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, near_a);
+
+  const TwoPoleTransfer tf =
+      computeTwoStageLadder(217.5, 10.0e-15, 200.0, 80.0e-15, true);
+  const double exact_wire = solveTwoPoleRampCrossing(tf, tt, 0.50) - 0.5 * tt;
+
+  // Exact 2-pole RC delay at u_near: 4.05 ps.
+  constexpr double kTightTol = 0.10e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightTol);
+}
+
+// Verify twoPoleLoadCrossing() brackets and clamps initial guesses on
+// fast-pole near-end taps where k2 < 0 and an unclamped seed can go negative.
+TEST_F(DmpAccuracyTest,
+       TwoPoleUnclampedNegativeInitialSeed)
+{
+  const double in_slew = 0.6e-12;
+  const double tt = in_slew / 0.6;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_seed", 20.0, 80.0, {0.1, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_near(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_far(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *near_a = findPin("u_near/A");
+  Pin *far_a = findPin("u_far/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, near_a, far_a},
+                         {100.0, 1000.0}, {0.0, 20.0e-15, 50.0e-15});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, near_a);
+
+  const TwoPoleTransfer tf =
+      computeTwoStageLadder(100.0, 20.0e-15, 1000.0, 50.0e-15, true);
+  const double exact_wire = solveTwoPoleRampCrossing(tf, tt, 0.50) - 0.5 * tt;
+  const double exact_slew = solveTwoPoleRampCrossing(tf, tt, 0.80)
+      - solveTwoPoleRampCrossing(tf, tt, 0.20);
+
+  // Exact positive 2-pole response: wire_delay = 1.47 ps, load_slew = 3.37 ps.
+  constexpr double kWireTol = 0.50e-12;
+  constexpr double kSlewTol = 2.0e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kWireTol);
+  EXPECT_NEAR(m.load_slew, exact_slew, kSlewTol);
+}
+
+// Verify DmpCeffTwoPoleDelayCalc::loadDelaySlew() evaluates exact 1-pole ramp
+// crossings for wire delay and RC slew degradation when pole_count == 1.
+TEST_F(DmpAccuracyTest,
+       TwoPoleOnePoleZeroSlewDegradation)
+{
+  const double in_slew = 10.0e-12;
+  const double tt = in_slew / 0.6;
+  const double r_wire = 1000.0;
+  const double c_load = 100.0e-15;
+  const double tau = r_wire * c_load;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_1pole", 20.0, 80.0, {1.0, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_load(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *load_a = findPin("u_load/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, load_a}, {r_wire},
+                         {0.0, c_load});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, load_a);
+
+  const double exact_wire = solveSinglePoleRampCrossing(tau, tt, 0.50) - 0.5 * tt;
+  const double exact_slew = solveSinglePoleRampCrossing(tau, tt, 0.80)
+      - solveSinglePoleRampCrossing(tau, tt, 0.20);
+
+  // Exact 1-pole ramp RC response: wire_delay = 69.43 ps, load_slew = 138.63 ps.
+  constexpr double kTightTol = 0.05e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightTol);
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightTol);
+}
+
+// Verify twoPoleLoadCrossing() avoids negative-time exp(-p2 * t) overflow
+// and stays finite and accurate on fast-ramp near-end taps.
+TEST_F(DmpAccuracyTest,
+       TwoPoleFastRampNearTapFiniteNoNaN)
+{
+  const double in_slew = 0.12e-12;
+  const double tt = in_slew / 0.6;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_nan", 20.0, 80.0, {0.05, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_near(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_far(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *near_a = findPin("u_near/A");
+  Pin *far_a = findPin("u_far/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, near_a, far_a},
+                         {50.0, 2000.0}, {0.0, 4.0e-15, 60.0e-15});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, near_a);
+
+  const TwoPoleTransfer tf =
+      computeTwoStageLadder(50.0, 4.0e-15, 2000.0, 60.0e-15, true);
+  const double exact_wire = solveTwoPoleRampCrossing(tf, tt, 0.50) - 0.5 * tt;
+  const double exact_slew = solveTwoPoleRampCrossing(tf, tt, 0.80)
+      - solveTwoPoleRampCrossing(tf, tt, 0.20);
+
+  // Exact positive response: wire_delay = 0.1487 ps, load_slew = 0.3013 ps.
+  constexpr double kTightTol = 0.05e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightTol)
+      << "two-pole fast-ramp near tap wire_delay";
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightTol)
+      << "two-pole fast-ramp near tap load_slew";
+}
+
+// Verify twoPoleLoadCrossing() uses shifted post-ramp time and expm1(-p * tt)
+// so large p1 * tt (> 709.78) never overflows exp(p1 * tt) to Inf/NaN.
+TEST_F(DmpAccuracyTest,
+       TwoPoleLargeRampPoleProductNoExpOverflow)
+{
+  const double in_slew = 200.0e-12;
+  const double vl_frac = 0.10;
+  const double vh_frac = 0.999;
+  const double tt = in_slew / (vh_frac - vl_frac);
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_expovf", 10.0, 99.9, {0.1, 500.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_near(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_far(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *near_a = findPin("u_near/A");
+  Pin *far_a = findPin("u_far/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, near_a, far_a},
+                         {10.0, 10.0}, {0.0, 10.0e-15, 10.0e-15});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, far_a);
+
+  const TwoPoleTransfer tf =
+      computeTwoStageLadder(10.0, 10.0e-15, 10.0, 10.0e-15, false);
+  const double exact_wire = solveTwoPoleRampCrossing(tf, tt, 0.50) - 0.5 * tt;
+  const double exact_slew = solveTwoPoleRampCrossing(tf, tt, vh_frac)
+      - solveTwoPoleRampCrossing(tf, tt, vl_frac);
+
+  // Exact 2-pole linear RC response stays finite and matches ODE within 0.10 ps.
+  constexpr double kTightTol = 0.10e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kTightTol) << "large p1*tt wire_delay";
+  EXPECT_NEAR(m.load_slew, exact_slew, kTightTol) << "large p1*tt load_slew";
+}
+
 }  // namespace
 }  // namespace sta
