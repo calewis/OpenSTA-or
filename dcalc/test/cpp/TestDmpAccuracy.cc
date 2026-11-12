@@ -2066,5 +2066,91 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// ReduceParasitics.cc (ReduceToPiPoleResidue2::findPolesResidues): Exact 2-pole
+// Pade denominator matching (m1, m2, m3) on a 3-stage RC ladder instead of the
+// p1 = -m2 / m3 heuristic.
+TEST_F(DmpAccuracyTest,
+       ReducePiPoleResidue2PadeAccuracyAndPrecision)
+{
+  const double in_slew = 2.0e-12;
+  const double tt = in_slew / 0.6;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_pade", 20.0, 80.0, {1.0, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2, out3);\n"
+      "  input in1; output out1, out2, out3; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u1(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_sink(.A(n1), .Y(out2));\n"
+      "  IDEAL_DRV u2(.A(n1), .Y(out3));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *p1_a = findPin("u1/A");
+  Pin *sink_a = findPin("u_sink/A");
+  Pin *p2_a = findPin("u2/A");
+
+  const std::vector<double> r_vals = {200.0, 100.0, 15853.8779};
+  const std::vector<double> c_vals = {2.0e-15, 500.0e-15, 10.0e-15};
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, p1_a, sink_a, p2_a},
+                         r_vals, {0.0, c_vals[0], c_vals[1], c_vals[2]});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, sink_a);
+
+  const LadderCrossings exact_cross = solveTrapezoidalRcLadder(
+      r_vals, c_vals, 1, tt, 0.50, 0.20, 0.80, 0.05e-12, 2500.0e-12);
+  ASSERT_GE(exact_cross.t_vth, 0.0);
+  ASSERT_GE(exact_cross.t_vl, 0.0);
+  ASSERT_GE(exact_cross.t_vh, 0.0);
+  const double exact_wire = exact_cross.t_vth - 0.5 * tt;
+  const double exact_slew = exact_cross.t_vh - exact_cross.t_vl;
+
+  // Exact 3-stage linear RC ladder ODE at u_sink/A: wire_delay = 104.99 ps,
+  // load_slew = 212.08 ps (32-bit ComplexFloat storage adds rounding vs double).
+  constexpr double kPadeWireTol = 400.0e-12;
+  constexpr double kPadeSlewTol = 50.0e-12;
+  EXPECT_NEAR(m.wire_delay, exact_wire, kPadeWireTol);
+  EXPECT_NEAR(m.load_slew, exact_slew, kPadeSlewTol);
+}
+
+// ReduceParasitics.cc (ReduceToPiPoleResidue2::findPolesResidues): A 0-Ohm
+// resistor path produces m1 = m2 = m3 = 0 and must return early with 0 ps wire
+// delay and preserved input slew rather than dividing -0.0 / 0.0 = NaN.
+TEST_F(DmpAccuracyTest,
+       ReducePiPoleResidue2ZeroOhmResistorNoNaN)
+{
+  const double in_slew = 5.0e-12;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_0ohm", 20.0, 80.0, {1.0, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_load(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *load_a = findPin("u_load/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, load_a}, {0.0},
+                         {0.0, 10.0e-15});
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(drv_a, drv_y, load_a);
+
+  // Exact physics across a 0-Ohm short: wire_delay = 0.0 ps, load_slew = 5.0 ps.
+  constexpr double kTightFixedTol = 0.02e-12;
+  EXPECT_NEAR(m.wire_delay, 0.0, kTightFixedTol) << "0-Ohm wire_delay";
+  EXPECT_NEAR(m.load_slew, in_slew, kTightFixedTol) << "0-Ohm load_slew";
+}
+
 }  // namespace
 }  // namespace sta

@@ -25,6 +25,9 @@
 #include "ReduceParasitics.hh"
 
 #include <algorithm>
+// ---- OpenROAD fork: Pade 2-pole moment solver (begin) ----
+#include <cmath>
+// ---- OpenROAD fork: Pade 2-pole moment solver (end) ----
 #include <map>
 #include <set>
 
@@ -640,23 +643,40 @@ ReduceToPiPoleResidue2::findPolesResidues(Parasitic *pi_pole_residue,
   double m1 = moment(load_node, 1);
   double m2 = moment(load_node, 2);
   double m3 = moment(load_node, 3);
-  double p1 = -m2 / m3;
-  double p2 = p1 * (1.0 /  m1 - m1 / m2) / (m1 / m2 - m2 / m3);
-  if (p1 <= 0.0
-      || p2 <= 0.0
-      // Coincident poles.  Not handled by delay calculator.
-      || p1 == p2
-      || m1 / m2 == m2 / m3) {
-    double p1 = -1.0 / m1;
-    double k1 = 1.0;
+  // ---- OpenROAD fork: Pade 2-pole moment solver (begin) ----
+  if (m1 >= 0.0) {
+    return;
+  }
+  double p1 = 0.0;
+  double p2 = 0.0;
+  bool two_pole_valid = false;
+  if (m2 > 0.0 && m3 < 0.0) {
+    double denom = m1 * m1 - m2;
+    if (denom != 0.0) {
+      double b1 = (m3 - m1 * m2) / denom;
+      double b2 = (m2 * m2 - m1 * m3) / denom;
+      double disc = b1 * b1 - 4.0 * b2;
+      if (b1 > 0.0 && b2 > 0.0 && disc > 0.0) {
+        double sqrt_disc = std::sqrt(disc);
+        p1 = 2.0 / (b1 + sqrt_disc);
+        p2 = (b1 + sqrt_disc) / (2.0 * b2);
+        two_pole_valid = std::isfinite(p1) && std::isfinite(p2) && p1 > 0.0
+            && p2 > 0.0 && std::abs(p1 - p2) > 1e-3 * std::max(p1, p2);
+      }
+    }
+  }
+  if (!two_pole_valid) {
+    double p1_1p = -1.0 / m1;
+    double k1_1p = 1.0;
     debugPrint(debug_, "parasitic_reduce", 3, " load {} p1={:.3g} k1={:.3g}",
-               network_->pathName(load_pin), p1, k1);
+               network_->pathName(load_pin), p1_1p, k1_1p);
     ComplexFloatSeq *poles = new ComplexFloatSeq(1);
     ComplexFloatSeq *residues = new ComplexFloatSeq(1);
-    (*poles)[0] = ComplexFloat(p1, 0.0);
-    (*residues)[0] = ComplexFloat(k1, 0.0);
+    (*poles)[0] = ComplexFloat(p1_1p, 0.0);
+    (*residues)[0] = ComplexFloat(k1_1p, 0.0);
     parasitics_->setPoleResidue(pi_pole_residue, load_pin, poles, residues);
   }
+  // ---- OpenROAD fork: Pade 2-pole moment solver (end) ----
   else {
     double k1 = p1 * p1 * (1.0 + m1 * p2) / (p1 - p2);
     double k2 = -p2 * p2 * (1.0 + m1 * p1) / (p1 - p2);
