@@ -84,7 +84,9 @@ findRoot(const FindRootFunc &func,
       dx = y / dy;
       root -= dx;
     }
-    if (std::abs(dx) <= x_tol * std::abs(root)) {
+    // ---- OpenROAD fork: shift-invariant findRoot tolerance (begin) ----
+    if (std::abs(dx) <= x_tol * std::abs(x2 - x1)) {
+    // ---- OpenROAD fork: shift-invariant findRoot tolerance (end) ----
       // Converged.
       return {root, false};
     }

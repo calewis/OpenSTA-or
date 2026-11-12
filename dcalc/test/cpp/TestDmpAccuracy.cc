@@ -2066,5 +2066,57 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// FindRoot.cc (findRoot()): Origin-dependent relative tolerance
+// (|dx| <= x_tol * |root|) breaks time-translation invariance when a gate's
+// delay table is shifted by +20 ns, aborting Vo root-finding on iteration 1
+// and dropping RC wire slew degradation.
+TEST_F(DmpAccuracyTest,
+       TimeTranslationInvarianceLargeIntrinsicDelay)
+{
+  const std::string lib_zero = makeLinearNldmLibText(
+      "test_t0_zero", "BUF0", 50.0, 50.0, 20.0, 20.0, 80.0, 80.0, 1.0, 1.0,
+      {1.0, 100.0}, {0.0, 1000.0}, {0.0, 200.0}, {10.0, 30.0});
+  const std::string lib_shifted = makeLinearNldmLibText(
+      "test_t0_shift", "BUF20NS", 50.0, 50.0, 20.0, 20.0, 80.0, 80.0, 1.0, 1.0,
+      {1.0, 100.0}, {0.0, 1000.0}, {20000.0, 20200.0}, {10.0, 30.0});
+  ASSERT_NE(readLibertyText(lib_zero, "z.lib"), nullptr);
+  ASSERT_NE(readLibertyText(lib_shifted, "s.lib"), nullptr);
+
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n0, n1;\n"
+      "  BUF0 u0(.A(in1), .Y(n0));\n"
+      "  BUF0 u0_load(.A(n0), .Y(out1));\n"
+      "  BUF20NS u1(.A(in1), .Y(n1));\n"
+      "  BUF20NS u1_load(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u0_a = findPin("u0/A");
+  Pin *u0_y = findPin("u0/Y");
+  Pin *u0l_a = findPin("u0_load/A");
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u1l_a = findPin("u1_load/A");
+
+  setPiElmoreModel(u0_y, u0l_a, 10.0e-15, 200.0, 190.0e-15, 38.0e-12);
+  setPiElmoreModel(u1_y, u1l_a, 10.0e-15, 200.0, 190.0e-15, 38.0e-12);
+  sta_->findDelays();
+
+  const StageMetrics m_unshifted = measureStage(u0_a, u0_y, u0l_a);
+  const StageMetrics m_shifted = measureStage(u1_a, u1_y, u1l_a);
+
+  // Physical law (time-translation invariance): adding +20 ns constant offset
+  // to NLDM delay must shift gate_delay by +20 ns while leaving drvr_slew,
+  // wire_delay, and load_slew invariant (within float32 ULP ~0.0024 ps at 20 ns).
+  constexpr double kShiftInvariantTol = 0.50e-12;
+  EXPECT_NEAR(m_shifted.gate_delay - m_unshifted.gate_delay, 20000.0e-12,
+              kShiftInvariantTol);
+  EXPECT_NEAR(m_shifted.drvr_slew, m_unshifted.drvr_slew, kShiftInvariantTol);
+  EXPECT_NEAR(m_shifted.wire_delay, m_unshifted.wire_delay, kShiftInvariantTol);
+  EXPECT_NEAR(m_shifted.load_slew, m_unshifted.load_slew, kShiftInvariantTol);
+}
+
 }  // namespace
 }  // namespace sta

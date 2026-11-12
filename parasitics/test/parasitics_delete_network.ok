@@ -107,12 +107,12 @@ Path Type: max
            0.00    0.00    0.00   clock clk (rise edge)
                   12.11   12.11   clock network delay (propagated)
           48.38    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  13.98   22.89   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  13.98   22.92   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
           50.73   14.24   89.86 ^ u1/A (BUFx2_ASAP7_75t_R)
   13.97   47.36   35.06  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
           66.26   15.35  140.27 ^ u2/B (AND2x2_ASAP7_75t_R)
   14.02   56.47   45.68  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-          73.39   15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+          73.41   15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
                          201.72   data arrival time
 
            0.00  500.00  500.00   clock clk (rise edge)
@@ -168,10 +168,10 @@ Path Type: max
    0.00    0.00   clock network delay (propagated)
    0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   55.73   55.73 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  30.36   86.09 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  42.76  128.85 ^ u2/Y (AND2x2_ASAP7_75t_R)
-   0.00  128.85 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         128.85   data arrival time
+  30.37   86.10 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  42.76  128.86 ^ u2/Y (AND2x2_ASAP7_75t_R)
+   0.00  128.86 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         128.86   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock network delay (propagated)
@@ -181,9 +181,9 @@ Path Type: max
          489.47   data required time
 ---------------------------------------------------------
          489.47   data required time
-        -128.85   data arrival time
+        -128.86   data arrival time
 ---------------------------------------------------------
-         360.62   slack (MET)
+         360.61   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -408,51 +408,51 @@ Arc sense: positive_unate
 Arc type: combinational
 A ^ -> Y ^
 P = 1.000000 V = 0.770000 T = 0.000000
-------- input_net_transition = 50.730164
+------- input_net_transition = 50.730869
 |       total_output_net_capacitance = 0.565282
 |        1.440000     2.880000
 v      --------------------
 40.000000 | 20.817699     23.184000
 80.000000 | 25.603901     28.101500
-Table value = 20.642832
+Table value = 20.642912
 PVT scale factor = 1.000000
-Delay = 20.642832
+Delay = 20.642912
 
-------- input_net_transition = 50.730164
+------- input_net_transition = 50.730869
 |       total_output_net_capacitance = 0.565282
 |        1.440000     2.880000
 v      --------------------
 40.000000 | 8.695190     12.602300
 80.000000 | 9.942970     13.663500
-Table value = 6.686969
+Table value = 6.686993
 PVT scale factor = 1.000000
-Slew = 6.686969
-Driver waveform slew = 6.686969
+Slew = 6.686993
+Driver waveform slew = 6.686993
 
 .............................................
 
 A v -> Y v
 P = 1.000000 V = 0.770000 T = 0.000000
-------- input_net_transition = 48.754658
+------- input_net_transition = 48.755688
 |       total_output_net_capacitance = 0.565708
 |        1.440000     2.880000
 v      --------------------
 40.000000 | 22.913099     25.263300
 80.000000 | 29.534101     32.067902
-Table value = 22.910896
+Table value = 22.911066
 PVT scale factor = 1.000000
-Delay = 22.910896
+Delay = 22.911066
 
-------- input_net_transition = 48.754658
+------- input_net_transition = 48.755688
 |       total_output_net_capacitance = 0.565708
 |        1.440000     2.880000
 v      --------------------
 40.000000 | 8.298110     11.603800
 80.000000 | 9.684140     12.917200
-Table value = 6.604076
+Table value = 6.604113
 PVT scale factor = 1.000000
-Slew = 6.604076
-Driver waveform slew = 6.604076
+Slew = 6.604113
+Driver waveform slew = 6.604113
 
 .............................................
 
@@ -463,17 +463,17 @@ Arc type: combinational
 A ^ -> Y ^
 Pi model C2=6.7000 Rpi=2.4200 C1=7.3212, Ceff=10.8977
 P = 1.0000 V = 0.7000 T = 25.0000
-------- input_net_transition = 50.4065
+------- input_net_transition = 50.4072
 |       total_output_net_capacitance = 10.8977
 |        5.7600     11.5200
 v      --------------------
 40.0000 | 31.2805     40.4816
 80.0000 | 36.2962     45.4684
-Table value = 40.7857
+Table value = 40.7858
 PVT scale factor = 1.0000
-Delay = 40.7857
+Delay = 40.7858
 
-------- input_net_transition = 50.4065
+------- input_net_transition = 50.4072
 |       total_output_net_capacitance = 10.8977
 |        5.7600     11.5200
 v      --------------------
@@ -489,17 +489,17 @@ Driver waveform slew = 55.9038
 A v -> Y v
 Pi model C2=6.7000 Rpi=2.4200 C1=7.3192, Ceff=10.3510
 P = 1.0000 V = 0.7000 T = 25.0000
-------- input_net_transition = 48.3599
+------- input_net_transition = 48.3609
 |       total_output_net_capacitance = 10.3510
 |        5.7600     11.5200
 v      --------------------
 40.0000 | 35.3497     43.0892
 80.0000 | 44.7307     52.6502
-Table value = 43.5091
+Table value = 43.5093
 PVT scale factor = 1.0000
-Delay = 43.5091
+Delay = 43.5093
 
-------- input_net_transition = 48.3599
+------- input_net_transition = 48.3609
 |       total_output_net_capacitance = 10.3510
 |        5.7600     11.5200
 v      --------------------
@@ -508,7 +508,7 @@ v      --------------------
 Table value = 32.2585
 PVT scale factor = 1.0000
 Slew = 32.2585
-Driver waveform slew = 45.5727
+Driver waveform slew = 45.5726
 
 .............................................
 
@@ -538,7 +538,7 @@ v      --------------------
 Table value = 17.83
 PVT scale factor = 1.00
 Slew = 17.83
-Driver waveform slew = 22.83
+Driver waveform slew = 22.86
 
 .............................................
 
@@ -564,7 +564,7 @@ v      --------------------
 Table value = 14.94
 PVT scale factor = 1.00
 Slew = 14.94
-Driver waveform slew = 19.18
+Driver waveform slew = 19.19
 
 .............................................
 
@@ -594,7 +594,7 @@ v      --------------------
 Table value = 17.84
 PVT scale factor = 1.00
 Slew = 17.84
-Driver waveform slew = 22.89
+Driver waveform slew = 22.92
 
 .............................................
 
@@ -620,7 +620,7 @@ v      --------------------
 Table value = 14.94
 PVT scale factor = 1.00
 Slew = 14.94
-Driver waveform slew = 19.24
+Driver waveform slew = 19.25
 
 .............................................
 
@@ -650,7 +650,7 @@ v      --------------------
 Table value = 17.74
 PVT scale factor = 1.00
 Slew = 17.74
-Driver waveform slew = 22.31
+Driver waveform slew = 22.36
 
 .............................................
 
@@ -676,7 +676,7 @@ v      --------------------
 Table value = 14.89
 PVT scale factor = 1.00
 Slew = 14.89
-Driver waveform slew = 18.76
+Driver waveform slew = 18.78
 
 .............................................
 
