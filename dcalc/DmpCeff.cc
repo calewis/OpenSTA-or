@@ -101,7 +101,27 @@ DmpError::DmpError(std::string_view what) :
 DmpAlg::DmpAlg(int nr_order,
                StaState *sta) :
   StaState(sta),
-  nr_order_(nr_order)
+  // ---- OpenROAD fork: initialize DmpAlg members (begin) ----
+  drvr_cell_(nullptr),
+  drvr_library_(nullptr),
+  pvt_(nullptr),
+  gate_model_(nullptr),
+  in_slew_(0.0),
+  rd_(0.0),
+  vth_(0.0),
+  vl_(0.0),
+  vh_(0.0),
+  slew_derate_(0.0),
+  t0_(0.0),
+  dt_(0.0),
+  ceff_(0.0),
+  nr_order_(nr_order),
+  drvr_slew_(0.0),
+  vo_delay_(0.0),
+  driver_valid_(false),
+  elmore_(0.0),
+  p3_(0.0)
+  // ---- OpenROAD fork: initialize DmpAlg members (end) ----
 {
 }
 
@@ -996,6 +1016,23 @@ DmpCeffDelayCalc::DmpCeffDelayCalc(StaState *sta) :
 {
 }
 
+// ---- OpenROAD fork: DmpCeffDelayCalc copy constructor (begin) ----
+DmpCeffDelayCalc::DmpCeffDelayCalc(const DmpCeffDelayCalc &other) :
+  LumpedCapDelayCalc(other),
+  parasitics_(other.parasitics_),
+  dmp_cap_(other.dmp_cap_),
+  dmp_pi_(other.dmp_pi_),
+  dmp_zero_c2_(other.dmp_zero_c2_)
+{
+  if (other.dmp_alg_ == &other.dmp_cap_)
+    dmp_alg_ = &dmp_cap_;
+  else if (other.dmp_alg_ == &other.dmp_pi_)
+    dmp_alg_ = &dmp_pi_;
+  else if (other.dmp_alg_ == &other.dmp_zero_c2_)
+    dmp_alg_ = &dmp_zero_c2_;
+}
+// ---- OpenROAD fork: DmpCeffDelayCalc copy constructor (end) ----
+
 ArcDcalcResult
 DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
                             const TimingArc *arc,
@@ -1008,7 +1045,9 @@ DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
 {
   parasitics_ = scene->parasitics(min_max);
   const RiseFall *rf = arc->toEdge()->asRiseFall();
-  const LibertyCell *drvr_cell = arc->from()->libertyCell();
+  // ---- OpenROAD fork: query target pin liberty cell (begin) ----
+  const LibertyCell *drvr_cell = arc->to()->libertyCell();
+  // ---- OpenROAD fork: query target pin liberty cell (end) ----
   const LibertyLibrary *drvr_library = drvr_cell->libertyLibrary();
 
   GateTableModel *table_model = arc->gateTableModel(scene, min_max);
@@ -1040,10 +1079,14 @@ DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
       double load_slew;
       loadDelaySlew(load_pin, drvr_slew, rf, drvr_library, parasitic,
                     wire_delay, load_slew);
-      // Copy pocv params from driver.
-      ArcDelay wire_delay2(gate_delay2);
+      // ---- OpenROAD fork: zero wire delay POCV sigma (begin) ----
+      // Copy pocv params from driver for load slew; wire delay has no gate sigma.
+      ArcDelay wire_delay2(wire_delay);
+      // ---- OpenROAD fork: zero wire delay POCV sigma (end) ----
       Slew load_slew2(drvr_slew2);
-      delaySetMean(wire_delay2, wire_delay);
+      // ---- OpenROAD fork: zero wire delay POCV sigma (begin) ----
+      // delaySetMean(wire_delay2, wire_delay) omitted; wire_delay2 holds wire_delay.
+      // ---- OpenROAD fork: zero wire delay POCV sigma (end) ----
       delaySetMean(load_slew2, load_slew);
       dcalc_result.setWireDelay(load_idx, wire_delay2);
       dcalc_result.setLoadSlew(load_idx, load_slew2);
@@ -1051,6 +1094,9 @@ DmpCeffDelayCalc::gateDelay(const Pin *drvr_pin,
     return dcalc_result;
   }
   else {
+    // ---- OpenROAD fork: reset dmp_alg_ on lumped-cap fallback (begin) ----
+    dmp_alg_ = nullptr;
+    // ---- OpenROAD fork: reset dmp_alg_ on lumped-cap fallback (end) ----
     ArcDcalcResult dcalc_result =
         LumpedCapDelayCalc::gateDelay(drvr_pin, arc, in_slew, load_cap, parasitic,
                                       load_pin_index_map, scene, min_max);
@@ -1127,7 +1173,9 @@ DmpCeffDelayCalc::reportGateDelay(const Pin *drvr_pin,
   const Units *units = drvr_library->units();
   const Unit *cap_unit = units->capacitanceUnit();
   const Unit *res_unit = units->resistanceUnit();
-  if (parasitic && dmp_alg_) {
+  // ---- OpenROAD fork: guard null model in reportGateDelay (begin) ----
+  if (model && parasitic && dmp_alg_) {
+  // ---- OpenROAD fork: guard null model in reportGateDelay (end) ----
     Parasitics *parasitics = scene->parasitics(min_max);
 
     c_eff = dmp_alg_->ceff();

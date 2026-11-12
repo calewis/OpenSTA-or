@@ -311,6 +311,9 @@ class DmpCeffDelayCalc : public LumpedCapDelayCalc
 {
 public:
   DmpCeffDelayCalc(StaState *sta);
+  // ---- OpenROAD fork: DmpCeffDelayCalc copy constructor (begin) ----
+  DmpCeffDelayCalc(const DmpCeffDelayCalc &other);
+  // ---- OpenROAD fork: DmpCeffDelayCalc copy constructor (end) ----
   bool reduceSupported() const override { return true; }
   ArcDcalcResult gateDelay(const Pin *drvr_pin,
                            const TimingArc *arc,

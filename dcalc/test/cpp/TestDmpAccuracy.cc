@@ -2066,5 +2066,101 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify passive RC interconnect wire edges retain zero POCV/LVF cell stdDev
+// when POCV is enabled (DmpCeffDelayCalc::gateDelay must construct wire_delay2
+// directly from scalar wire_delay rather than copying gate_delay2).
+TEST_F(DmpAccuracyTest,
+       PocvPassiveWireDoesNotDuplicateCellSigma)
+{
+  const std::string lib_text = R"(
+library (test_lvf) {
+  delay_model : table_lookup;
+  time_unit : "1ps";
+  voltage_unit : "1V";
+  current_unit : "1mA";
+  pulling_resistance_unit : "1kohm";
+  leakage_power_unit : "1nW";
+  capacitive_load_unit (1, ff);
+  nom_process : 1.0;
+  nom_temperature : 25.0;
+  nom_voltage : 0.8;
+  input_threshold_pct_rise : 50.0;
+  input_threshold_pct_fall : 50.0;
+  output_threshold_pct_rise : 50.0;
+  output_threshold_pct_fall : 50.0;
+  slew_lower_threshold_pct_rise : 20.0;
+  slew_lower_threshold_pct_fall : 20.0;
+  slew_upper_threshold_pct_rise : 80.0;
+  slew_upper_threshold_pct_fall : 80.0;
+  slew_derate_from_library : 1.0;
+
+  lu_table_template (t2) {
+    variable_1 : input_net_transition;
+    variable_2 : total_output_net_capacitance;
+    index_1 ("1.0, 100.0");
+    index_2 ("1.0, 100.0");
+  }
+
+  cell (BUF) {
+    pin (A) { direction : input; capacitance : 2.0; }
+    pin (Y) {
+      direction : output;
+      function : "A";
+      timing () {
+        related_pin : "A";
+        timing_sense : positive_unate;
+        cell_rise (t2) { values ("20.0, 70.0", "30.0, 80.0"); }
+        cell_fall (t2) { values ("20.0, 70.0", "30.0, 80.0"); }
+        rise_transition (t2) { values ("10.0, 60.0", "20.0, 70.0"); }
+        fall_transition (t2) { values ("10.0, 60.0", "20.0, 70.0"); }
+        ocv_sigma_cell_rise (t2) {
+          sigma_type : early_and_late;
+          values ("5.0, 5.0", "5.0, 5.0");
+        }
+        ocv_sigma_cell_fall (t2) {
+          sigma_type : early_and_late;
+          values ("5.0, 5.0", "5.0, 5.0");
+        }
+        ocv_sigma_rise_transition (t2) {
+          sigma_type : early_and_late;
+          values ("2.0, 2.0", "2.0, 2.0");
+        }
+        ocv_sigma_fall_transition (t2) {
+          sigma_type : early_and_late;
+          values ("2.0, 2.0", "2.0, 2.0");
+        }
+      }
+    }
+  }
+}
+)";
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  sta_->setPocvMode(PocvMode::normal);
+  sta_->setPocvQuantile(3.0f);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  setPiElmoreModel(u1_y, u2_a, 10.0e-15, 500.0, 40.0e-15, 20.0e-12);
+
+  sta_->findDelays();
+  Edge *wire_edge = findWireEdge(u1_y, u2_a);
+  ASSERT_NE(wire_edge, nullptr);
+  const DcalcAPIndex ap = sta_->cmdScene()->dcalcAnalysisPtIndex(MinMax::max());
+  const ArcDelay wire_delay =
+      sta_->graph()->wireArcDelay(wire_edge, RiseFall::rise(), ap);
+
+  // Passive RC wire edge must have zero cell LVF sigma (0.0 ps).
+  constexpr double kTightFixedTol = 0.01e-12;
+  EXPECT_NEAR(wire_delay.stdDev(), 0.0, kTightFixedTol);
+}
+
 }  // namespace
 }  // namespace sta
