@@ -392,8 +392,8 @@ Path Type: max
    0.01    0.01   clock network delay (propagated)
    0.00    0.01 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
    1.10    1.11 ^ r3/Q (DFFHQx4_ASAP7_75t_R)
-   0.01    1.12 ^ out (out)
-           1.12   data arrival time
+   0.01    1.13 ^ out (out)
+           1.13   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock network delay (ideal)
@@ -402,9 +402,9 @@ Path Type: max
          499.00   data required time
 ---------------------------------------------------------
          499.00   data required time
-          -1.12   data arrival time
+          -1.13   data arrival time
 ---------------------------------------------------------
-         497.88   slack (MET)
+         497.87   slack (MET)
 
 
 Found 0 unannotated drivers.

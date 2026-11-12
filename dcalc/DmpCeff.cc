@@ -286,22 +286,49 @@ DmpAlg::findDriverDelaySlew()
   return {delay, slew};
 }
 
+// ---- OpenROAD fork: expand crossing bracket if below threshold (begin) ----
+template <typename EvalFn>
+static double
+findWaveformCrossing(EvalFn &&eval_fn,
+                     double vth,
+                     double t_lower,
+                     double t_upper,
+                     double x_tol,
+                     int max_iter,
+                     const char *error_msg)
+{
+  double span = t_upper - t_lower;
+  if (span <= 0.0)
+    span = 1e-12;
+  for (int i = 0; i < 32; ++i) {
+    if (eval_fn(t_upper).first >= vth)
+      break;
+    t_upper = t_lower + span * 2.0;
+    span = t_upper - t_lower;
+  }
+  FindRootFunc func = [&](double t, double &y, double &dy) {
+    auto [val, dval_dt] = eval_fn(t);
+    y = val - vth;
+    dy = dval_dt;
+  };
+  auto [t_vth, failed] = findRoot(func, t_lower, t_upper, x_tol, max_iter);
+  if (failed)
+    throw DmpError(error_msg);
+  return t_vth;
+}
+// ---- OpenROAD fork: expand crossing bracket if below threshold (end) ----
+
 // Find t such that vo(t)=v.
 double
 DmpAlg::findVoCrossing(double vth,
                        double t_lower,
                        double t_upper)
 {
-  FindRootFunc vo_func = [&](double t, double &y, double &dy) {
-    auto [vo, dvo_dt] = Vo(t);
-    y = vo - vth;
-    dy = dvo_dt;
-  };
-  auto [t_vth, failed] = findRoot(vo_func, t_lower, t_upper, vth_time_tol_,
-                                  find_root_max_iter_);
-  if (failed)
-    throw DmpError("find Vo crossing failed");
-  return t_vth;
+  // ---- OpenROAD fork: expand crossing bracket if below threshold (begin) ----
+  return findWaveformCrossing([this](double t) { return Vo(t); }, vth, t_lower,
+                              t_upper, vth_time_tol_, find_root_max_iter_,
+                              "find Vo crossing failed");
+  // ---- OpenROAD fork: expand crossing bracket if below threshold (end) ----
 }
 
 std::pair<double, double>
@@ -399,23 +426,28 @@ DmpAlg::findVlCrossing(double vth,
                        double t_lower,
                        double t_upper)
 {
-  FindRootFunc vl_func = [&](double t, double &y, double &dy) {
-    auto [vl, vl_dt] = Vl(t);
-    y = vl - vth;
-    dy = vl_dt;
-  };
-  auto [t_vth, failed] = findRoot(vl_func, t_lower, t_upper, vth_time_tol_,
-                                  find_root_max_iter_);
-  if (failed)
-    throw DmpError("find Vl crossing failed");
-  return t_vth;
+  // ---- OpenROAD fork: expand crossing bracket if below threshold (begin) ----
+  return findWaveformCrossing([this](double t) { return Vl(t); }, vth, t_lower,
+                              t_upper, vth_time_tol_, find_root_max_iter_,
+                              "find Vl crossing failed");
+  // ---- OpenROAD fork: expand crossing bracket if below threshold (end) ----
 }
 
 double
 DmpAlg::vlCrossingUpperBound()
 {
-  return voCrossingUpperBound() + elmore_ * 2.0;
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (begin) ----
+  return voCrossingUpperBound() + elmore_ * crossingUpperBoundScale();
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (end) ----
 }
+
+// ---- OpenROAD fork: scale crossing upper bound for high vh (begin) ----
+double
+DmpAlg::crossingUpperBoundScale() const
+{
+  return std::max(2.0, -std::log(1.0 - vh_) + 1.0);
+}
+// ---- OpenROAD fork: scale crossing upper bound for high vh (end) ----
 
 std::pair<double, double>
 DmpAlg::Vl(double t)
@@ -759,7 +791,9 @@ DmpPi::Vl0(double t)
 double
 DmpPi::voCrossingUpperBound()
 {
-  return t0_ + dt_ + (c1_ + c2_) * (rd_ + rpi_) * 2.0;
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (begin) ----
+  return t0_ + dt_ + (c1_ + c2_) * (rd_ + rpi_) * crossingUpperBoundScale();
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (end) ----
 }
 
 ////////////////////////////////////////////////////////////////
@@ -809,7 +843,9 @@ DmpOnePole::evalDmpEqns(Eigen::Vector3d &x,
 double
 DmpOnePole::voCrossingUpperBound()
 {
-  return t0_ + dt_ + ceff_ * rd_ * 2.0;
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (begin) ----
+  return t0_ + dt_ + ceff_ * rd_ * crossingUpperBoundScale();
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (end) ----
 }
 
 ////////////////////////////////////////////////////////////////
@@ -893,7 +929,9 @@ DmpZeroC2::Vl0(double t)
 double
 DmpZeroC2::voCrossingUpperBound()
 {
-  return t0_ + dt_ + c1_ * (rd_ + rpi_) * 2.0;
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (begin) ----
+  return t0_ + dt_ + c1_ * (rd_ + rpi_) * crossingUpperBoundScale();
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (end) ----
 }
 
 ////////////////////////////////////////////////////////////////

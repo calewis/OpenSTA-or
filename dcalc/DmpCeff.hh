@@ -122,6 +122,9 @@ protected:
   virtual std::pair<double, double> Vl0(double t) = 0;
   // Upper bound on time that vl crosses vh.
   double vlCrossingUpperBound();
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (begin) ----
+  double crossingUpperBoundScale() const;
+  // ---- OpenROAD fork: scale crossing upper bound for high vh (end) ----
 
   // Inputs to the delay calculator.
   const LibertyCell *drvr_cell_;

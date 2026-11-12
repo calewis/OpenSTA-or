@@ -2066,5 +2066,47 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify voCrossingUpperBound() / vlCrossingUpperBound() scale past 2.0 * tau
+// for high upper slew thresholds (vh >= 0.90 requires -ln(0.10) = 2.3026 tau)
+// and findWaveformCrossing() expands the upper bracket when needed.
+TEST_F(DmpAccuracyTest,
+       VoUpperBoundClipsNinetyPercentThreshold)
+{
+  const double rd_ohm = 50.0;
+  const double t0_s = 5.0e-12;
+  const double dt_s = 10.0e-12;
+  const double elmore_s = 500.0e-12;
+  const std::string lib_text =
+      makeCausalOnePoleLibText("test_vh90", "BUF", rd_ohm, t0_s, dt_s, 0.50, 0.10,
+                               0.90, 1.0, {1.0, 10.0, 50.0, 100.0, 200.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  setPiElmoreModel(u1_y, u2_a, 0.0, 50.0, 100.0e-15, elmore_s);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+
+  // Analytical 10%-90% load slew across tau = elmore = 500 ps (>> driver
+  // dt ~ 13.13 ps): 500 * ln(9) = 1098.61 ps; exact 2-pole DmpZeroC2 crossing
+  // wire_delay = 348.293067 ps.
+  const double exact_load_slew = elmore_s * std::log(9.0);
+  constexpr double exact_wire_delay = 348.293067e-12;
+  constexpr double kTightFixedTol_Slew = 0.10e-12;
+  constexpr double kWireTol = 1.5e-12;
+  EXPECT_NEAR(m.load_slew, exact_load_slew, kTightFixedTol_Slew);
+  EXPECT_NEAR(m.wire_delay, exact_wire_delay, kWireTol);
+}
+
 }  // namespace
 }  // namespace sta

@@ -369,15 +369,15 @@ Fanout     Cap    Slew   Delay    Time   Description
                   0.00    0.00    0.00   clock clk (rise edge)
                          12.11   12.11   clock network delay (propagated)
                  48.38    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-     1   13.98   22.89   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+     1   13.98   22.88   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
                                          r2q (net)
                  50.73   14.24   89.86 ^ u1/A (BUFx2_ASAP7_75t_R)
-     1   13.97   47.36   35.06  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
+     1   13.97   47.37   35.06  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
                                          u1z (net)
                  66.26   15.35  140.27 ^ u2/B (AND2x2_ASAP7_75t_R)
      1   14.02   56.47   45.68  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
                                          u2z (net)
-                 73.39   15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+                 73.41   15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
                                 201.72   data arrival time
 
                   0.00  500.00  500.00   clock clk (rise edge)
@@ -451,7 +451,7 @@ v      --------------------
 Table value = 34.55
 PVT scale factor = 1.00
 Slew = 34.55
-Driver waveform slew = 47.36
+Driver waveform slew = 47.37
 
 .............................................
 
@@ -477,7 +477,7 @@ v      --------------------
 Table value = 28.57
 PVT scale factor = 1.00
 Slew = 28.57
-Driver waveform slew = 40.66
+Driver waveform slew = 40.65
 
 .............................................
 
@@ -534,7 +534,7 @@ v      --------------------
 Table value = 32.26
 PVT scale factor = 1.00
 Slew = 32.26
-Driver waveform slew = 45.57
+Driver waveform slew = 45.58
 
 .............................................
 
@@ -591,7 +591,7 @@ v      --------------------
 Table value = 32.77
 PVT scale factor = 1.00
 Slew = 32.77
-Driver waveform slew = 45.94
+Driver waveform slew = 45.95
 
 .............................................
 
@@ -622,7 +622,7 @@ v      --------------------
 Table value = 17.83
 PVT scale factor = 1.00
 Slew = 17.83
-Driver waveform slew = 22.83
+Driver waveform slew = 22.82
 
 .............................................
 
@@ -679,7 +679,7 @@ v      --------------------
 Table value = 17.84
 PVT scale factor = 1.00
 Slew = 17.84
-Driver waveform slew = 22.89
+Driver waveform slew = 22.88
 
 .............................................
 
@@ -736,7 +736,7 @@ v      --------------------
 Table value = 17.74
 PVT scale factor = 1.00
 Slew = 17.74
-Driver waveform slew = 22.31
+Driver waveform slew = 22.36
 
 .............................................
 
@@ -762,7 +762,7 @@ v      --------------------
 Table value = 14.89
 PVT scale factor = 1.00
 Slew = 14.89
-Driver waveform slew = 18.76
+Driver waveform slew = 18.77
 
 .............................................
 
@@ -865,8 +865,8 @@ Path Type: max
   12.11   12.11   clock network delay (propagated)
    0.00   12.11 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
   63.46   75.57 ^ r3/Q (DFFHQx4_ASAP7_75t_R)
-  13.15   88.72 ^ out (out)
-          88.72   data arrival time
+  13.16   88.73 ^ out (out)
+          88.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock network delay (ideal)
@@ -875,9 +875,9 @@ Path Type: max
          499.00   data required time
 ---------------------------------------------------------
          499.00   data required time
-         -88.72   data arrival time
+         -88.73   data arrival time
 ---------------------------------------------------------
-         410.28   slack (MET)
+         410.27   slack (MET)
 
 
 Startpoint: in1 (input port clocked by clk)
