@@ -2066,5 +2066,47 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// DelayCalcBase.cc (thresholdAdjust()): multiplies load_slew
+// by ((load_vth - drvr_vth) / drvr_slew_delta) without multiplying by
+// drvr_slew_derate, even though load_slew is in table units where
+// measured_slew = table_slew * drvr_slew_derate.
+TEST_F(DmpAccuracyTest,
+       ThresholdAdjustMissingDrvrSlewDerate)
+{
+  const std::string drv_lib = makeLinearNldmLibText(
+      "lib_drv", "DRV", 50.0, 50.0, 30.0, 30.0, 70.0, 70.0, 0.5, 1.0, {1.0, 100.0},
+      {1.0, 100.0}, {20.0, 40.0}, {100.0, 100.0});
+  const std::string rcv_lib = makeLinearNldmLibText(
+      "lib_rcv", "RCV", 65.0, 35.0, 30.0, 30.0, 70.0, 70.0, 1.0, 1.0, {1.0, 100.0},
+      {1.0, 100.0}, {20.0, 40.0}, {20.0, 20.0});
+  ASSERT_NE(readLibertyText(drv_lib, "drv.lib"), nullptr);
+  ASSERT_NE(readLibertyText(rcv_lib, "rcv.lib"), nullptr);
+
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  DRV u1(.A(in1), .Y(n1));\n"
+      "  RCV u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  // Zero-resistance capacitive net isolates cross-threshold transition shift.
+  setPiElmoreModel(u1_y, u2_a, 1.0e-15, 0.0, 0.0, 0.0);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+
+  // Driver table_slew = 100 ps, drvr_slew_derate = 0.5 -> measured 30-70% = 50 ps.
+  // Shift from vth_drv=0.50 to vth_rcv=0.65: 50 ps * (0.15 / 0.40) = 18.75 ps.
+  const double expected_wire_shift =
+      100.0e-12 * 0.5 * ((0.65 - 0.50) / (0.70 - 0.30));
+  constexpr double kTightFixedTol = 0.05e-12;
+  EXPECT_NEAR(m.wire_delay, expected_wire_shift, kTightFixedTol);
+}
+
 }  // namespace
 }  // namespace sta

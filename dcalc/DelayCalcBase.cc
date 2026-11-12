@@ -118,8 +118,11 @@ DelayCalcBase::thresholdAdjust(const Pin *load_pin,
     float load_vth = load_library->inputThreshold(rf);
     float drvr_slew_delta = drvr_library->slewUpperThreshold(rf)
       - drvr_library->slewLowerThreshold(rf);
+    // ---- OpenROAD fork: drvr_slew_derate in thresholdAdjust (begin) ----
     float wire_delay_delta =
-      delayAsFloat(load_slew) * ((load_vth - drvr_vth) / drvr_slew_delta);
+      delayAsFloat(load_slew) * drvr_library->slewDerateFromLibrary()
+      * ((load_vth - drvr_vth) / drvr_slew_delta);
+    // ---- OpenROAD fork: drvr_slew_derate in thresholdAdjust (end) ----
     wire_delay += (rf == RiseFall::rise())
       ? wire_delay_delta
       : -wire_delay_delta;
