@@ -99,8 +99,8 @@ Path Type: max
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
   61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -110,9 +110,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Startpoint: in1 (input port clocked by clk)
@@ -155,8 +155,8 @@ Path Type: max
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
   61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -166,9 +166,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Startpoint: in1 (input port clocked by clk)
@@ -347,7 +347,7 @@ Path Type: max
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   34.88  110.50 ^ u1/Y (BUFx2_ASAP7_75t_R)
   32.94  143.44 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.75  159.19 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+  15.74  159.19 ^ r3/D (DFFHQx4_ASAP7_75t_R)
          159.19   data arrival time
 
  500.00  500.00   clock clk (rise edge)

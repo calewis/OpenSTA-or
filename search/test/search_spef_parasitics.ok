@@ -628,7 +628,7 @@ Fanout     Cap    Slew   Delay    Time   Description
 
 
 --- worst_slack and tns after SPEF ---
-worst_slack max: 7.858129480652087
+worst_slack max: 7.858130368830532
 worst_slack min: 1.057912121182179
 tns max: 0.0
 tns min: 0.0

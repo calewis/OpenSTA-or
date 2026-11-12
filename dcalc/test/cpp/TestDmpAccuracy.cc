@@ -2066,5 +2066,44 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// DmpCeff.cc (exp2): Static exp2(x) = (1 + x/4096)^4096 with a discontinuous
+// cliff exp2(x < -12) = 0 zeroes Jacobian derivatives inside DmpZeroC2,
+// triggering singular-Jacobian fallback and dropping 100% of wire slew
+// degradation (load_slew = 22.0 ps instead of RC-degraded load slew).
+TEST_F(DmpAccuracyTest,
+       DmpExp2CutoffSingularityWireSlew)
+{
+  const std::string lib_text = makeLinearNldmLibText(
+      "test_exp2", "BUF", 50.0, 50.0, 20.0, 20.0, 80.0, 80.0, 1.0, 2.0, {1.0, 100.0},
+      {0.0, 200.0}, {10.0, 110.0}, {1.0, 43.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  setPiElmoreModel(u1_y, u2_a, 0.0, 500.0, 100.0e-15, 50.0e-12);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+
+  // Step-clamped 1-pole RC load slew (Rd + Rpi) * C1 * ln(4) = 169.315 ps
+  // with true Rd = 0.5 / ln(2) = 721.35 Ohm (or ~117.36 ps standalone before
+  // the separate gateModelRd() -ln(1 - vth) fix), strictly exceeding the
+  // un-degraded 22.00 ps driver slew fallback.
+  const double rd_true = 0.5e3 / std::log(2.0);
+  const double expected_load_slew = (rd_true + 500.0) * 100.0e-15 * std::log(4.0);
+  constexpr double kLoadSlewTol = 55.0e-12;
+  EXPECT_GT(m.load_slew, 110.0e-12);
+  EXPECT_NEAR(m.load_slew, expected_load_slew, kLoadSlewTol);
+}
+
 }  // namespace
 }  // namespace sta

@@ -191,8 +191,8 @@ Path Type: max
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
   61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -202,9 +202,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Found 0 unannotated drivers.
@@ -234,11 +234,11 @@ Fanout     Cap    Slew   Delay    Time   Description
                  50.73   14.24   89.86 ^ u1/A (BUFx2_ASAP7_75t_R)
      1   13.97   47.36   35.06  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
                                          u1z (net)
-                 66.26   15.35  140.27 ^ u2/B (AND2x2_ASAP7_75t_R)
+                 66.27   15.35  140.27 ^ u2/B (AND2x2_ASAP7_75t_R)
      1   14.02   56.47   45.68  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
                                          u2z (net)
-                 73.39   15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-                                201.72   data arrival time
+                 73.40   15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+                                201.71   data arrival time
 
                   0.00  500.00  500.00   clock clk (rise edge)
                          11.92  511.92   clock network delay (propagated)
@@ -248,9 +248,9 @@ Fanout     Cap    Slew   Delay    Time   Description
                                 503.46   data required time
 -----------------------------------------------------------------------------
                                 503.46   data required time
-                               -201.72   data arrival time
+                               -201.71   data arrival time
 -----------------------------------------------------------------------------
-                                301.74   slack (MET)
+                                301.75   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -267,8 +267,8 @@ Path Type: max
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
   61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock source latency
@@ -279,9 +279,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Net r1q
@@ -439,54 +439,54 @@ Cell: BUFx2_ASAP7_75t_R
 Arc sense: positive_unate
 Arc type: combinational
 A ^ -> Y ^
-Pi model C2=6.700000 Rpi=2.420000 C1=7.265282, Ceff=10.495499
+Pi model C2=6.700000 Rpi=2.420000 C1=7.265282, Ceff=10.496371
 P = 1.000000 V = 0.770000 T = 0.000000
-------- input_net_transition = 50.730164
-|       total_output_net_capacitance = 10.495499
+------- input_net_transition = 50.734562
+|       total_output_net_capacitance = 10.496371
 |        5.760000     11.520000
 v      --------------------
 40.000000 | 27.290701     35.122200
 80.000000 | 32.304199     40.077702
-Table value = 35.061352
+Table value = 35.063080
 PVT scale factor = 1.000000
-Delay = 35.061352
+Delay = 35.063080
 
-------- input_net_transition = 50.730164
-|       total_output_net_capacitance = 10.495499
+------- input_net_transition = 50.734562
+|       total_output_net_capacitance = 10.496371
 |        5.760000     11.520000
 v      --------------------
 40.000000 | 20.696899     37.280399
 80.000000 | 21.402800     38.126900
-Table value = 34.551147
+Table value = 34.553753
 PVT scale factor = 1.000000
-Slew = 34.551147
-Driver waveform slew = 47.362926
+Slew = 34.553753
+Driver waveform slew = 47.362411
 
 .............................................
 
 A v -> Y v
-Pi model C2=6.700000 Rpi=2.420000 C1=7.265708, Ceff=10.090993
+Pi model C2=6.700000 Rpi=2.420000 C1=7.265708, Ceff=10.091905
 P = 1.000000 V = 0.770000 T = 0.000000
-------- input_net_transition = 48.754658
-|       total_output_net_capacitance = 10.090993
+------- input_net_transition = 48.758766
+|       total_output_net_capacitance = 10.091905
 |        5.760000     11.520000
 v      --------------------
 40.000000 | 29.181400     36.169701
 80.000000 | 36.093899     43.275700
-Table value = 35.980717
+Table value = 35.982559
 PVT scale factor = 1.000000
-Delay = 35.980717
+Delay = 35.982559
 
-------- input_net_transition = 48.754658
-|       total_output_net_capacitance = 10.090993
+------- input_net_transition = 48.758766
+|       total_output_net_capacitance = 10.091905
 |        5.760000     11.520000
 v      --------------------
 40.000000 | 18.150600     31.724199
 80.000000 | 19.359200     32.627899
-Table value = 28.571051
+Table value = 28.573288
 PVT scale factor = 1.000000
-Slew = 28.571051
-Driver waveform slew = 40.656837
+Slew = 28.573288
+Driver waveform slew = 40.656136
 
 .............................................
 
@@ -496,54 +496,54 @@ Cell: AND2x2_ASAP7_75t_R
 Arc sense: positive_unate
 Arc type: combinational
 A ^ -> Y ^
-Pi model C2=6.7000 Rpi=2.4200 C1=7.3212, Ceff=10.8977
+Pi model C2=6.7000 Rpi=2.4200 C1=7.3212, Ceff=10.8985
 P = 1.0000 V = 0.7000 T = 25.0000
-------- input_net_transition = 50.4065
-|       total_output_net_capacitance = 10.8977
+------- input_net_transition = 50.4109
+|       total_output_net_capacitance = 10.8985
 |        5.7600     11.5200
 v      --------------------
 40.0000 | 31.2805     40.4816
 80.0000 | 36.2962     45.4684
-Table value = 40.7857
+Table value = 40.7876
 PVT scale factor = 1.0000
-Delay = 40.7857
+Delay = 40.7876
 
-------- input_net_transition = 50.4065
-|       total_output_net_capacitance = 10.8977
+------- input_net_transition = 50.4109
+|       total_output_net_capacitance = 10.8985
 |        5.7600     11.5200
 v      --------------------
 40.0000 | 24.5231     43.6777
 80.0000 | 25.2874     44.4204
-Table value = 41.8021
+Table value = 41.8049
 PVT scale factor = 1.0000
-Slew = 41.8021
-Driver waveform slew = 55.9038
+Slew = 41.8049
+Driver waveform slew = 55.9033
 
 .............................................
 
 A v -> Y v
-Pi model C2=6.7000 Rpi=2.4200 C1=7.3192, Ceff=10.3510
+Pi model C2=6.7000 Rpi=2.4200 C1=7.3192, Ceff=10.3519
 P = 1.0000 V = 0.7000 T = 25.0000
-------- input_net_transition = 48.3599
-|       total_output_net_capacitance = 10.3510
+------- input_net_transition = 48.3640
+|       total_output_net_capacitance = 10.3519
 |        5.7600     11.5200
 v      --------------------
 40.0000 | 35.3497     43.0892
 80.0000 | 44.7307     52.6502
-Table value = 43.5091
+Table value = 43.5113
 PVT scale factor = 1.0000
-Delay = 43.5091
+Delay = 43.5113
 
-------- input_net_transition = 48.3599
-|       total_output_net_capacitance = 10.3510
+------- input_net_transition = 48.3640
+|       total_output_net_capacitance = 10.3519
 |        5.7600     11.5200
 v      --------------------
 40.0000 | 20.0873     35.0806
 80.0000 | 21.4481     36.0591
-Table value = 32.2585
+Table value = 32.2609
 PVT scale factor = 1.0000
-Slew = 32.2585
-Driver waveform slew = 45.5727
+Slew = 32.2609
+Driver waveform slew = 45.5719
 
 .............................................
 

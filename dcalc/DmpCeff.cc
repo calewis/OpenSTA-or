@@ -1201,30 +1201,12 @@ DmpCeffDelayCalc::copyState(const StaState *sta)
   dmp_zero_c2_.copyState(sta);
 }
 
-// This saves about 2.5% in overall run time on designs with SPEF.
-// https://codingforspeed.com/using-faster-exponential-approximation
+// ---- OpenROAD fork: replace exp2 cutoff approximation with std::exp (begin) ----
 static double
 exp2(double x)
 {
-  if (x < -12.0)
-    // exp(-12) = 6.1e-6
-    return 0.0;
-  else {
-    double y = 1.0 + x / 4096.0;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    y *= y;
-    return y;
-  }
+  return std::exp(x);
 }
+// ---- OpenROAD fork: replace exp2 cutoff approximation with std::exp (end) ----
 
 }  // namespace sta

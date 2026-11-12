@@ -12,7 +12,7 @@ Path Type: max
   17.51   94.05 ^ u1/A (BUFx2_ASAP7_75t_R)
   47.34  141.39 ^ u1/Y (BUFx2_ASAP7_75t_R)
   17.49  158.88 ^ u2/B (AND2x2_ASAP7_75t_R)
-  55.96  214.84 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  55.97  214.84 ^ u2/Y (AND2x2_ASAP7_75t_R)
   17.57  232.41 ^ r3/D (DFFHQx4_ASAP7_75t_R)
          232.41   data arrival time
 
