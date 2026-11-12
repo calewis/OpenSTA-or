@@ -240,9 +240,7 @@ DmpCeffTwoPoleDelayCalc::findParasitic(const Pin *drvr_pin,
   parasitic = parasitics->findPiPoleResidue(drvr_pin, rf, min_max);
   if (parasitic)
     return parasitic;
-  parasitic = parasitics->findPiElmore(drvr_pin, rf, min_max);
-  if (parasitic)
-    return parasitic;
+  // ---- OpenROAD fork: reduce network before PiElmore fallback (begin) ----
   Parasitic *parasitic_network =
     parasitics->findParasiticNetwork(drvr_pin);
   if (parasitic_network) {
@@ -251,6 +249,10 @@ DmpCeffTwoPoleDelayCalc::findParasitic(const Pin *drvr_pin,
     if (parasitic)
       return parasitic;
   }
+  parasitic = parasitics->findPiElmore(drvr_pin, rf, min_max);
+  if (parasitic)
+    return parasitic;
+  // ---- OpenROAD fork: reduce network before PiElmore fallback (end) ----
   Wireload *wireload = sdc->wireload(min_max);
   if (wireload) {
     float pin_cap, wire_cap, fanout;

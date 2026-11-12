@@ -634,25 +634,25 @@ Path Type: max
   Delay    Time   Description
 ---------------------------------------------------------
    0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (propagated)
-   0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  55.73   55.73 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  30.36   86.09 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  42.76  128.85 ^ u2/Y (AND2x2_ASAP7_75t_R)
-   0.00  128.85 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         128.85   data arrival time
+  12.11   12.11   clock network delay (propagated)
+   0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
+  63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  47.97  123.59 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  60.34  183.93 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  17.72  201.65 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.65   data arrival time
 
  500.00  500.00   clock clk (rise edge)
-   0.00  500.00   clock network delay (propagated)
-   0.00  500.00   clock reconvergence pessimism
-         500.00 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
- -10.53  489.47   library setup time
-         489.47   data required time
+  11.92  511.92   clock network delay (propagated)
+   0.00  511.92   clock reconvergence pessimism
+         511.92 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
+  -7.38  504.54   library setup time
+         504.54   data required time
 ---------------------------------------------------------
-         489.47   data required time
-        -128.85   data arrival time
+         504.54   data required time
+        -201.65   data arrival time
 ---------------------------------------------------------
-         360.62   slack (MET)
+         302.89   slack (MET)
 
 
 Startpoint: in1 (input port clocked by clk)
@@ -666,20 +666,20 @@ Path Type: min
    0.00    0.00   clock network delay (ideal)
    1.00    1.00 v input external delay
    0.00    1.00 v in1 (in)
-   0.00    1.00 v r1/D (DFFHQx4_ASAP7_75t_R)
-           1.00   data arrival time
+  12.16   13.16 v r1/D (DFFHQx4_ASAP7_75t_R)
+          13.16   data arrival time
 
    0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (propagated)
-   0.00    0.00   clock reconvergence pessimism
-           0.00 ^ r1/CLK (DFFHQx4_ASAP7_75t_R)
-   8.56    8.56   library hold time
-           8.56   data required time
+  12.11   12.11   clock network delay (propagated)
+   0.00   12.11   clock reconvergence pessimism
+          12.11 ^ r1/CLK (DFFHQx4_ASAP7_75t_R)
+  12.51   24.61   library hold time
+          24.61   data required time
 ---------------------------------------------------------
-           8.56   data required time
-          -1.00   data arrival time
+          24.61   data required time
+         -13.16   data arrival time
 ---------------------------------------------------------
-          -7.56   slack (VIOLATED)
+         -11.46   slack (VIOLATED)
 
 
 Library: asap7sc7p5t_INVBUF_RVT_FF_nldm_211120
@@ -715,17 +715,17 @@ Driver waveform slew = 46.91
 A v -> Y v
 Pi model C2=6.70 Rpi=2.42 C1=7.27, Ceff=10.01
 P = 1.00 V = 0.77 T = 0.00
-------- input_net_transition = 19.35
+------- input_net_transition = 19.24
 |       total_output_net_capacitance = 10.01
 |        5.76     11.52
 v      --------------------
 10.00 | 21.03     27.97
 20.00 | 24.17     31.07
-Table value = 29.05
+Table value = 29.02
 PVT scale factor = 1.00
-Delay = 29.05
+Delay = 29.02
 
-------- input_net_transition = 19.35
+------- input_net_transition = 19.24
 |       total_output_net_capacitance = 10.01
 |        5.76     11.52
 v      --------------------
@@ -772,17 +772,17 @@ Driver waveform slew = 55.45
 A v -> Y v
 Pi model C2=6.70 Rpi=2.42 C1=7.32, Ceff=10.29
 P = 1.00 V = 0.70 T = 25.00
-------- input_net_transition = 19.29
+------- input_net_transition = 19.18
 |       total_output_net_capacitance = 10.29
 |        5.76     11.52
 v      --------------------
 10.00 | 25.20     32.93
 20.00 | 28.93     36.68
-Table value = 34.76
+Table value = 34.72
 PVT scale factor = 1.00
-Delay = 34.76
+Delay = 34.72
 
-------- input_net_transition = 19.29
+------- input_net_transition = 19.18
 |       total_output_net_capacitance = 10.29
 |        5.76     11.52
 v      --------------------
@@ -803,22 +803,22 @@ Arc type: Reg Clk to Q
 CLK ^ -> Q ^
 Pi model C2=6.70 Rpi=2.42 C1=7.22, Ceff=9.22
 P = 1.00 V = 0.77 T = 0.00
-------- input_net_transition = 10.00
+------- input_net_transition = 48.38
 |       total_output_net_capacitance = 9.22
 |        5.76     11.52
 v      --------------------
-10.00 | 53.22     57.40
-20.00 | 55.96     60.13
-Table value = 55.73
+40.00 | 59.92     64.09
+80.00 | 65.10     69.26
+Table value = 63.51
 PVT scale factor = 1.00
-Delay = 55.73
+Delay = 63.51
 
-------- input_net_transition = 10.00
+------- input_net_transition = 48.38
 |       total_output_net_capacitance = 9.22
 |        5.76     11.52
 v      --------------------
-10.00 | 13.01     21.04
-20.00 | 13.01     21.04
+40.00 | 13.01     21.04
+80.00 | 13.01     21.05
 Table value = 17.83
 PVT scale factor = 1.00
 Slew = 17.83
@@ -829,26 +829,26 @@ Driver waveform slew = 22.83
 CLK ^ -> Q v
 Pi model C2=6.70 Rpi=2.42 C1=7.21, Ceff=8.89
 P = 1.00 V = 0.77 T = 0.00
-------- input_net_transition = 10.00
+------- input_net_transition = 48.38
 |       total_output_net_capacitance = 8.89
 |        5.76     11.52
 v      --------------------
-10.00 | 51.42     55.26
-20.00 | 54.03     57.87
-Table value = 53.50
+40.00 | 57.80     61.63
+80.00 | 62.64     66.47
+Table value = 60.90
 PVT scale factor = 1.00
-Delay = 53.50
+Delay = 60.90
 
-------- input_net_transition = 10.00
+------- input_net_transition = 48.38
 |       total_output_net_capacitance = 8.89
 |        5.76     11.52
 v      --------------------
-10.00 | 11.30     17.98
-20.00 | 11.30     17.98
-Table value = 14.93
+40.00 | 11.30     17.99
+80.00 | 11.31     17.98
+Table value = 14.94
 PVT scale factor = 1.00
-Slew = 14.93
-Driver waveform slew = 19.29
+Slew = 14.94
+Driver waveform slew = 19.18
 
 .............................................
 

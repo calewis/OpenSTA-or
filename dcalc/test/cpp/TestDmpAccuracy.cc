@@ -2066,5 +2066,54 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// Verify DmpCeffTwoPoleDelayCalc::findParasitic() reduces an existing
+// ParasiticNetwork before falling back to a PiElmore model cached by an
+// earlier dmp_ceff_elmore pass.
+TEST_F(DmpAccuracyTest,
+       TwoPoleAfterElmoreDoesNotReuseStalePiElmoreCache)
+{
+  const double in_slew = 10.0e-12;
+  const double tt = in_slew / 0.6;
+  const std::string lib_text =
+      makeIdealRampDriverLib("tp_stale", 20.0, 80.0, {1.0, 50.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1, out2);\n"
+      "  input in1; output out1, out2; wire n1;\n"
+      "  IDEAL_DRV u_drv(.A(in1), .Y(n1));\n"
+      "  IDEAL_DRV u_near(.A(n1), .Y(out1));\n"
+      "  IDEAL_DRV u_far(.A(n1), .Y(out2));\n"
+      "endmodule\n");
+  setInputTransition("in1", in_slew);
+
+  Pin *drv_a = findPin("u_drv/A");
+  Pin *drv_y = findPin("u_drv/Y");
+  Pin *near_a = findPin("u_near/A");
+  Pin *far_a = findPin("u_far/A");
+  buildRcLadderParasitic(sta_->network()->net(drv_y), {drv_y, near_a, far_a},
+                         {500.0, 500.0}, {0.0, 50.0e-15, 50.0e-15});
+
+  // 1. Run dmp_ceff_elmore first (populates ConcretePiElmore cache).
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+  sta_->findDelays();
+
+  // 2. Switch to dmp_ceff_two_pole in the same session and re-run findDelays.
+  sta_->setArcDelayCalc("dmp_ceff_two_pole");
+  sta_->findDelays();
+  const StageMetrics m_stale = measureStage(drv_a, drv_y, far_a);
+
+  const TwoPoleTransfer tf =
+      computeTwoStageLadder(500.0, 50.0e-15, 500.0, 50.0e-15, false);
+  const double exact_wire = solveTwoPoleRampCrossing(tf, tt, 0.50) - 0.5 * tt;
+  const double exact_slew = solveTwoPoleRampCrossing(tf, tt, 0.80)
+      - solveTwoPoleRampCrossing(tf, tt, 0.20);
+
+  // Exact 2-pole linear RC delay at u_far: 55.79 ps, slew 92.03 ps
+  // (within 0.25 ps across standalone 1-step solver and converged 2-pole solver).
+  constexpr double kTightTol = 0.25e-12;
+  EXPECT_NEAR(m_stale.wire_delay, exact_wire, kTightTol);
+  EXPECT_NEAR(m_stale.load_slew, exact_slew, kTightTol);
+}
+
 }  // namespace
 }  // namespace sta

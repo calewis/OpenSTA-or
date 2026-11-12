@@ -674,25 +674,25 @@ Path Type: max
   Delay    Time   Description
 ---------------------------------------------------------
    0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (propagated)
-   0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  55.73   55.73 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  30.36   86.09 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  42.76  128.85 ^ u2/Y (AND2x2_ASAP7_75t_R)
-   0.00  128.85 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         128.85   data arrival time
+  12.11   12.11   clock network delay (propagated)
+   0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
+  63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  47.97  123.59 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  60.34  183.93 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  17.72  201.65 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.65   data arrival time
 
  500.00  500.00   clock clk (rise edge)
-   0.00  500.00   clock network delay (propagated)
-   0.00  500.00   clock reconvergence pessimism
-         500.00 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
- -10.53  489.47   library setup time
-         489.47   data required time
+  11.92  511.92   clock network delay (propagated)
+   0.00  511.92   clock reconvergence pessimism
+         511.92 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
+  -7.38  504.54   library setup time
+         504.54   data required time
 ---------------------------------------------------------
-         489.47   data required time
-        -128.85   data arrival time
+         504.54   data required time
+        -201.65   data arrival time
 ---------------------------------------------------------
-         360.62   slack (MET)
+         302.89   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -996,25 +996,25 @@ Path Type: max
   Delay    Time   Description
 ---------------------------------------------------------
    0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (propagated)
-   0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  55.73   55.73 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  16.24   71.98 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  32.63  104.60 ^ u2/Y (AND2x2_ASAP7_75t_R)
-   0.00  104.60 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         104.60   data arrival time
+  12.11   12.11   clock network delay (propagated)
+   0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
+  63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  47.97  123.59 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  60.34  183.93 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  17.72  201.65 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.65   data arrival time
 
  500.00  500.00   clock clk (rise edge)
-   0.00  500.00   clock network delay (propagated)
-   0.00  500.00   clock reconvergence pessimism
-         500.00 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
- -10.47  489.53   library setup time
-         489.53   data required time
+  11.92  511.92   clock network delay (propagated)
+   0.00  511.92   clock reconvergence pessimism
+         511.92 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
+  -7.38  504.54   library setup time
+         504.54   data required time
 ---------------------------------------------------------
-         489.53   data required time
-        -104.60   data arrival time
+         504.54   data required time
+        -201.65   data arrival time
 ---------------------------------------------------------
-         384.92   slack (MET)
+         302.89   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -1028,21 +1028,21 @@ Path Type: max
    0.00    0.00   clock network delay (propagated)
    0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   59.07   59.07 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  16.56   75.63 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  37.49  113.12 ^ u2/Y (AND2x2_ASAP7_75t_R)
-   0.00  113.12 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         113.12   data arrival time
+  35.39   94.45 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  47.16  141.62 ^ u2/Y (AND2x2_ASAP7_75t_R)
+   0.00  141.62 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         141.62   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock network delay (propagated)
    0.00  500.00   clock reconvergence pessimism
          500.00 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
- -10.17  489.83   library setup time
-         489.83   data required time
+ -10.20  489.80   library setup time
+         489.80   data required time
 ---------------------------------------------------------
-         489.83   data required time
-        -113.12   data arrival time
+         489.80   data required time
+        -141.62   data arrival time
 ---------------------------------------------------------
-         376.70   slack (MET)
+         348.18   slack (MET)
 
 

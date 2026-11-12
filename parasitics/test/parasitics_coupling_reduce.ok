@@ -146,25 +146,25 @@ Path Type: max
   Delay    Time   Description
 ---------------------------------------------------------
    0.00    0.00   clock clk (rise edge)
-   0.00    0.00   clock network delay (propagated)
-   0.00    0.00 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  56.89   56.89 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  31.00   87.89 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  42.61  130.50 ^ u2/Y (AND2x2_ASAP7_75t_R)
-   0.00  130.50 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         130.50   data arrival time
+  11.30   11.30   clock network delay (propagated)
+   0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
+  64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  42.15  117.78 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  56.53  174.30 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  14.05  188.36 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.36   data arrival time
 
  500.00  500.00   clock clk (rise edge)
-   0.00  500.00   clock network delay (propagated)
-   0.00  500.00   clock reconvergence pessimism
-         500.00 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
- -10.19  489.81   library setup time
-         489.81   data required time
+  11.10  511.10   clock network delay (propagated)
+   0.00  511.10   clock reconvergence pessimism
+         511.10 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
+  -7.21  503.89   library setup time
+         503.89   data required time
 ---------------------------------------------------------
-         489.81   data required time
-        -130.50   data arrival time
+         503.89   data required time
+        -188.36   data arrival time
 ---------------------------------------------------------
-         359.31   slack (MET)
+         315.53   slack (MET)
 
 
 --- Test 3: lumped_cap with coupling ---
