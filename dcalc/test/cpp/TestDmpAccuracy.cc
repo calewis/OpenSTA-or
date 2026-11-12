@@ -2066,5 +2066,157 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// DmpCeff.cc (DmpAlg::dy, DmpPi::evalDmpEqns): Post-ramp dyddt sign flip,
+// Jacobian ceff_time vs dt mismatch, and missing chain-rule partials cause
+// the 3x3 Newton solver to diverge on curved NLDM tables driving resistive Pi
+// loads, falling back discontinuously to unshielded Ceff = C1 + C2 (125.0 ps).
+TEST_F(DmpAccuracyTest,
+       DmpPiJacobianDivergenceFallbackToTotalCap)
+{
+  const std::vector<double> caps_ff = {1.0, 5.0, 20.0, 100.0, 200.0};
+  const std::vector<double> delays_ps = {5.0, 8.0, 85.0, 125.0, 175.0};
+  const std::vector<double> slews_ps = {2.0, 4.0, 45.0, 65.0, 90.0};
+
+  const std::string lib_text =
+      makeLinearNldmLibText("test_jac3x3", "BUF", 50.0, 50.0, 20.0, 20.0, 80.0, 80.0,
+                            1.0, 2.0, {1.0, 100.0}, caps_ff, delays_ps, slews_ps);
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 1.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  setPiElmoreModel(u1_y, u2_a, 5.0e-15, 2000.0, 95.0e-15, 190.0e-12);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+
+  // Compute exact 1996 DMP equilibrium using true Rd = slope / -ln(1 - vth):
+  // slope above 20 fF is (175 - 85) / 180 = 0.5 ps/fF -> Rd = 0.72135 kOhm.
+  std::vector<double> caps_si(caps_ff.size());
+  std::vector<double> slews_si(slews_ps.size());
+  for (size_t i = 0; i < caps_ff.size(); ++i) {
+    caps_si[i] = caps_ff[i] * 1e-15;
+    slews_si[i] = slews_ps[i] * 1e-12;
+  }
+  const double true_rd = 0.5e3 / (-std::log(0.5));
+  const double ceff_exact = solveExactDmpCeff(
+      true_rd, 2000.0, 5.0e-15, 95.0e-15, 0.50, 0.20, 0.80, 1.0, caps_si, slews_si);
+  const double exact_gate_delay =
+      8.0e-12 + (77.0e-12 / 15.0e-15) * (ceff_exact - 5.0e-15);
+
+  // Exact 1996 DMP fixed point (with true Rd): ~19.85 ps (Ceff ~ 7.31 fF).
+  // Standalone PR 08 without the separate gateModelRd() -ln(1 - vth) fix uses
+  // legacy Rd and converges at ~75.64 ps, whereas Jacobian divergence falls
+  // back to C1 + C2 = 100 fF (125.00 ps).
+  constexpr double kConvergedNoFallbackTol = 58.0e-12;
+  EXPECT_LT(m.gate_delay, 80.0e-12);
+  EXPECT_NEAR(m.gate_delay, exact_gate_delay, kConvergedNoFallbackTol);
+}
+
+// DmpCeff.cc (DmpPi::evalDmpEqns / ipiIceff): Setting ceff_time = min(slew/(vh
+// - vl), 1.4*dt) > dt and evaluating the single-ramp formula in ipiIceff
+// without subtracting the post-ramp saturation term effectively ramps the
+// driver past VDD and distorts Ceff and gate_delay.
+TEST_F(DmpAccuracyTest,
+       DmpPiUnclampedCeffTimeOvershoot)
+{
+  const double rd_ohm = 500.0;
+  const double t0_s = 5.0e-12;
+  const double dt_s = 20.0e-12;
+  const double c2 = 10.0e-15;
+  const double rpi = 500.0;
+  const double c1 = 90.0e-15;
+  const std::string lib_text = makeCausalOnePoleLibText(
+      "test_ceff_time", "BUF", rd_ohm, t0_s, dt_s, 0.50, 0.20, 0.80, 1.0,
+      {1.0, 10.0, 25.0, 50.0, 100.0, 200.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  setPiElmoreModel(u1_y, u2_a, c2, rpi, c1, rpi * c1);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+
+  const TwoPoleTransfer tf_drv = computeTwoStageLadder(rd_ohm, c2, rpi, c1, true);
+  const double expected_gate_delay =
+      t0_s + solveTwoPoleRampCrossing(tf_drv, dt_s, 0.50);
+  const double expected_drvr_slew = solveTwoPoleRampCrossing(tf_drv, dt_s, 0.80)
+      - solveTwoPoleRampCrossing(tf_drv, dt_s, 0.20);
+
+  // Exact 2-pole MNA ODE: gate_delay = 26.39 ps, drvr_slew = 89.75 ps.
+  // Clamping ceff_time = dt keeps gate_delay within 2 ps; standalone PR 08
+  // without the separate gateModelRd() -ln(1 - vth) fix shifts drvr_slew to
+  // ~43.38 ps (vs. 89.75 ps once gateModelRd() is fixed).
+  constexpr double kTightFixedTol_Gd = 2.0e-12;
+  constexpr double kDrvrSlewTol = 47.0e-12;
+  EXPECT_NEAR(m.gate_delay, expected_gate_delay, kTightFixedTol_Gd);
+  EXPECT_NEAR(m.drvr_slew, expected_drvr_slew, kDrvrSlewTol);
+}
+
+// DmpCeff.cc (DmpPi::init): Computing p2_ = (b - sqrt(b*b - 4*a)) / (2*a)
+// instead of Vieta's formula p2_ = 2 / (b + sqrt_) suffers catastrophic
+// cancellation when Rpi >> Rd and forces unshielded fallback Ceff = C1 + C2
+// (156.26 ps vs 26.31 ps exact).
+TEST_F(DmpAccuracyTest,
+       DmpPiHighRpiQuadraticCancellationShielding)
+{
+  const double rd_ohm = 2000.0;
+  const double t0_s = 5.0e-12;
+  const double dt_s = 25.0e-12;
+  const double c2 = 5.0e-15;
+  const double c1 = 95.0e-15;
+  const std::string lib_text =
+      makeCausalOnePoleLibText("test_p2_cancel", "BUF", rd_ohm, t0_s, dt_s, 0.50,
+                               0.20, 0.80, 2.0, {1.0, 5.0, 20.0, 100.0, 200.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+  // Rpi = 1 EOhm completely shields C1 = 95 fF behind Rpi -> Ceff = C2 = 5 fF.
+  // At 1 EOhm, 4*a/b^2 ~ 4e-16 rounds sqrt(b*b - 4*a) to b in IEEE-754 f64.
+  setPiElmoreModel(u1_y, u2_a, c2, 1.0e18, c1, 0.0);
+
+  sta_->findDelays();
+  const StageMetrics m = measureStage(u1_a, u1_y, u2_a);
+
+  const double exact_gate_delay =
+      t0_s + solveSinglePoleRampCrossing(rd_ohm * c2, dt_s, 0.50);
+  const double exact_drvr_slew = solveSinglePoleRampCrossing(rd_ohm * c2, dt_s, 0.80)
+      - solveSinglePoleRampCrossing(rd_ohm * c2, dt_s, 0.20);
+
+  // Exact open-circuit limit (Rpi -> inf => Ceff = C2 = 5 fF): 26.31 ps delay,
+  // 19.09 ps slew (< 0.5 ps error vs. 156.26 / 277.26 ps unshielded fallback).
+  constexpr double kTightFixedTol = 0.5e-12;
+  EXPECT_NEAR(m.gate_delay, exact_gate_delay, kTightFixedTol);
+  EXPECT_NEAR(m.drvr_slew, exact_drvr_slew, kTightFixedTol);
+}
+
 }  // namespace
 }  // namespace sta

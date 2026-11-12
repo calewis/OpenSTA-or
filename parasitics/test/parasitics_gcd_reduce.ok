@@ -24,10 +24,10 @@ Path Type: max
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.36    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.77 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.77 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.77   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -37,9 +37,9 @@ Path Type: max
            4.84   data required time
 ---------------------------------------------------------
            4.84   data required time
-          -4.78   data arrival time
+          -4.77   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+           0.07   slack (MET)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -53,19 +53,19 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
    0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
    0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -106,7 +106,7 @@ Path Type: max
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -283,11 +283,11 @@ Path Type: max
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.39    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
    0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.16    2.61 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.95 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.12 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.55 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.72    4.27 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
    0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.75 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.75 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
@@ -496,10 +496,10 @@ Path Type: max
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.36    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.77 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.77 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.77   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -509,9 +509,9 @@ Path Type: max
            4.84   data required time
 ---------------------------------------------------------
            4.84   data required time
-          -4.78   data arrival time
+          -4.77   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+           0.07   slack (MET)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -525,19 +525,19 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
    0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
    0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -579,10 +579,10 @@ Path Type: max
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.36    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.77 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.77 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.77   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -592,9 +592,9 @@ Path Type: max
            4.84   data required time
 ---------------------------------------------------------
            4.84   data required time
-          -4.78   data arrival time
+          -4.77   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+           0.07   slack (MET)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -608,19 +608,19 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
    0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
    0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -998,9 +998,9 @@ Delay = 0.19
 v      --------------------
 0.12 | 0.10     0.23
 0.28 | 0.10     0.23
-Table value = 0.12
+Table value = 0.11
 PVT scale factor = 1.00
-Slew = 0.12
+Slew = 0.11
 Driver waveform slew = 0.11
 
 .............................................
@@ -1110,9 +1110,9 @@ Delay = 0.19
 v      --------------------
 0.12 | 0.10     0.23
 0.28 | 0.10     0.23
-Table value = 0.12
+Table value = 0.11
 PVT scale factor = 1.00
-Slew = 0.12
+Slew = 0.11
 Driver waveform slew = 0.11
 
 .............................................
@@ -1867,7 +1867,7 @@ v      --------------------
 Table value = 0.29
 PVT scale factor = 1.00
 Slew = 0.29
-Driver waveform slew = 0.29
+Driver waveform slew = 0.28
 
 .............................................
 
@@ -1979,7 +1979,7 @@ v      --------------------
 Table value = 0.29
 PVT scale factor = 1.00
 Slew = 0.29
-Driver waveform slew = 0.29
+Driver waveform slew = 0.28
 
 .............................................
 
@@ -2102,7 +2102,7 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.22
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.02
 |        0.01     0.04
 v      --------------------
@@ -2112,7 +2112,7 @@ Table value = 0.15
 PVT scale factor = 1.00
 Delay = 0.15
 
-------- input_net_transition = 0.22
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.02
 |        0.01     0.04
 v      --------------------
@@ -2158,7 +2158,7 @@ Arc type: combinational
 A ^ -> Y v
 Pi model C2=0.00 Rpi=0.09 C1=0.02, Ceff=0.02
 P = 1.00 V = 1.80 T = 25.00
-------- input_net_transition = 0.22
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.02
 |        0.01     0.04
 v      --------------------
@@ -2168,7 +2168,7 @@ Table value = 0.15
 PVT scale factor = 1.00
 Delay = 0.15
 
-------- input_net_transition = 0.22
+------- input_net_transition = 0.21
 |       total_output_net_capacitance = 0.02
 |        0.01     0.04
 v      --------------------
@@ -3745,10 +3745,10 @@ Path Type: max
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.36    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.77 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.77 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.77   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -3758,9 +3758,9 @@ Path Type: max
            4.84   data required time
 ---------------------------------------------------------
            4.84   data required time
-          -4.78   data arrival time
+          -4.77   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+           0.07   slack (MET)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -3774,19 +3774,19 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
    0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
    0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -3864,11 +3864,11 @@ Path Type: max
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.39    2.21 v _219_/X (sky130_fd_sc_hd__maj3_2)
    0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
-   0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+   0.16    2.61 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.95 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.12 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.55 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.72    4.27 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
    0.36    4.64 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.75 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.75 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
@@ -3911,10 +3911,10 @@ Path Type: max
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.36    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.77 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.77 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.77   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -3924,9 +3924,9 @@ Path Type: max
            4.84   data required time
 ---------------------------------------------------------
            4.84   data required time
-          -4.78   data arrival time
+          -4.77   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+           0.07   slack (MET)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -3940,19 +3940,19 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
    0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
    0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time
@@ -3983,7 +3983,7 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _411_/CLK (sky130_fd_sc_hd__dfxtp_4)
    0.74    0.74 ^ _411_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.15    0.89 v _284_/Y (sky130_fd_sc_hd__nor2_8)
+   0.15    0.88 v _284_/Y (sky130_fd_sc_hd__nor2_8)
    0.24    1.12 v _285_/X (sky130_fd_sc_hd__and2_1)
    0.00    1.12 v resp_val (out)
            1.12   data arrival time
@@ -4013,11 +4013,11 @@ Path Type: max
    0.00    0.00   clock clk (rise edge)
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _411_/CLK (sky130_fd_sc_hd__dfxtp_4)
-   0.52    0.52 v _411_/Q (sky130_fd_sc_hd__dfxtp_4)
-   0.32    0.84 ^ _284_/Y (sky130_fd_sc_hd__nor2_8)
-   0.50    1.34 ^ _285_/X (sky130_fd_sc_hd__and2_1)
-   0.00    1.34 ^ resp_val (out)
-           1.34   data arrival time
+   0.51    0.51 v _411_/Q (sky130_fd_sc_hd__dfxtp_4)
+   0.32    0.83 ^ _284_/Y (sky130_fd_sc_hd__nor2_8)
+   0.50    1.33 ^ _285_/X (sky130_fd_sc_hd__and2_1)
+   0.00    1.33 ^ resp_val (out)
+           1.33   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -4026,9 +4026,9 @@ Path Type: max
            4.00   data required time
 ---------------------------------------------------------
            4.00   data required time
-          -1.34   data arrival time
+          -1.33   data arrival time
 ---------------------------------------------------------
-           2.66   slack (MET)
+           2.67   slack (MET)
 
 
 Warning 502: parasitics_gcd_reduce.tcl line 1, report_checks -endpoint_count is deprecated. Use -endpoint_path_count instead.
@@ -4058,10 +4058,10 @@ Path Type: max
    0.17    3.14 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.58 v _292_/X (sky130_fd_sc_hd__o311a_2)
    0.72    4.30 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
-   0.11    4.78 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.00    4.78 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-           4.78   data arrival time
+   0.36    4.66 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.11    4.77 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.00    4.77 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+           4.77   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
@@ -4071,9 +4071,9 @@ Path Type: max
            4.84   data required time
 ---------------------------------------------------------
            4.84   data required time
-          -4.78   data arrival time
+          -4.77   data arrival time
 ---------------------------------------------------------
-           0.06   slack (MET)
+           0.07   slack (MET)
 
 
 Startpoint: _430_ (rising edge-triggered flip-flop clocked by clk)
@@ -4087,19 +4087,19 @@ Path Type: max
    0.00    0.00   clock network delay (ideal)
    0.00    0.00 ^ _430_/CLK (sky130_fd_sc_hd__dfxtp_2)
    0.38    0.38 ^ _430_/Q (sky130_fd_sc_hd__dfxtp_2)
-   0.06    0.44 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
+   0.06    0.43 v _214_/Y (sky130_fd_sc_hd__nor2b_4)
    0.32    0.76 v _215_/X (sky130_fd_sc_hd__maj3_2)
    0.32    1.08 v _216_/X (sky130_fd_sc_hd__maj3_2)
    0.36    1.44 v _217_/X (sky130_fd_sc_hd__maj3_2)
    0.38    1.82 v _218_/X (sky130_fd_sc_hd__maj3_2)
    0.40    2.22 v _219_/X (sky130_fd_sc_hd__maj3_2)
-   0.25    2.47 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+   0.25    2.46 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
    0.16    2.62 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
    0.34    2.96 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
    0.17    3.13 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
    0.43    3.56 v _292_/X (sky130_fd_sc_hd__o311a_2)
-   0.72    4.29 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
-   0.37    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
+   0.72    4.28 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+   0.36    4.65 ^ split1/X (sky130_fd_sc_hd__buf_4)
    0.11    4.76 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
    0.00    4.76 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
            4.76   data arrival time

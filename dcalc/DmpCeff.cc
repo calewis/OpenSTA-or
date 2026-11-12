@@ -225,7 +225,10 @@ DmpAlg::dy(double t,
     return {dydt0, dyddt, dydcl};
   }
   double dydt0 = -(y0dt(t1, cl) - y0dt(t1 - dt, cl)) / dt;
-  double dyddt = -(y0(t1, cl) + y0(t1 - dt, cl)) / (dt * dt) + y0dt(t1 - dt, cl) / dt;
+  // ---- OpenROAD fork: fix post-ramp dy/ddt sign (begin) ----
+  double dyddt =
+      -(y0(t1, cl) - y0(t1 - dt, cl)) / (dt * dt) + y0dt(t1 - dt, cl) / dt;
+  // ---- OpenROAD fork: fix post-ramp dy/ddt sign (end) ----
   double dydcl = (y0dcl(t1, cl) - y0dcl(t1 - dt, cl)) / dt;
   return {dydt0, dyddt, dydcl};
 }
@@ -566,20 +569,43 @@ DmpPi::init(const LibertyLibrary *drvr_library,
   k0_ = 1.0 / (rd_ * c2_);
   double a = rpi_ * rd_ * c1_ * c2_;
   double b = rd_ * (c1_ + c2_) + rpi_ * c1_;
-  double sqrt_ = std::sqrt(b * b - 4 * a);
-  p1_ = (b + sqrt_) / (2 * a);
-  p2_ = (b - sqrt_) / (2 * a);
+  // ---- OpenROAD fork: cancellation-free DmpPi poles and residues (begin) ----
+  double sqrt_ =
+      std::hypot(rd_ * (c1_ - c2_) + rpi_ * c1_, 2.0 * rd_ * std::sqrt(c1_ * c2_));
+  p1_ = (b + sqrt_) / (2.0 * a);
+  p2_ = 2.0 / (b + sqrt_);
 
-  double p1p2 = (p1_ * p2_);
-  k2_ = z1_ / p1p2;
-  k1_ = (1.0 - k2_ * (p1_ + p2_)) / p1p2;
-  k4_ = (k1_ * p1_ + k2_) / (p2_ - p1_);
-  k3_ = -k1_ - k4_;
+  double p1_m_p2 = sqrt_ / a;
+  k2_ = rd_ * c2_;
+  k1_ = -rd_ * rd_ * c2_ * (c1_ + c2_);
+  double dp1_p2_prod = 1.0 / (rpi_ * rpi_ * c1_ * c2_);
+  double dp1, dp2;
+  if (z1_ - p2_ > p1_ - z1_) {
+    dp2 = z1_ - p2_;
+    dp1 = dp1_p2_prod / dp2;
+  }
+  else {
+    dp1 = p1_ - z1_;
+    dp2 = dp1_p2_prod / dp1;
+  }
+  k3_ = dp1 / (p1_ * p1_ * p1_m_p2);
+  k4_ = dp2 / (p2_ * p2_ * p1_m_p2);
 
   double z_ = (c1_ + c2_) / (rpi_ * c1_ * c2_);
-  A_ = z_ / p1p2;
-  B_ = (z_ - p1_) / (p1_ * (p1_ - p2_));
-  D_ = (z_ - p2_) / (p2_ * (p2_ - p1_));
+  A_ = rd_ * (c1_ + c2_);
+  double dz_prod = 1.0 / (rpi_ * rd_ * c2_ * c2_);
+  double dz1, dz2;
+  if (z_ - p2_ > p1_ - z_) {
+    dz2 = z_ - p2_;
+    dz1 = dz_prod / dz2;
+  }
+  else {
+    dz1 = p1_ - z_;
+    dz2 = dz_prod / dz1;
+  }
+  B_ = -dz1 / (p1_ * p1_m_p2);
+  D_ = -dz2 / (p2_ * p1_m_p2);
+  // ---- OpenROAD fork: cancellation-free DmpPi poles and residues (end) ----
 }
 
 std::pair<double, double>
@@ -625,6 +651,42 @@ DmpPi::findDriverParamsPi()
   }
 }
 
+// ---- OpenROAD fork: small-x stable ramp-current helpers (begin) ----
+// t - (1 - exp(-p * t)) / p, evaluated without subtraction cancellation
+// when p * t is small.
+static double
+phi(double p,
+    double t)
+{
+  double x = p * t;
+  if (x <= 1e-2) {
+    return t * x
+        * (0.5
+           - x
+               * (1.0 / 6.0
+                  - x
+                      * (1.0 / 24.0
+                         - x * (1.0 / 120.0 - x * (1.0 / 720.0 - x / 5040.0)))));
+  }
+  return t + std::expm1(-x) / p;
+}
+
+// -t * (1 + exp(-p * t)) + 2 * (1 - exp(-p * t)) / p = t^3 * d/dt(phi(p, t) / t^2),
+// evaluated without subtraction cancellation when p * t is small.
+static double
+psi(double p,
+    double t)
+{
+  double x = p * t;
+  if (x <= 1e-2) {
+    return t * x * x
+        * (-1.0 / 6.0
+           + x * (1.0 / 12.0 - x * (1.0 / 40.0 - x * (1.0 / 180.0 - x / 1008.0))));
+  }
+  return -t * (1.0 + std::exp(-x)) - 2.0 * std::expm1(-x) / p;
+}
+// ---- OpenROAD fork: small-x stable ramp-current helpers (end) ----
+
 // Given x_ as a vector of input parameters, fill fvec_ with the
 // equations evaluated at x_ and fjac_ with the jacobian evaluated at x_.
 void
@@ -637,9 +699,11 @@ DmpPi::evalDmpEqns(Eigen::Vector3d &x,
   const double ceff = x[DmpParam::ceff];
 
   // Validate bounds to prevent mathematical domain errors.
-  if (ceff < 0.0) {
-    throw DmpError("eqn eval failed: ceff < 0");
+  // ---- OpenROAD fork: reject zero ceff in DmpPi (begin) ----
+  if (ceff <= 0.0) {
+    throw DmpError("eqn eval failed: ceff <= 0");
   }
+  // ---- OpenROAD fork: reject zero ceff in DmpPi (end) ----
   if (ceff > (c1_ + c2_)) {
     throw DmpError("eqn eval failed: ceff > c2 + c1");
   }
@@ -648,18 +712,13 @@ DmpPi::evalDmpEqns(Eigen::Vector3d &x,
   }
 
   auto [t_vth, t_vl, slew] = gateDelays(ceff);
-  if (slew == 0.0) {
-    throw DmpError("eqn eval failed: slew = 0");
+  // ---- OpenROAD fork: clamp ceff_time to ramp dt (begin) ----
+  if (slew <= 0.0) {
+    throw DmpError("eqn eval failed: slew <= 0");
   }
 
-  // ceff_time is bounded by 1.4 * dt.
-  const double ceff_time = std::min(slew / (vh_ - vl_), 1.4 * dt);
-
-  // Pre-calculate exponential terms to avoid redundant calls to
-  // transcendental functions.
-  const double exp_p1_dt = exp2(-p1_ * dt);
-  const double exp_p2_dt = exp2(-p2_ * dt);
-  const double exp_dt_rd_ceff = exp2(-dt / (rd_ * ceff));
+  const double ceff_time = dt;
+  // ---- OpenROAD fork: clamp ceff_time to ramp dt (end) ----
 
   // Evaluate function values (residuals).
   const double y50 = y(t_vth, t0, dt, ceff).first;
@@ -669,39 +728,39 @@ DmpPi::evalDmpEqns(Eigen::Vector3d &x,
   fvec[DmpFunc::y50] = y50 - vth_;
   fvec[DmpFunc::y20] = y20 - vl_;
 
-  // Pre-calculate common sub-expressions for the Jacobian derivatives.
-  const double b_div_p1 = B_ / p1_;
-  const double d_div_p2 = D_ / p2_;
-  const double rd_ceff = rd_ * ceff;
+  // ---- OpenROAD fork: stable DmpPi Jacobian and chain-rule partials (begin) ----
+  const double p_eff = 1.0 / (rd_ * ceff);
 
   // Row 1 (Ipi derivatives).
   fjac(DmpFunc::ipi, DmpParam::t0) = 0.0;
-
-  // Derivative w.r.t dt (broken down into physical terms).
-  const double term_a = -A_ * dt;
-  const double term_b =
-      B_ * dt * exp_p1_dt - 2.0 * b_div_p1 * (1.0 - exp_p1_dt);
-  const double term_d =
-      D_ * dt * exp_p2_dt - 2.0 * d_div_p2 * (1.0 - exp_p2_dt);
-  const double term_rd = rd_ceff
-      * (dt + dt * exp_dt_rd_ceff - 2.0 * rd_ceff * (1.0 - exp_dt_rd_ceff));
-  
   fjac(DmpFunc::ipi, DmpParam::dt) =
-      (term_a + term_b + term_d + term_rd) / (rd_ * dt * dt * dt);
+      (-B_ * psi(p1_, dt) - D_ * psi(p2_, dt)) / (rd_ * dt * dt * dt)
+      - ceff * psi(p_eff, dt) / (dt * dt * dt);
+  fjac(DmpFunc::ipi, DmpParam::ceff) = psi(p_eff, dt) / (dt * dt);
 
-  // Derivative w.r.t ceff (reusing exp_dt_rd_ceff).
-  const double two_rd_ceff = 2.0 * rd_ceff;
-  fjac(DmpFunc::ipi, DmpParam::ceff) =
-      (two_rd_ceff - dt - (two_rd_ceff + dt) * exp_dt_rd_ceff) / (dt * dt);
+  // Rows 2 & 3 (y20 and y50 derivatives), including chain-rule contributions
+  // through t_vl(ceff) and t_vth(ceff) where dy/dt = -dy/dt0.
+  const double dceff = std::max(1e-18, 1e-3 * ceff);
+  const double c_lo = std::max(0.5 * ceff, ceff - dceff);
+  const double c_hi = ceff + dceff;
+  const double denom_c = c_hi - c_lo;
+  auto [t_vth_lo, t_vl_lo, ignore_lo] = gateDelays(c_lo);
+  auto [t_vth_hi, t_vl_hi, ignore_hi] = gateDelays(c_hi);
+  const double dt_vth_dceff = (t_vth_hi - t_vth_lo) / denom_c;
+  const double dt_vl_dceff = (t_vl_hi - t_vl_lo) / denom_c;
 
-  // Rows 2 & 3 (y20 and y50 derivatives).
   std::tie(fjac(DmpFunc::y20, DmpParam::t0),
            fjac(DmpFunc::y20, DmpParam::dt),
            fjac(DmpFunc::y20, DmpParam::ceff)) = dy(t_vl, t0, dt, ceff);
+  fjac(DmpFunc::y20, DmpParam::ceff) -=
+      fjac(DmpFunc::y20, DmpParam::t0) * dt_vl_dceff;
 
   std::tie(fjac(DmpFunc::y50, DmpParam::t0),
            fjac(DmpFunc::y50, DmpParam::dt),
            fjac(DmpFunc::y50, DmpParam::ceff)) = dy(t_vth, t0, dt, ceff);
+  fjac(DmpFunc::y50, DmpParam::ceff) -=
+      fjac(DmpFunc::y50, DmpParam::t0) * dt_vth_dceff;
+  // ---- OpenROAD fork: stable DmpPi Jacobian and chain-rule partials (end) ----
 
   if (debug_->check("dmp_ceff", 4)) {
     showX(x);
@@ -718,15 +777,11 @@ DmpPi::ipiIceff(double,
                 double ceff_time,
                 double ceff)
 {
-  double exp_p1_dt = exp2(-p1_ * ceff_time);
-  double exp_p2_dt = exp2(-p2_ * ceff_time);
-  double exp_dt_rd_ceff = exp2(-ceff_time / (rd_ * ceff));
-  double ipi = (A_ * ceff_time + (B_ / p1_) * (1.0 - exp_p1_dt)
-                + (D_ / p2_) * (1.0 - exp_p2_dt))
+  // ---- OpenROAD fork: small-x stable Pi/Ceff current balance (begin) ----
+  double ipi = (-B_ * phi(p1_, ceff_time) - D_ * phi(p2_, ceff_time))
       / (rd_ * ceff_time * dt);
-  double iceff =
-      (rd_ * ceff * ceff_time - (rd_ * ceff) * (rd_ * ceff) * (1.0 - exp_dt_rd_ceff))
-      / (rd_ * ceff_time * dt);
+  double iceff = ceff * phi(1.0 / (rd_ * ceff), ceff_time) / (ceff_time * dt);
+  // ---- OpenROAD fork: small-x stable Pi/Ceff current balance (end) ----
   return ipi - iceff;
 }
 
@@ -916,14 +971,48 @@ DmpAlg::newtonRaphson(Eigen::Vector3d &x)
     // Note: 'auto' on Eigen expressions captures the expression template
     // and doesn't form a temporary vector/matrix, avoiding extra
     // allocations.
+    // ---- OpenROAD fork: shift-safe scaling and damped Newton steps (begin) ----
+    Eigen::Vector3d x_scale = x.cwiseAbs();
+    double ceff_cur = (nr_order_ == 3) ? x[DmpParam::ceff] : ceff_;
+    auto [t_vth_cur, t_vl_cur, slew_cur] = gateDelays(ceff_cur);
+    (void)t_vth_cur;
+    (void)slew_cur;
+    x_scale[DmpParam::t0] = std::max(
+        {1e-10 * x_scale[DmpParam::t0], std::abs(x[DmpParam::dt]), rd_ * ceff_cur});
     auto p_abs = p.head(nr_order_).array().abs();
-    auto x_tol = x.head(nr_order_).array().abs() * driver_param_tol_;
+    auto x_tol = x_scale.head(nr_order_).array() * driver_param_tol_;
     bool all_under_x_tol = (p_abs <= x_tol).all();
-    x.head(nr_order_) += p.head(nr_order_);
+    // Keep iterates inside the feasible domain (t0 < t_vl, dt > 0, 0 < ceff <= c1 +
+    // c2).
+    double alpha = 1.0;
+    if (p[DmpParam::t0] > 0.0 && x[DmpParam::t0] < t_vl_cur
+        && x[DmpParam::t0] + p[DmpParam::t0] >= t_vl_cur)
+      alpha = std::min(alpha, 0.5 * (t_vl_cur - x[DmpParam::t0]) / p[DmpParam::t0]);
+    if (p[DmpParam::dt] < 0.0 && x[DmpParam::dt] + p[DmpParam::dt] <= 0.0)
+      alpha = std::min(alpha, 0.5 * x[DmpParam::dt] / (-p[DmpParam::dt]));
+    if (nr_order_ == 2) {
+      double p_end = p[DmpParam::t0] + p[DmpParam::dt];
+      double t_end = x[DmpParam::t0] + x[DmpParam::dt];
+      if (p_end < 0.0 && t_end > t_vl_cur && t_end + p_end <= t_vl_cur)
+        alpha = std::min(alpha, 0.5 * (t_end - t_vl_cur) / (-p_end));
+    }
+    if (nr_order_ == 3) {
+      if (p[DmpParam::ceff] < 0.0 && x[DmpParam::ceff] + p[DmpParam::ceff] <= 0.0)
+        alpha = std::min(alpha, 0.5 * x[DmpParam::ceff] / (-p[DmpParam::ceff]));
+      double cmax = c1_ + c2_;
+      if (p[DmpParam::ceff] > 0.0 && x[DmpParam::ceff] + p[DmpParam::ceff] > cmax) {
+        if (x[DmpParam::ceff] < cmax)
+          alpha = std::min(alpha, (cmax - x[DmpParam::ceff]) / p[DmpParam::ceff]);
+        else
+          throw DmpError("eqn eval failed: ceff > c2 + c1");
+      }
+    }
+    x.head(nr_order_) += alpha * p.head(nr_order_);
 
-    if (all_under_x_tol) {
+    if (all_under_x_tol && alpha == 1.0) {
       return;
     }
+    // ---- OpenROAD fork: shift-safe scaling and damped Newton steps (end) ----
   }
   throw DmpError("Newton-Raphson max iterations exceeded");
 }
@@ -967,20 +1056,32 @@ DmpAlg::solveNewtonStep(const Eigen::Matrix3d &fjac,
                         const Eigen::Vector3d &fvec)
 {
   Eigen::Vector3d p = Eigen::Vector3d::Zero();
+  // ---- OpenROAD fork: scale-invariant singularity and finite-step guards (begin) ----
   if (nr_order_ == 2) {
-    double det = fjac.topLeftCorner<2, 2>().determinant();
-    if (std::abs(det) < 1e-12) {
+    auto jac2 = fjac.topLeftCorner<2, 2>();
+    double scale = jac2.col(0).lpNorm<1>() * jac2.col(1).lpNorm<1>();
+    double det = jac2.determinant();
+    if (!(scale > 0.0) || std::abs(det) <= 1e-14 * scale) {
       throw DmpError("Jacobian is singular (order 2)");
     }
-    p.head<2>() = fjac.topLeftCorner<2, 2>().inverse() * -fvec.head<2>();
+    p.head<2>() = jac2.inverse() * -fvec.head<2>();
+    if (!p.head<2>().allFinite()) {
+      throw DmpError("Jacobian step non-finite (order 2)");
+    }
     return p;
   }
 
+  double scale =
+      fjac.col(0).lpNorm<1>() * fjac.col(1).lpNorm<1>() * fjac.col(2).lpNorm<1>();
   double det = fjac.determinant();
-  if (std::abs(det) < 1e-12) {
+  if (!(scale > 0.0) || std::abs(det) <= 1e-14 * scale) {
     throw DmpError("Jacobian is singular (order 3)");
   }
   p = fjac.inverse() * -fvec;
+  if (!p.allFinite()) {
+    throw DmpError("Jacobian step non-finite (order 3)");
+  }
+  // ---- OpenROAD fork: scale-invariant singularity and finite-step guards (end) ----
   return p;
 }
 
@@ -1086,7 +1187,9 @@ DmpCeffDelayCalc::setCeffAlgorithm(const LibertyLibrary *drvr_library,
         // c1/Rpi can be ignored.
         || (c1 == 0.0 || c1 < c2 * 1e-3 || rpi == 0.0))
       dmp_alg_ = &dmp_cap_;
-    else if (c2 < c1 * 1e-3)
+    // ---- OpenROAD fork: keep shielded c2 > 0 Pi loads on DmpPi (begin) ----
+    else if (c2 <= 0.0)
+    // ---- OpenROAD fork: keep shielded c2 > 0 Pi loads on DmpPi (end) ----
       dmp_alg_ = &dmp_zero_c2_;
     else
       // The full monty.

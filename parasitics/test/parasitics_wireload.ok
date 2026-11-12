@@ -595,23 +595,23 @@ Path Type: max
    0.00    0.00   clock clk (rise edge)
   12.11   12.11   clock network delay (propagated)
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  63.26   75.37 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  48.53  123.89 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  60.06  183.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.73  199.68 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         199.68   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
    0.00  511.92   clock reconvergence pessimism
          511.92 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
-  -8.46  503.46   library setup time
-         503.46   data required time
+  -8.41  503.51   library setup time
+         503.51   data required time
 ---------------------------------------------------------
-         503.46   data required time
-        -201.72   data arrival time
+         503.51   data required time
+        -199.68   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         303.83   slack (MET)
 
 
 Found 0 unannotated drivers.
@@ -733,23 +733,23 @@ Path Type: max
    0.00    0.00   clock clk (rise edge)
   12.11   12.11   clock network delay (propagated)
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
-  63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
-  49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  63.26   75.37 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
+  48.53  123.89 ^ u1/Y (BUFx2_ASAP7_75t_R)
+  60.06  183.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.73  199.68 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         199.68   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
    0.00  511.92   clock reconvergence pessimism
          511.92 ^ r3/CLK (DFFHQx4_ASAP7_75t_R)
-  -8.46  503.46   library setup time
-         503.46   data required time
+  -8.41  503.51   library setup time
+         503.51   data required time
 ---------------------------------------------------------
-         503.46   data required time
-        -201.72   data arrival time
+         503.51   data required time
+        -199.68   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         303.83   slack (MET)
 
 
 Found 0 unannotated drivers.

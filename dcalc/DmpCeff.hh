@@ -166,11 +166,13 @@ protected:
   double p3_;
 
   // Tolerance (as a scale of value) for driver parameters (Ceff, delta t, t0).
-  static constexpr double driver_param_tol_ = .01;
+  // ---- OpenROAD fork: tighten DMP solver tolerances and iteration limit (begin) ----
+  static constexpr double driver_param_tol_ = 1e-6;
   // Waveform threshold crossing time tolerance (1.0 = 100%).
-  static constexpr double vth_time_tol_ = .01;
+  static constexpr double vth_time_tol_ = 1e-6;
   // Max iterations for findRoot.
-  static constexpr int find_root_max_iter_ = 20;
+  static constexpr int find_root_max_iter_ = 60;
+  // ---- OpenROAD fork: tighten DMP solver tolerances and iteration limit (end) ----
   static inline int newton_raphson_max_iter_ = 100;
   // A small number used by luDecomp.
   static constexpr double tiny_double_ = 1.0e-20;
