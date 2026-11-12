@@ -2066,5 +2066,80 @@ library (pocv_ceff) {
   EXPECT_NEAR(ds_skew.skewness(), 0.05 + 0.002 * ceff_ff, 1.0e-3);
 }
 
+// DmpCeff.cc (DmpPi::Vl0 / DmpZeroC2::Vl0): Evaluating partial fractions by
+// dividing directly by (p1 - p3) and (p2 - p3) hits a 0/0 singularity whenever
+// p3 = 1/elmore coincides with p1 or p2, throwing DmpError and dropping RC
+// slew degradation. Using expConv() keeps Vl0 continuous across coalescence.
+TEST_F(DmpAccuracyTest,
+       DmpVl0CoalescingPolesZeroC2Continuity)
+{
+  const std::string lib_text = makeLinearNldmLibText(
+      "test_vl0_1p", "BUF", 50.0, 50.0, 20.0, 20.0, 80.0, 80.0, 1.0, 1.0,
+      {1.0, 100.0}, {0.0, 200.0}, {10.0, 110.0}, {20.0, 160.0});
+  ASSERT_NE(readLibertyText(lib_text), nullptr);
+  loadVerilogAndLink(
+      "module top(in1, out1);\n"
+      "  input in1; output out1; wire n1;\n"
+      "  BUF u1(.A(in1), .Y(n1));\n"
+      "  BUF u2(.A(n1), .Y(out1));\n"
+      "endmodule\n");
+  setInputTransition("in1", 10.0e-12);
+  sta_->setArcDelayCalc("dmp_ceff_elmore");
+
+  Pin *u1_a = findPin("u1/A");
+  Pin *u1_y = findPin("u1/Y");
+  Pin *u2_a = findPin("u2/A");
+
+  // Probe gateModelRd() across both legacy and true -ln(1 - vth) scaling so
+  // tau1 = c1 * (rd_ + rpi) exercises exact p1 == p3 coalescence.
+  Graph *graph = sta_->ensureGraph();
+  Edge *gate_edge = nullptr;
+  const TimingArc *gate_arc = nullptr;
+  graph->gateEdgeArc(u1_a, RiseFall::rise(), u1_y, RiseFall::rise(), gate_edge,
+                     gate_arc);
+  ASSERT_NE(gate_arc, nullptr);
+  GateTableModel *table_model =
+      gate_arc->gateTableModel(sta_->cmdScene(), MinMax::max());
+  ASSERT_NE(table_model, nullptr);
+
+  const double c1 = std::ldexp(1.0, -43);
+  const float cap1_f = static_cast<float>(c1);
+  const float cap2_f = cap1_f + 1.0e-15f;
+  const Pvt *pvt = sta_->cmdSdc()->operatingConditions(MinMax::max());
+  float d1_f = 0.0f;
+  float d2_f = 0.0f;
+  float unused_slew = 0.0f;
+  table_model->gateDelay(pvt, 10.0e-12f, cap1_f, d1_f, unused_slew);
+  table_model->gateDelay(pvt, 10.0e-12f, cap2_f, d2_f, unused_slew);
+
+  const float rd_master_f =
+      -std::log(0.5f) * std::abs(d1_f - d2_f) / (cap2_f - cap1_f);
+  const double rpi = static_cast<double>(rd_master_f);
+  const double elmore_master = c1 * (2.0 * rpi);
+  const double rd_true = static_cast<double>(std::abs(d1_f - d2_f))
+      / (cap2_f - cap1_f) / (-std::log(0.5));
+  const double elmore_true = c1 * (rd_true + rpi);
+
+  auto run_elmore = [&](double elmore_val) -> StageMetrics {
+    setPiElmoreModel(u1_y, u2_a, 0.0, rpi, c1, elmore_val);
+    sta_->findDelays();
+    return measureStage(u1_a, u1_y, u2_a);
+  };
+  const StageMetrics m_master_pole = run_elmore(elmore_master);
+  const StageMetrics m_master_off = run_elmore(elmore_master * 1.05);
+  const StageMetrics m_true_pole = run_elmore(elmore_true);
+  const StageMetrics m_true_off = run_elmore(elmore_true * 1.05);
+
+  // Away from coalescence (m_master_off: load_slew = 173.46 ps), RC wire
+  // degradation exceeds +50 ps above drvr_slew (109.07 ps). With expConv()
+  // eliminating the 1 / (p1 - p3) singularity, both coalescing points remain
+  // continuous against +5% perturbations (< 8.0 ps diff).
+  constexpr double kTightFixedTol = 8.0e-12;
+  EXPECT_GT(m_master_off.load_slew, m_master_off.drvr_slew + 50.0e-12);
+  EXPECT_NEAR(m_master_pole.load_slew, m_master_off.load_slew, kTightFixedTol);
+  EXPECT_GT(m_true_pole.load_slew, m_true_pole.drvr_slew + 50.0e-12);
+  EXPECT_NEAR(m_true_pole.load_slew, m_true_off.load_slew, kTightFixedTol);
+}
+
 }  // namespace
 }  // namespace sta

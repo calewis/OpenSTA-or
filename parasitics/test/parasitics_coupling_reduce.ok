@@ -28,9 +28,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -40,9 +40,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 Startpoint: in1 (input port clocked by clk)
@@ -84,14 +84,14 @@ Fanout     Cap    Slew   Delay    Time   Description
                  45.81    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
      1   13.58   23.96   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
                                          r2q (net)
-                 37.80    9.52   85.14 ^ u1/A (BUFx2_ASAP7_75t_R)
+                 37.81    9.52   85.14 ^ u1/A (BUFx2_ASAP7_75t_R)
      1   13.07   43.97   33.69  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
                                          u1z (net)
-                 57.40   12.42  131.25 ^ u2/B (AND2x2_ASAP7_75t_R)
+                 57.41   12.41  131.25 ^ u2/B (AND2x2_ASAP7_75t_R)
      1   13.12   52.35   44.67  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
                                          u2z (net)
-                 64.37   12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-                                188.74   data arrival time
+                 64.37   12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+                                188.73   data arrival time
 
                   0.00  500.00  500.00   clock clk (rise edge)
                          11.10  511.10   clock network delay (propagated)
@@ -101,9 +101,9 @@ Fanout     Cap    Slew   Delay    Time   Description
                                 503.15   data required time
 -----------------------------------------------------------------------------
                                 503.15   data required time
-                               -188.74   data arrival time
+                               -188.73   data arrival time
 -----------------------------------------------------------------------------
-                                314.41   slack (MET)
+                                314.42   slack (MET)
 
 
 --- Test 2: dmp with coupling ---
@@ -119,9 +119,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -131,9 +131,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 No paths found.
@@ -217,9 +217,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -229,9 +229,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 --- Test 6: SPEF without coupling (re-read) ---
@@ -247,9 +247,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -259,9 +259,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 --- Test 7: SPEF with -reduce ---
@@ -277,9 +277,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -289,9 +289,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -335,9 +335,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -347,9 +347,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 --- Test 8: load change ---
@@ -365,9 +365,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -377,9 +377,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -394,9 +394,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -406,9 +406,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -423,9 +423,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -435,9 +435,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 --- Test 9: annotation ---

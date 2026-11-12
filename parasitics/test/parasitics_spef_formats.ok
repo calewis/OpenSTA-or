@@ -28,9 +28,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -40,9 +40,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 Startpoint: in1 (input port clocked by clk)
@@ -85,9 +85,9 @@ Path Type: max
   11.30   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
    0.00  500.00   clock source latency
@@ -98,9 +98,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 --- Test 2: coupling factor variations ---
@@ -124,8 +124,8 @@ Path Type: max
   61.85   73.15 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   38.56  111.70 ^ u1/Y (BUFx2_ASAP7_75t_R)
   51.37  163.08 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.49  175.57 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         175.57   data arrival time
+  12.49  175.56 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         175.56   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -135,7 +135,7 @@ Path Type: max
          503.55   data required time
 ---------------------------------------------------------
          503.55   data required time
-        -175.57   data arrival time
+        -175.56   data arrival time
 ---------------------------------------------------------
          327.98   slack (MET)
 
@@ -159,9 +159,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -171,9 +171,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 Warning 1656: parasitics_coupling_spef.spef line 47, pin r1q not found.
@@ -195,9 +195,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -207,9 +207,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 Warning 1656: parasitics_coupling_spef.spef line 47, pin r1q not found.
@@ -231,9 +231,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -243,9 +243,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 --- Test 3: SPEF with -reduce ---
@@ -268,9 +268,9 @@ Path Type: max
    0.00   11.30 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   64.33   75.63 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   43.21  118.83 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  57.09  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  12.82  188.74 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         188.74   data arrival time
+  57.08  175.92 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  12.81  188.73 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         188.73   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.10  511.10   clock network delay (propagated)
@@ -280,9 +280,9 @@ Path Type: max
          503.15   data required time
 ---------------------------------------------------------
          503.15   data required time
-        -188.74   data arrival time
+        -188.73   data arrival time
 ---------------------------------------------------------
-         314.41   slack (MET)
+         314.42   slack (MET)
 
 
 Startpoint: r2 (rising edge-triggered flip-flop clocked by clk)
@@ -297,9 +297,9 @@ Path Type: max
    0.00   12.11 ^ r2/CLK (DFFHQx4_ASAP7_75t_R)
   63.51   75.62 ^ r2/Q (DFFHQx4_ASAP7_75t_R)
   49.30  124.92 ^ u1/Y (BUFx2_ASAP7_75t_R)
-  61.03  185.95 ^ u2/Y (AND2x2_ASAP7_75t_R)
-  15.77  201.72 ^ r3/D (DFFHQx4_ASAP7_75t_R)
-         201.72   data arrival time
+  61.02  185.94 ^ u2/Y (AND2x2_ASAP7_75t_R)
+  15.77  201.71 ^ r3/D (DFFHQx4_ASAP7_75t_R)
+         201.71   data arrival time
 
  500.00  500.00   clock clk (rise edge)
   11.92  511.92   clock network delay (propagated)
@@ -309,9 +309,9 @@ Path Type: max
          503.46   data required time
 ---------------------------------------------------------
          503.46   data required time
-        -201.72   data arrival time
+        -201.71   data arrival time
 ---------------------------------------------------------
-         301.74   slack (MET)
+         301.75   slack (MET)
 
 
 --- Test 4: GCD sky130 SPEF ---
@@ -331,30 +331,30 @@ Path Type: max
  323.28  770.36 v _215_/X (sky130_fd_sc_hd__maj3_2)
  324.95 1095.31 v _216_/X (sky130_fd_sc_hd__maj3_2)
  360.72 1456.03 v _217_/X (sky130_fd_sc_hd__maj3_2)
- 377.41 1833.45 v _218_/X (sky130_fd_sc_hd__maj3_2)
- 396.61 2230.06 v _219_/X (sky130_fd_sc_hd__maj3_2)
- 247.78 2477.83 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
- 156.61 2634.45 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
- 337.85 2972.30 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
- 172.08 3144.38 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
- 432.04 3576.42 v _292_/X (sky130_fd_sc_hd__o311a_2)
- 721.76 4298.18 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
- 365.37 4663.55 ^ split1/X (sky130_fd_sc_hd__buf_4)
- 112.46 4776.01 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.06 4776.07 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-        4776.07   data arrival time
+ 377.41 1833.44 v _218_/X (sky130_fd_sc_hd__maj3_2)
+ 396.61 2230.05 v _219_/X (sky130_fd_sc_hd__maj3_2)
+ 247.77 2477.82 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+ 156.61 2634.43 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+ 337.85 2972.29 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+ 172.08 3144.37 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+ 432.04 3576.41 v _292_/X (sky130_fd_sc_hd__o311a_2)
+ 721.76 4298.17 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+ 365.36 4663.53 ^ split1/X (sky130_fd_sc_hd__buf_4)
+ 112.45 4775.98 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.06 4776.04 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+        4776.04   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
--159.13 -154.13   library setup time
-        -154.13   data required time
+-159.14 -154.14   library setup time
+        -154.14   data required time
 ---------------------------------------------------------
-        -154.13   data required time
-        -4776.07   data arrival time
+        -154.14   data required time
+        -4776.04   data arrival time
 ---------------------------------------------------------
-        -4930.21   slack (VIOLATED)
+        -4930.18   slack (VIOLATED)
 
 
 Startpoint: reset (input port clocked by clk)
@@ -400,30 +400,30 @@ Path Type: max
  323.28  770.36 v _215_/X (sky130_fd_sc_hd__maj3_2)
  324.95 1095.31 v _216_/X (sky130_fd_sc_hd__maj3_2)
  360.72 1456.03 v _217_/X (sky130_fd_sc_hd__maj3_2)
- 377.41 1833.45 v _218_/X (sky130_fd_sc_hd__maj3_2)
- 396.61 2230.06 v _219_/X (sky130_fd_sc_hd__maj3_2)
- 247.78 2477.83 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
- 156.61 2634.45 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
- 337.85 2972.30 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
- 172.08 3144.38 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
- 432.04 3576.42 v _292_/X (sky130_fd_sc_hd__o311a_2)
- 721.76 4298.18 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
- 365.37 4663.55 ^ split1/X (sky130_fd_sc_hd__buf_4)
- 112.46 4776.01 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.06 4776.07 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-        4776.07   data arrival time
+ 377.41 1833.44 v _218_/X (sky130_fd_sc_hd__maj3_2)
+ 396.61 2230.05 v _219_/X (sky130_fd_sc_hd__maj3_2)
+ 247.77 2477.82 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+ 156.61 2634.43 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+ 337.85 2972.29 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+ 172.08 3144.37 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+ 432.04 3576.41 v _292_/X (sky130_fd_sc_hd__o311a_2)
+ 721.76 4298.17 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+ 365.36 4663.53 ^ split1/X (sky130_fd_sc_hd__buf_4)
+ 112.45 4775.98 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.06 4776.04 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+        4776.04   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
--159.13 -154.13   library setup time
-        -154.13   data required time
+-159.14 -154.14   library setup time
+        -154.14   data required time
 ---------------------------------------------------------
-        -154.13   data required time
-        -4776.07   data arrival time
+        -154.14   data required time
+        -4776.04   data arrival time
 ---------------------------------------------------------
-        -4930.21   slack (VIOLATED)
+        -4930.18   slack (VIOLATED)
 
 
 --- Test 5: GCD delay calculators ---
@@ -565,30 +565,30 @@ Path Type: max
  323.28  770.36 v _215_/X (sky130_fd_sc_hd__maj3_2)
  324.95 1095.31 v _216_/X (sky130_fd_sc_hd__maj3_2)
  360.72 1456.03 v _217_/X (sky130_fd_sc_hd__maj3_2)
- 377.41 1833.45 v _218_/X (sky130_fd_sc_hd__maj3_2)
- 396.61 2230.06 v _219_/X (sky130_fd_sc_hd__maj3_2)
- 247.78 2477.83 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
- 156.61 2634.45 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
- 337.85 2972.30 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
- 172.08 3144.38 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
- 432.04 3576.42 v _292_/X (sky130_fd_sc_hd__o311a_2)
- 721.76 4298.18 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
- 365.37 4663.55 ^ split1/X (sky130_fd_sc_hd__buf_4)
- 112.46 4776.01 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.06 4776.07 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-        4776.07   data arrival time
+ 377.41 1833.44 v _218_/X (sky130_fd_sc_hd__maj3_2)
+ 396.61 2230.05 v _219_/X (sky130_fd_sc_hd__maj3_2)
+ 247.77 2477.82 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+ 156.61 2634.43 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+ 337.85 2972.29 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+ 172.08 3144.37 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+ 432.04 3576.41 v _292_/X (sky130_fd_sc_hd__o311a_2)
+ 721.76 4298.17 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+ 365.36 4663.53 ^ split1/X (sky130_fd_sc_hd__buf_4)
+ 112.45 4775.98 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.06 4776.04 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+        4776.04   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
--159.13 -154.13   library setup time
-        -154.13   data required time
+-159.14 -154.14   library setup time
+        -154.14   data required time
 ---------------------------------------------------------
-        -154.13   data required time
-        -4776.07   data arrival time
+        -154.14   data required time
+        -4776.04   data arrival time
 ---------------------------------------------------------
-        -4930.21   slack (VIOLATED)
+        -4930.18   slack (VIOLATED)
 
 
 --- Test 6: GCD re-read with reduce ---
@@ -607,30 +607,30 @@ Path Type: max
  323.28  770.36 v _215_/X (sky130_fd_sc_hd__maj3_2)
  324.95 1095.31 v _216_/X (sky130_fd_sc_hd__maj3_2)
  360.72 1456.03 v _217_/X (sky130_fd_sc_hd__maj3_2)
- 377.41 1833.45 v _218_/X (sky130_fd_sc_hd__maj3_2)
- 396.61 2230.06 v _219_/X (sky130_fd_sc_hd__maj3_2)
- 247.78 2477.83 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
- 156.61 2634.45 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
- 337.85 2972.30 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
- 172.08 3144.38 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
- 432.04 3576.42 v _292_/X (sky130_fd_sc_hd__o311a_2)
- 721.76 4298.18 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
- 365.37 4663.55 ^ split1/X (sky130_fd_sc_hd__buf_4)
- 112.46 4776.01 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
-   0.06 4776.07 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
-        4776.07   data arrival time
+ 377.41 1833.44 v _218_/X (sky130_fd_sc_hd__maj3_2)
+ 396.61 2230.05 v _219_/X (sky130_fd_sc_hd__maj3_2)
+ 247.77 2477.82 ^ _222_/Y (sky130_fd_sc_hd__o211ai_4)
+ 156.61 2634.43 v _225_/Y (sky130_fd_sc_hd__a311oi_4)
+ 337.85 2972.29 ^ _228_/Y (sky130_fd_sc_hd__o311ai_4)
+ 172.08 3144.37 v _231_/Y (sky130_fd_sc_hd__a311oi_4)
+ 432.04 3576.41 v _292_/X (sky130_fd_sc_hd__o311a_2)
+ 721.76 4298.17 ^ _295_/Y (sky130_fd_sc_hd__o31ai_4)
+ 365.36 4663.53 ^ split1/X (sky130_fd_sc_hd__buf_4)
+ 112.45 4775.98 v _316_/Y (sky130_fd_sc_hd__a221oi_1)
+   0.06 4776.04 v _418_/D (sky130_fd_sc_hd__dfxtp_1)
+        4776.04   data arrival time
 
    5.00    5.00   clock clk (rise edge)
    0.00    5.00   clock network delay (ideal)
    0.00    5.00   clock reconvergence pessimism
            5.00 ^ _418_/CLK (sky130_fd_sc_hd__dfxtp_1)
--159.13 -154.13   library setup time
-        -154.13   data required time
+-159.14 -154.14   library setup time
+        -154.14   data required time
 ---------------------------------------------------------
-        -154.13   data required time
-        -4776.07   data arrival time
+        -154.14   data required time
+        -4776.04   data arrival time
 ---------------------------------------------------------
-        -4930.21   slack (VIOLATED)
+        -4930.18   slack (VIOLATED)
 
 
 --- Test 7: GCD annotation ---

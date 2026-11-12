@@ -465,6 +465,22 @@ DmpAlg::fail(std::string_view reason)
 
 ////////////////////////////////////////////////////////////////
 
+// ---- OpenROAD fork: stable pole-coalescence exponential convolution (begin) ----
+static double
+expConv(double p_a,
+        double p_b,
+        double t)
+{
+  double min_p = std::min(p_a, p_b);
+  double max_p = std::max(p_a, p_b);
+  double dp = max_p - min_p;
+  double exp_min = std::exp(-min_p * t);
+  if (dp * t < 1e-12)
+    return exp_min * t * (1.0 - 0.5 * dp * t);
+  return exp_min * (-std::expm1(-dp * t)) / dp;
+}
+// ---- OpenROAD fork: stable pole-coalescence exponential convolution (end) ----
+
 DmpCap::DmpCap(StaState *sta) :
   DmpAlg(1,
          sta)
@@ -744,15 +760,14 @@ std::pair<double, double>
 DmpPi::Vl0(double t)
 {
   double D1 = k0_ * (k1_ - k2_ / p3_);
-  double D3 = -p3_ * k0_ * k3_ / (p1_ - p3_);
-  double D4 = -p3_ * k0_ * k4_ / (p2_ - p3_);
-  double D5 =
-      k0_ * (k2_ / p3_ - k1_ + p3_ * k3_ / (p1_ - p3_) + p3_ * k4_ / (p2_ - p3_));
-  double exp_p1 = exp2(-p1_ * t);
-  double exp_p2 = exp2(-p2_ * t);
-  double exp_p3 = exp2(-p3_ * t);
-  double vl = D1 + t + D3 * exp_p1 + D4 * exp_p2 + D5 * exp_p3;
-  double dvl_dt = 1.0 - D3 * p1_ * exp_p1 - D4 * p2_ * exp_p2 - D5 * p3_ * exp_p3;
+  // ---- OpenROAD fork: stable pole-coalescence evaluation in Vl0 (begin) ----
+  double exp_p3 = std::exp(-p3_ * t);
+  double c13 = expConv(p1_, p3_, t);
+  double c23 = expConv(p2_, p3_, t);
+  double vl = t - D1 * std::expm1(-p3_ * t) + p3_ * k0_ * (k3_ * c13 + k4_ * c23);
+  double dvl_dt =
+      1.0 - k0_ * k2_ * exp_p3 - p3_ * k0_ * (k3_ * p1_ * c13 + k4_ * p2_ * c23);
+  // ---- OpenROAD fork: stable pole-coalescence evaluation in Vl0 (end) ----
   return {vl, dvl_dt};
 }
 
@@ -881,12 +896,12 @@ std::pair<double, double>
 DmpZeroC2::Vl0(double t)
 {
   double D1 = k0_ * (k1_ - k2_ / p3_);
-  double D3 = -p3_ * k0_ * k3_ / (p1_ - p3_);
-  double D5 = k0_ * (k2_ / p3_ - k1_ + p3_ * k3_ / (p1_ - p3_));
-  double exp_p1 = exp2(-p1_ * t);
-  double exp_p3 = exp2(-p3_ * t);
-  double vl = D1 + t + D3 * exp_p1 + D5 * exp_p3;
-  double dvl_dt = 1.0 - D3 * p1_ * exp_p1 - D5 * p3_ * exp_p3;
+  // ---- OpenROAD fork: stable pole-coalescence evaluation in Vl0 (begin) ----
+  double exp_p3 = std::exp(-p3_ * t);
+  double c13 = expConv(p1_, p3_, t);
+  double vl = t - D1 * std::expm1(-p3_ * t) + p3_ * k0_ * k3_ * c13;
+  double dvl_dt = 1.0 - k0_ * k2_ * exp_p3 - p3_ * k0_ * k3_ * p1_ * c13;
+  // ---- OpenROAD fork: stable pole-coalescence evaluation in Vl0 (end) ----
   return {vl, dvl_dt};
 }
 
